@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Filmoteka</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="action_save">Сохранить</string>
+    <string name="action_delete">Удалить</string>
+
+    <string name="russia_country">Россия</string>
+    <string name="usa_country">США</string>
+    <string name="france_country">Франция</string>
+
+    <string-array name="array_country_options">
+        <item>@string/russia_country</item>
+        <item>@string/usa_country</item>
+        <item>@string/france_country</item>
+    </string-array>
+</resources>
