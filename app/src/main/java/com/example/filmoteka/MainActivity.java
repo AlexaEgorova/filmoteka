@@ -69,9 +69,33 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             displayTextView.setText("Количество фильмов в приложении: " + cursor.getCount() + " \n\n");
-            displayTextView.append(FilmsContract.AddMovie.)
-        } finally {
+            displayTextView.append(FilmsContract.AddMovie._ID + " - " +
+                    FilmsContract.AddMovie.COLUMN_NAME + " - " +
+                    FilmsContract.AddMovie.COLUMN_YEAR + " - " +
+                    FilmsContract.AddMovie.COLUMN_COUNTRY + " - " +
+                    FilmsContract.AddMovie.COLUMN_DESCRITION + "\n");
 
+            int idColumnIndex = cursor.getColumnIndex(FilmsContract.AddMovie._ID);
+            int nameColumnIndex = cursor.getColumnIndex(FilmsContract.AddMovie.COLUMN_NAME);
+            int yearColumnIndex = cursor.getColumnIndex(FilmsContract.AddMovie.COLUMN_YEAR);
+            int countryColumnIndex = cursor.getColumnIndex(FilmsContract.AddMovie.COLUMN_COUNTRY);
+            int descriptionColumnIndex = cursor.getColumnIndex(FilmsContract.AddMovie.COLUMN_DESCRITION);
+
+            while(cursor.moveToNext()) {
+                int currentId = cursor.getInt(idColumnIndex);
+                String currentName = cursor.getString(nameColumnIndex);
+                int currentYear = cursor.getInt(yearColumnIndex);
+                String currentCountry = cursor.getString(countryColumnIndex);
+                String currentDescription = cursor.getString(descriptionColumnIndex);
+
+                displayTextView.append(("\n" + currentId + " - " +
+                        currentName + " - " +
+                        currentYear + " - " +
+                        currentCountry + " - " +
+                        currentDescription));
+            }
+        } finally {
+            cursor.close();
         }
     }
 
