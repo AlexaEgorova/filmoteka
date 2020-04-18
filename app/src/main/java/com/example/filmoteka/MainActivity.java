@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 FilmsContract.AddMovie.COLUMN_NAME,
                 FilmsContract.AddMovie.COLUMN_YEAR,
                 FilmsContract.AddMovie.COLUMN_COUNTRY,
-                FilmsContract.AddMovie.COLUMN_DESCRITION };
+                FilmsContract.AddMovie.COLUMN_DESCRIPTION };
 
         // query
         Cursor cursor = db.query(
@@ -73,13 +73,13 @@ public class MainActivity extends AppCompatActivity {
                     FilmsContract.AddMovie.COLUMN_NAME + " - " +
                     FilmsContract.AddMovie.COLUMN_YEAR + " - " +
                     FilmsContract.AddMovie.COLUMN_COUNTRY + " - " +
-                    FilmsContract.AddMovie.COLUMN_DESCRITION + "\n");
+                    FilmsContract.AddMovie.COLUMN_DESCRIPTION + "\n");
 
             int idColumnIndex = cursor.getColumnIndex(FilmsContract.AddMovie._ID);
             int nameColumnIndex = cursor.getColumnIndex(FilmsContract.AddMovie.COLUMN_NAME);
             int yearColumnIndex = cursor.getColumnIndex(FilmsContract.AddMovie.COLUMN_YEAR);
             int countryColumnIndex = cursor.getColumnIndex(FilmsContract.AddMovie.COLUMN_COUNTRY);
-            int descriptionColumnIndex = cursor.getColumnIndex(FilmsContract.AddMovie.COLUMN_DESCRITION);
+            int descriptionColumnIndex = cursor.getColumnIndex(FilmsContract.AddMovie.COLUMN_DESCRIPTION);
 
             while(cursor.moveToNext()) {
                 int currentId = cursor.getInt(idColumnIndex);

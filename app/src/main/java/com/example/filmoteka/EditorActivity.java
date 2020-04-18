@@ -30,10 +30,10 @@ public class EditorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
-        vNameEditText = (EditText)findViewById(R.id.edit_film_name);
-        vDescriptionEditText = (EditText)findViewById(R.id.edit_film_description);
-        vCountrySpinner = (Spinner)findViewById(R.id.spinner_country);
-        vYearSpinner = (Spinner)findViewById(R.id.spinner_year);
+        vNameEditText = (EditText)findViewById(R.id.name_edit_text);
+        vDescriptionEditText = (EditText)findViewById(R.id.description_edit_text);
+        vCountrySpinner = (Spinner)findViewById(R.id.country_spinner);
+        vYearSpinner = (Spinner)findViewById(R.id.year_spinner);
 
         setupCountrySpinner();
         setupYeatSpinner();
