@@ -26,6 +26,12 @@ public class MainActivity extends AppCompatActivity {
 
     public FilmsDbHelper vDbHelper;
 
+    String name;
+    String year;
+    String country;
+    String description;
+    boolean fromEditor = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +50,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Intent thisIntent = getIntent();
+        name = thisIntent.getStringExtra("name");
+        year = thisIntent.getStringExtra("year");
+        country = thisIntent.getStringExtra("country");
+        description = thisIntent.getStringExtra("description");
+        fromEditor = thisIntent.getBooleanExtra("fromEditor", fromEditor);
+        if (fromEditor)
+            addMovie(name, year, country, description);
+        fromEditor = false;
     }
 
     @Override
@@ -124,5 +139,15 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void addMovie(String vNameEditText, String vYearSpinner, String vCountrySpinner, String vDescriptionEditText) {
+        SQLiteDatabase db = vDbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(FilmsContract.AddMovie.COLUMN_NAME, vNameEditText);
+        values.put(FilmsContract.AddMovie.COLUMN_YEAR, Integer.parseInt(vYearSpinner));
+        values.put(FilmsContract.AddMovie.COLUMN_COUNTRY, vCountrySpinner);
+        values.put(FilmsContract.AddMovie.COLUMN_DESCRIPTION, vDescriptionEditText);
+
+        long newRowId = db.insert(FilmsContract.AddMovie.TABLE_NAME, null, values);
+    }
 
 }

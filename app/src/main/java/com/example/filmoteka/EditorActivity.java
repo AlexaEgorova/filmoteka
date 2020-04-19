@@ -60,11 +60,16 @@ public class EditorActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String vNameEditText = fNameEditText.getText().toString();
-                int vYearSpinner = Integer.parseInt(fYearSpinner.getSelectedItem().toString());
+                String vYearSpinner = fYearSpinner.getSelectedItem().toString();
                 String vCountrySpinner = fCountrySpinner.getSelectedItem().toString();
                 String vDescriptionEditText = fDescriptionEditText.getText().toString();
 
                 Intent intent = new Intent(EditorActivity.this, MainActivity.class);
+                intent.putExtra("name", vNameEditText);
+                intent.putExtra("year", vYearSpinner);
+                intent.putExtra("country", vCountrySpinner);
+                intent.putExtra("description", vDescriptionEditText);
+                intent.putExtra("fromEditor", true);
                 startActivity(intent);
             }
         });
@@ -106,22 +111,11 @@ public class EditorActivity extends AppCompatActivity {
     private  void setupYearSpinner() {
         ArrayList<String> years = new ArrayList<String>();
         int thisYear = Calendar.getInstance().get(Calendar.YEAR);
-        for (int i = 1895; i <= thisYear; i++) {
+        for (int i = thisYear; i >= 1895; i--) {
             years.add(Integer.toString(i));
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, years);
         fYearSpinner.setAdapter(adapter);
         fYearSpinner.setSelection(0);
-    }
-
-    private void addMovie(String vNameEditText, int vYearSpinner, String vCountrySpinner, String vDescriptionEditText) {
-        SQLiteDatabase db = vDbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(FilmsContract.AddMovie.COLUMN_NAME, vNameEditText);
-        values.put(FilmsContract.AddMovie.COLUMN_YEAR, vYearSpinner);
-        values.put(FilmsContract.AddMovie.COLUMN_COUNTRY, vCountrySpinner);
-        values.put(FilmsContract.AddMovie.COLUMN_DESCRIPTION, vDescriptionEditText);
-
-        long newRowId = db.insert(FilmsContract.AddMovie.TABLE_NAME, null, values);
     }
 }
