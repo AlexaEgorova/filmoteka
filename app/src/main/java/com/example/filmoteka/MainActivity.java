@@ -1,5 +1,6 @@
 package com.example.filmoteka;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -23,7 +24,7 @@ import data.FilmsDbHelper;
 
 public class MainActivity extends AppCompatActivity {
 
-    private FilmsDbHelper vDbHelper;
+    public FilmsDbHelper vDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        vDbHelper = new FilmsDbHelper(this);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -41,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        vDbHelper = new FilmsDbHelper(this);
     }
 
     @Override
@@ -121,4 +123,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

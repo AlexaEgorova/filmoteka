@@ -2,22 +2,34 @@ package com.example.filmoteka;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+
+import data.FilmsContract;
+import data.FilmsDbHelper;
+
 public class EditorActivity extends AppCompatActivity {
 
-    private EditText vNameEditText;
-    private EditText vDescriptionEditText;
+    private EditText fNameEditText;
+    private EditText fDescriptionEditText;
 
-    private Spinner vCountrySpinner;
-    private Spinner vYearSpinner;
+    private Spinner fCountrySpinner;
+    private Spinner fYearSpinner;
+
+    private FilmsDbHelper vDbHelper;
 
     /**
      Год премьеры, минимальное значение 1895, максимальное - текущий год.
@@ -27,16 +39,35 @@ public class EditorActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Intent intent = getIntent();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
-        vNameEditText = (EditText)findViewById(R.id.name_edit_text);
-        vDescriptionEditText = (EditText)findViewById(R.id.description_edit_text);
-        vCountrySpinner = (Spinner)findViewById(R.id.country_spinner);
-        vYearSpinner = (Spinner)findViewById(R.id.year_spinner);
+        vDbHelper = new FilmsDbHelper(this);
+
+        fNameEditText = (EditText)findViewById(R.id.name_edit_text);
+        fDescriptionEditText = (EditText)findViewById(R.id.description_edit_text);
+        fCountrySpinner = (Spinner)findViewById(R.id.country_spinner);
+        fYearSpinner = (Spinner)findViewById(R.id.year_spinner);
 
         setupCountrySpinner();
-        setupYeatSpinner();
+        setupYearSpinner();
+
+        Button btn = findViewById(R.id.add_button);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String vNameEditText = fNameEditText.getText().toString();
+                int vYearSpinner = Integer.parseInt(fYearSpinner.getSelectedItem().toString());
+                String vCountrySpinner = fCountrySpinner.getSelectedItem().toString();
+                String vDescriptionEditText = fDescriptionEditText.getText().toString();
+
+                Intent intent = new Intent(EditorActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setupCountrySpinner() {
@@ -45,10 +76,10 @@ public class EditorActivity extends AppCompatActivity {
 
         countrySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
 
-        vCountrySpinner.setAdapter(countrySpinnerAdapter);
-        vCountrySpinner.setSelection(1);
+        fCountrySpinner.setAdapter(countrySpinnerAdapter);
+        fCountrySpinner.setSelection(1);
 
-        vCountrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        fCountrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selection = (String)parent.getItemAtPosition(position);
@@ -72,7 +103,25 @@ public class EditorActivity extends AppCompatActivity {
         });
     }
 
-    private  void setupYeatSpinner() {
+    private  void setupYearSpinner() {
+        ArrayList<String> years = new ArrayList<String>();
+        int thisYear = Calendar.getInstance().get(Calendar.YEAR);
+        for (int i = 1895; i <= thisYear; i++) {
+            years.add(Integer.toString(i));
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, years);
+        fYearSpinner.setAdapter(adapter);
+        fYearSpinner.setSelection(0);
+    }
 
+    private void addMovie(String vNameEditText, int vYearSpinner, String vCountrySpinner, String vDescriptionEditText) {
+        SQLiteDatabase db = vDbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(FilmsContract.AddMovie.COLUMN_NAME, vNameEditText);
+        values.put(FilmsContract.AddMovie.COLUMN_YEAR, vYearSpinner);
+        values.put(FilmsContract.AddMovie.COLUMN_COUNTRY, vCountrySpinner);
+        values.put(FilmsContract.AddMovie.COLUMN_DESCRIPTION, vDescriptionEditText);
+
+        long newRowId = db.insert(FilmsContract.AddMovie.TABLE_NAME, null, values);
     }
 }

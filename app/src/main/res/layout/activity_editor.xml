@@ -129,4 +129,14 @@
             android:textSize="14sp" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/add_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="50dp"
+        android:hint="Подтвердить добавление фильма"
+        android:text="Добавить" />
 </LinearLayout>

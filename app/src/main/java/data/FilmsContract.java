@@ -14,6 +14,6 @@ public final class FilmsContract {
         public final static String COLUMN_NAME = "name";
         public final static String COLUMN_COUNTRY = "country";
         public final static String COLUMN_YEAR = "year";
-        public final static String COLUMN_DESCRITION = "description";
+        public final static String COLUMN_DESCRIPTION = "description";
     }
 }

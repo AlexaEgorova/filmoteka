@@ -24,7 +24,7 @@ public class FilmsDbHelper extends SQLiteOpenHelper {
                 + FilmsContract.AddMovie.COLUMN_NAME + " TEXT NOT NULL, "
                 + FilmsContract.AddMovie.COLUMN_YEAR + " INTEGER NOT NULL, "
                 + FilmsContract.AddMovie.COLUMN_COUNTRY + " TEXT NOT NULL, "
-                + FilmsContract.AddMovie.COLUMN_DESCRITION + " TEXT NOT NULL);";
+                + FilmsContract.AddMovie.COLUMN_DESCRIPTION + " TEXT NOT NULL);";
 
         db.execSQL(SQL_CREATE_MOVIES_TABLE);
     }
