@@ -78,13 +78,12 @@ public class MainActivity extends AppCompatActivity {
                 FilmsContract.AddMovie.COLUMN_DESCRIPTION };
 
         // query
-        Cursor cursor = db.query(
+
+        try (Cursor cursor = db.query(
                 FilmsContract.AddMovie.TABLE_NAME,
                 projection,
-                null, null, null, null, null);
-        TextView displayTextView = (TextView)findViewById(R.id.text_view_info);
-
-        try {
+                null, null, null, null, null)) {
+            TextView displayTextView = findViewById(R.id.text_view_info);
             displayTextView.setText("Количество фильмов в приложении: " + cursor.getCount() + " \n\n");
             displayTextView.append(FilmsContract.AddMovie._ID + " - " +
                     FilmsContract.AddMovie.COLUMN_NAME + " - " +
@@ -98,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             int countryColumnIndex = cursor.getColumnIndex(FilmsContract.AddMovie.COLUMN_COUNTRY);
             int descriptionColumnIndex = cursor.getColumnIndex(FilmsContract.AddMovie.COLUMN_DESCRIPTION);
 
-            while(cursor.moveToNext()) {
+            while (cursor.moveToNext()) {
                 int currentId = cursor.getInt(idColumnIndex);
                 String currentName = cursor.getString(nameColumnIndex);
                 int currentYear = cursor.getInt(yearColumnIndex);
@@ -111,8 +110,6 @@ public class MainActivity extends AppCompatActivity {
                         currentCountry + " - " +
                         currentDescription));
             }
-        } finally {
-            cursor.close();
         }
     }
 
