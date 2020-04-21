@@ -1,20 +1,29 @@
 package com.example.filmoteka;
 
+import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import data.FilmsContract;
 import data.FilmsDbHelper;
@@ -29,14 +38,31 @@ public class MainActivity extends AppCompatActivity {
     String description;
     boolean fromEditor = false;
 
+    ArrayList<String> listItem;
+    ArrayAdapter adapter;
+    ListView moviesListView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        moviesListView = findViewById(R.id.movies_list_view);
 
         vDbHelper = new FilmsDbHelper(this);
+
+        listItem = new ArrayList<>();
+        viewMovies();
+
+        moviesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String text = moviesListView.getItemAtPosition(position).toString();
+                Toast.makeText(MainActivity.this, ""+text, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -46,15 +72,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         Intent thisIntent = getIntent();
         name = thisIntent.getStringExtra("name");
         year = thisIntent.getStringExtra("year");
         country = thisIntent.getStringExtra("country");
         description = thisIntent.getStringExtra("description");
         fromEditor = thisIntent.getBooleanExtra("fromEditor", fromEditor);
-        if (fromEditor)
+        if (fromEditor) {
             addMovie(name, year, country, description);
+            //listItem.clear();
+            //viewMovies();
+        }
         fromEditor = false;
     }
 
@@ -64,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         displayDatabaseInfo();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void displayDatabaseInfo() {
         SQLiteDatabase db = vDbHelper.getReadableDatabase();
 
@@ -75,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
                 FilmsContract.AddMovie.COLUMN_DESCRIPTION };
 
         // query
-
         try (Cursor cursor = db.query(
                 FilmsContract.AddMovie.TABLE_NAME,
                 projection,
@@ -133,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // add data
     private void addMovie(String vNameEditText, String vYearSpinner, String vCountrySpinner, String vDescriptionEditText) {
         SQLiteDatabase db = vDbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -142,6 +171,25 @@ public class MainActivity extends AppCompatActivity {
         values.put(FilmsContract.AddMovie.COLUMN_DESCRIPTION, vDescriptionEditText);
 
         long newRowId = db.insert(FilmsContract.AddMovie.TABLE_NAME, null, values);
+    }
+
+    // show data in ListView
+    public void viewMovies() {
+        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        String query = "SELECT * FROM " + FilmsContract.AddMovie.TABLE_NAME;
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.getCount() == 0) {
+            Toast.makeText(this, "No data in db", Toast.LENGTH_SHORT).show();
+        } else {
+            while (cursor.moveToNext()) {
+                listItem.add(cursor.getString(1)); // 1 for name, 0 for index
+            }
+            adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItem);
+            moviesListView.setAdapter(adapter);
+        }
+
+        //cursor.close();
     }
 
 }
