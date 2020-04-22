@@ -24,6 +24,12 @@ public class FilmsDbHelper extends SQLiteOpenHelper {
                 + FilmsContract.AddMovie.COLUMN_NAME + " TEXT NOT NULL, "
                 + FilmsContract.AddMovie.COLUMN_YEAR + " INTEGER NOT NULL, "
                 + FilmsContract.AddMovie.COLUMN_COUNTRY + " TEXT NOT NULL, "
+                + FilmsContract.AddMovie.COLUMN_GANRE + " TEXT NOT NULL, "
+                + FilmsContract.AddMovie.COLUMN_ACTOR + " TEXT NOT NULL, "
+                + FilmsContract.AddMovie.COLUMN_PRODUCER + " TEXT NOT NULL, "
+                + FilmsContract.AddMovie.COLUMN_IMDB + " DOUBLE NOT NULL, "
+                + FilmsContract.AddMovie.COLUMN_KINOPOISK + " DOUBLE NOT NULL, "
+                + FilmsContract.AddMovie.COLUMN_WANT + " INT NOT NULL, "
                 + FilmsContract.AddMovie.COLUMN_DESCRIPTION + " TEXT NOT NULL);";
 
         db.execSQL(SQL_CREATE_MOVIES_TABLE);

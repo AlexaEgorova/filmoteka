@@ -10,7 +10,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,16 +20,24 @@ import java.util.Calendar;
 public class EditorActivity extends AppCompatActivity {
 
     private EditText fNameEditText;
+    private Spinner fYearSpinner;
+    private Spinner fCountrySpinner;
+    private Spinner fGanreSpinner;
+    private Spinner fActorSpinner;
+    private Spinner fProducerSpinner;
+    private EditText fImbdEditText;
+    private EditText fKinopoiskEditText;
+    private RadioButton fDontRadioButton;
+    private RadioButton fWantRadioButton;
+    private RadioButton fWatchedRadioButton;
     private EditText fDescriptionEditText;
 
-    private Spinner fCountrySpinner;
-    private Spinner fYearSpinner;
+    String vCountry;
+    int vWant = 0;
 
     /**
      * Год премьеры, минимальное значение 1895, максимальное - текущий год.
      */
-    private String vCountry;
-    private int mYear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,31 +46,110 @@ public class EditorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_editor);
 
         fNameEditText = findViewById(R.id.name_edit_text);
-        fDescriptionEditText = findViewById(R.id.description_edit_text);
-        fCountrySpinner = findViewById(R.id.country_spinner);
         fYearSpinner = findViewById(R.id.year_spinner);
+        fCountrySpinner = findViewById(R.id.country_spinner);
+        fGanreSpinner = findViewById(R.id.ganre_spinner);
+        fActorSpinner = findViewById(R.id.actor_spinner);
+        fProducerSpinner = findViewById(R.id.producer_spinner);
+        fImbdEditText = findViewById(R.id.imdb_edit_text);
+        fKinopoiskEditText = findViewById(R.id.kinopoisk_edit_text);
+        fDontRadioButton = findViewById(R.id.radio_do_not_add);
+        fWantRadioButton = findViewById(R.id.radio_want_to_watch);
+        fWatchedRadioButton = findViewById(R.id.radio_watched);
+        fDescriptionEditText = findViewById(R.id.description_edit_text);
 
-        setupCountrySpinner();
+        if (fDontRadioButton.isChecked())
+            vWant = 0;
+        else if (fWantRadioButton.isChecked())
+            vWant = 1;
+        else if (fWatchedRadioButton.isChecked())
+            vWant = 2;
+
         setupYearSpinner();
+        setupCountrySpinner();
+        setupGanreSpinner();
+        setupActorSpinner();
+        setupProducerSpinner();
 
-        Button btn = findViewById(R.id.add_button);
-        btn.setOnClickListener(new View.OnClickListener() {
+        Button addCountryButton = findViewById(R.id.add_country_button);
+        addCountryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String text = "This button will add country in future";
+                Toast.makeText(EditorActivity.this, ""+text, Toast.LENGTH_LONG).show();
+            }
+        });
+
+        Button addGanreButton = findViewById(R.id.add_ganre_button);
+        addGanreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String text = "This button will add ganre in future";
+                Toast.makeText(EditorActivity.this, ""+text, Toast.LENGTH_LONG).show();
+            }
+        });
+
+        Button addActorButton = findViewById(R.id.add_actor_button);
+        addActorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String text = "This button will add actor in future";
+                Toast.makeText(EditorActivity.this, ""+text, Toast.LENGTH_LONG).show();
+            }
+        });
+
+        Button addProducerButton = findViewById(R.id.add_producer_button);
+        addProducerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String text = "This button will add producer in future";
+                Toast.makeText(EditorActivity.this, ""+text, Toast.LENGTH_LONG).show();
+            }
+        });
+
+        //todo: add validity check
+        Button addMovieButton = findViewById(R.id.add_button);
+        addMovieButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String vNameEditText = fNameEditText.getText().toString();
                 String vYearSpinner = fYearSpinner.getSelectedItem().toString();
                 String vCountrySpinner = fCountrySpinner.getSelectedItem().toString();
+                String vGanreSpinner = fGanreSpinner.getSelectedItem().toString();
+                String vActorSpinner = fActorSpinner.getSelectedItem().toString();
+                String vProducerSpinner = fProducerSpinner.getSelectedItem().toString();
+                String vImbdEditText = fImbdEditText.getText().toString();
+                String vKinopoiskEditText = fKinopoiskEditText.getText().toString();
+                String vWantRadioGroup = Integer.toString(vWant);
                 String vDescriptionEditText = fDescriptionEditText.getText().toString();
 
                 Intent intent = new Intent(EditorActivity.this, MainActivity.class);
                 intent.putExtra("name", vNameEditText);
                 intent.putExtra("year", vYearSpinner);
                 intent.putExtra("country", vCountrySpinner);
+                intent.putExtra("ganre", vGanreSpinner);
+                intent.putExtra("actor", vActorSpinner);
+                intent.putExtra("producer", vProducerSpinner);
+                intent.putExtra("imdb", vImbdEditText);
+                intent.putExtra("kinopoisk", vKinopoiskEditText);
+                intent.putExtra("want", vWantRadioGroup);
                 intent.putExtra("description", vDescriptionEditText);
                 intent.putExtra("fromEditor", true);
                 startActivity(intent);
             }
         });
+    }
+
+    private void setupYearSpinner() {
+        int thisYear = Calendar.getInstance().get(Calendar.YEAR);
+        int size = thisYear - 1895 + 1;
+        ArrayList<String> years = new ArrayList<>(size);
+        for (int i = thisYear; i >= 1895; i--) {
+            years.add(Integer.toString(i));
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, years);
+        fYearSpinner.setAdapter(adapter);
+        fYearSpinner.setSelection(0);
     }
 
     private void setupCountrySpinner() {
@@ -96,15 +185,15 @@ public class EditorActivity extends AppCompatActivity {
         });
     }
 
-    private void setupYearSpinner() {
-        int thisYear = Calendar.getInstance().get(Calendar.YEAR);
-        int size = thisYear - 1895 + 1;
-        ArrayList<String> years = new ArrayList<>(size);
-        for (int i = thisYear; i >= 1895; i--) {
-            years.add(Integer.toString(i));
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, years);
-        fYearSpinner.setAdapter(adapter);
-        fYearSpinner.setSelection(0);
+    private void setupGanreSpinner() {
+
+    }
+
+    private void setupActorSpinner() {
+
+    }
+
+    private void setupProducerSpinner() {
+
     }
 }

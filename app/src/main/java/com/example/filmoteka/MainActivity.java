@@ -30,6 +30,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import data.FilmsContract;
+import data.FilmsContract.AddMovie;
 import data.FilmsDbHelper;
 
 public class MainActivity extends AppCompatActivity {
@@ -39,6 +40,12 @@ public class MainActivity extends AppCompatActivity {
     String name;
     String year;
     String country;
+    String ganre;
+    String actor;
+    String producer;
+    String imdb;
+    String kinopoisk;
+    String want;
     String description;
     boolean fromEditor = false;
 
@@ -46,6 +53,12 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter adapter;
     ListView moviesListView;
 
+    ArrayList<String> countries;
+    ArrayList<String> ganres;
+    ArrayList<String> actors;
+    ArrayList<String> producers;
+//    ArrayList<String> wants;
+//    ArrayList<String> watcheds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +71,11 @@ public class MainActivity extends AppCompatActivity {
         vDbHelper = new FilmsDbHelper(this);
 
         listItem = new ArrayList<>();
+        countries = new ArrayList<>();
+        ganres = new ArrayList<>();
+        actors = new ArrayList<>();
+        producers = new ArrayList<>();
+
         viewMovies();
 
         moviesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -80,12 +98,22 @@ public class MainActivity extends AppCompatActivity {
         name = thisIntent.getStringExtra("name");
         year = thisIntent.getStringExtra("year");
         country = thisIntent.getStringExtra("country");
+        ganre = thisIntent.getStringExtra("ganre");
+        actor = thisIntent.getStringExtra("actor");
+        producer = thisIntent.getStringExtra("producer");
+        imdb = thisIntent.getStringExtra("imdb");
+        kinopoisk = thisIntent.getStringExtra("kinopoisk");
+        want = thisIntent.getStringExtra("want");
         description = thisIntent.getStringExtra("description");
         fromEditor = thisIntent.getBooleanExtra("fromEditor", fromEditor);
         if (fromEditor) {
-            addMovie(name, year, country, description);
-            //listItem.clear();
-            //viewMovies();
+            addMovie(name,
+                    year, country, ganre, actor, producer,
+                    imdb, kinopoisk,
+                    want,
+                    description);
+            listItem.clear();
+            viewMovies();
         }
         fromEditor = false;
     }
@@ -101,30 +129,30 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = vDbHelper.getReadableDatabase();
 
         String[] projection = {
-                FilmsContract.AddMovie._ID,
-                FilmsContract.AddMovie.COLUMN_NAME,
-                FilmsContract.AddMovie.COLUMN_YEAR,
-                FilmsContract.AddMovie.COLUMN_COUNTRY,
-                FilmsContract.AddMovie.COLUMN_DESCRIPTION };
+                AddMovie._ID,
+                AddMovie.COLUMN_NAME,
+                AddMovie.COLUMN_YEAR,
+                AddMovie.COLUMN_COUNTRY,
+                AddMovie.COLUMN_DESCRIPTION };
 
         // query
         try (Cursor cursor = db.query(
-                FilmsContract.AddMovie.TABLE_NAME,
+                AddMovie.TABLE_NAME,
                 projection,
                 null, null, null, null, null)) {
             TextView displayTextView = findViewById(R.id.text_view_info);
             displayTextView.setText("Количество фильмов в приложении: " + cursor.getCount() + " \n\n");
-            displayTextView.append(FilmsContract.AddMovie._ID + " - " +
-                    FilmsContract.AddMovie.COLUMN_NAME + " - " +
-                    FilmsContract.AddMovie.COLUMN_YEAR + " - " +
-                    FilmsContract.AddMovie.COLUMN_COUNTRY + " - " +
-                    FilmsContract.AddMovie.COLUMN_DESCRIPTION + "\n");
+            displayTextView.append(AddMovie._ID + " - " +
+                    AddMovie.COLUMN_NAME + " - " +
+                    AddMovie.COLUMN_YEAR + " - " +
+                    AddMovie.COLUMN_COUNTRY + " - " +
+                    AddMovie.COLUMN_DESCRIPTION + "\n");
 
-            int idColumnIndex = cursor.getColumnIndex(FilmsContract.AddMovie._ID);
-            int nameColumnIndex = cursor.getColumnIndex(FilmsContract.AddMovie.COLUMN_NAME);
-            int yearColumnIndex = cursor.getColumnIndex(FilmsContract.AddMovie.COLUMN_YEAR);
-            int countryColumnIndex = cursor.getColumnIndex(FilmsContract.AddMovie.COLUMN_COUNTRY);
-            int descriptionColumnIndex = cursor.getColumnIndex(FilmsContract.AddMovie.COLUMN_DESCRIPTION);
+            int idColumnIndex = cursor.getColumnIndex(AddMovie._ID);
+            int nameColumnIndex = cursor.getColumnIndex(AddMovie.COLUMN_NAME);
+            int yearColumnIndex = cursor.getColumnIndex(AddMovie.COLUMN_YEAR);
+            int countryColumnIndex = cursor.getColumnIndex(AddMovie.COLUMN_COUNTRY);
+            int descriptionColumnIndex = cursor.getColumnIndex(AddMovie.COLUMN_DESCRIPTION);
 
             while (cursor.moveToNext()) {
                 int currentId = cursor.getInt(idColumnIndex);
@@ -142,15 +170,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+// search
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
 
-        MenuItem searhItem = menu.findItem(R.id.item_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searhItem);
+        MenuItem searchItem = menu.findItem(R.id.item_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -193,13 +221,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // add data
-    private void addMovie(String vNameEditText, String vYearSpinner, String vCountrySpinner, String vDescriptionEditText) {
+    private void addMovie(String vNameEditText,
+                          String vYearSpinner, String vCountrySpinner, String vGanreSpinner,
+                          String vActorSpinner, String vProducerSpinner,
+                          String vImdbEditText, String vKinopoiskEditText,
+                          String vWantRadioGroup,
+                          String vDescriptionEditText) {
         SQLiteDatabase db = vDbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(FilmsContract.AddMovie.COLUMN_NAME, vNameEditText);
-        values.put(FilmsContract.AddMovie.COLUMN_YEAR, Integer.parseInt(vYearSpinner));
-        values.put(FilmsContract.AddMovie.COLUMN_COUNTRY, vCountrySpinner);
-        values.put(FilmsContract.AddMovie.COLUMN_DESCRIPTION, vDescriptionEditText);
+        values.put(AddMovie.COLUMN_NAME, vNameEditText);
+        values.put(AddMovie.COLUMN_YEAR, Integer.parseInt(vYearSpinner));
+        values.put(AddMovie.COLUMN_COUNTRY, vCountrySpinner);
+        values.put(AddMovie.COLUMN_GANRE, vGanreSpinner);
+        values.put(AddMovie.COLUMN_ACTOR, vActorSpinner);
+        values.put(AddMovie.COLUMN_PRODUCER, vProducerSpinner);
+        values.put(AddMovie.COLUMN_IMDB, Double.parseDouble(vImdbEditText));
+        values.put(AddMovie.COLUMN_KINOPOISK, Double.parseDouble(vKinopoiskEditText));
+        values.put(AddMovie.COLUMN_WANT, Integer.parseInt(vWantRadioGroup));
+        values.put(AddMovie.COLUMN_DESCRIPTION, vDescriptionEditText);
 
         long newRowId = db.insert(FilmsContract.AddMovie.TABLE_NAME, null, values);
     }
@@ -219,10 +258,10 @@ public class MainActivity extends AppCompatActivity {
             adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItem);
             moviesListView.setAdapter(adapter);
         }
-
         //cursor.close();
     }
 
+    // todo: variaty of indexes
     // find movie by some id
     public void searchMovies(String text) {
         SQLiteDatabase db = vDbHelper.getReadableDatabase();
