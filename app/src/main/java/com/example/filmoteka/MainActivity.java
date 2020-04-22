@@ -137,48 +137,48 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = vDbHelper.getReadableDatabase();
 
         String[] projection = {
-                FilmsContract.Films._ID,
-                FilmsContract.Films.COLUMN_NAME,
-                FilmsContract.Films.COLUMN_YEAR,
-                FilmsContract.Films.COLUMN_COUNTRY,
-                FilmsContract.Films.COLUMN_GANRE,
-                FilmsContract.Films.COLUMN_ACTOR,
-                FilmsContract.Films.COLUMN_PRODUCER,
-                FilmsContract.Films.COLUMN_IMDB,
-                FilmsContract.Films.COLUMN_KINOPOISK,
-                FilmsContract.Films.COLUMN_WANT,
-                FilmsContract.Films.COLUMN_DESCRIPTION };
+                Films._ID,
+                Films.COLUMN_NAME,
+                Films.COLUMN_YEAR,
+                Films.COLUMN_COUNTRY,
+                Films.COLUMN_GANRE,
+                Films.COLUMN_ACTOR,
+                Films.COLUMN_PRODUCER,
+                Films.COLUMN_IMDB,
+                Films.COLUMN_KINOPOISK,
+                Films.COLUMN_WANT,
+                Films.COLUMN_DESCRIPTION };
 
         // query
         try (Cursor cursor = db.query(
-                FilmsContract.Films.TABLE_NAME,
+                Films.TABLE_NAME,
                 projection,
                 null, null, null, null, null)) {
             TextView displayTextView = findViewById(R.id.text_view_info);
             displayTextView.setText("Количество фильмов в приложении: " + cursor.getCount() + " \n\n");
-            displayTextView.append(FilmsContract.Films._ID + " - " +
-                    FilmsContract.Films.COLUMN_NAME + " - " +
-                    FilmsContract.Films.COLUMN_YEAR + " - " +
-                    FilmsContract.Films.COLUMN_COUNTRY + " - " +
-                    FilmsContract.Films.COLUMN_GANRE + " - " +
+            displayTextView.append(Films._ID + " - " +
+                    Films.COLUMN_NAME + " - " +
+                    Films.COLUMN_YEAR + " - " +
+                    Films.COLUMN_COUNTRY + " - " +
+                    Films.COLUMN_GANRE + " - " +
                     Films.COLUMN_ACTOR + " - " +
-                    FilmsContract.Films.COLUMN_PRODUCER + " - " +
-                    FilmsContract.Films.COLUMN_IMDB + " - " +
-                    FilmsContract.Films.COLUMN_KINOPOISK + " - " +
-                    FilmsContract.Films.COLUMN_WANT + " - " +
-                    FilmsContract.Films.COLUMN_DESCRIPTION + "\n");
+                    Films.COLUMN_PRODUCER + " - " +
+                    Films.COLUMN_IMDB + " - " +
+                    Films.COLUMN_KINOPOISK + " - " +
+                    Films.COLUMN_WANT + " - " +
+                    Films.COLUMN_DESCRIPTION + "\n");
 
-            int idColumnIndex = cursor.getColumnIndex(FilmsContract.Films._ID);
-            int nameColumnIndex = cursor.getColumnIndex(FilmsContract.Films.COLUMN_NAME);
+            int idColumnIndex = cursor.getColumnIndex(Films._ID);
+            int nameColumnIndex = cursor.getColumnIndex(Films.COLUMN_NAME);
             int yearColumnIndex = cursor.getColumnIndex(Films.COLUMN_YEAR);
-            int countryColumnIndex = cursor.getColumnIndex(FilmsContract.Films.COLUMN_COUNTRY);
-            int ganreColumnIndex = cursor.getColumnIndex(FilmsContract.Films.COLUMN_GANRE);
-            int actorColumnIndex = cursor.getColumnIndex(FilmsContract.Films.COLUMN_ACTOR);
-            int producerColumnIndex = cursor.getColumnIndex(FilmsContract.Films.COLUMN_PRODUCER);
-            int imdbColumnIndex = cursor.getColumnIndex(FilmsContract.Films.COLUMN_IMDB);
-            int kinopoiskColumnIndex = cursor.getColumnIndex(FilmsContract.Films.COLUMN_KINOPOISK);
-            int wantColumnIndex = cursor.getColumnIndex(FilmsContract.Films.COLUMN_WANT);
-            int descriptionColumnIndex = cursor.getColumnIndex(FilmsContract.Films.COLUMN_DESCRIPTION);
+            int countryColumnIndex = cursor.getColumnIndex(Films.COLUMN_COUNTRY);
+            int ganreColumnIndex = cursor.getColumnIndex(Films.COLUMN_GANRE);
+            int actorColumnIndex = cursor.getColumnIndex(Films.COLUMN_ACTOR);
+            int producerColumnIndex = cursor.getColumnIndex(Films.COLUMN_PRODUCER);
+            int imdbColumnIndex = cursor.getColumnIndex(Films.COLUMN_IMDB);
+            int kinopoiskColumnIndex = cursor.getColumnIndex(Films.COLUMN_KINOPOISK);
+            int wantColumnIndex = cursor.getColumnIndex(Films.COLUMN_WANT);
+            int descriptionColumnIndex = cursor.getColumnIndex(Films.COLUMN_DESCRIPTION);
 
             while (cursor.moveToNext()) {
                 int currentId = (idColumnIndex >= 0) ? cursor.getInt(idColumnIndex) : -1;
@@ -267,18 +267,18 @@ public class MainActivity extends AppCompatActivity {
                           String vDescriptionEditText) {
         SQLiteDatabase db = vDbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(FilmsContract.Films.COLUMN_NAME, vNameEditText);
-        values.put(FilmsContract.Films.COLUMN_YEAR, Integer.parseInt(vYearSpinner));
-        values.put(FilmsContract.Films.COLUMN_COUNTRY, vCountrySpinner);
-        values.put(FilmsContract.Films.COLUMN_GANRE, vGanreSpinner);
-        values.put(FilmsContract.Films.COLUMN_ACTOR, vActorSpinner);
-        values.put(FilmsContract.Films.COLUMN_PRODUCER, vProducerSpinner);
-        values.put(FilmsContract.Films.COLUMN_IMDB, Double.parseDouble(vImdbEditText));
-        values.put(FilmsContract.Films.COLUMN_KINOPOISK, Double.parseDouble(vKinopoiskEditText));
-        values.put(FilmsContract.Films.COLUMN_WANT, Integer.parseInt(vWantRadioGroup));
-        values.put(FilmsContract.Films.COLUMN_DESCRIPTION, vDescriptionEditText);
+        values.put(Films.COLUMN_NAME, vNameEditText);
+        values.put(Films.COLUMN_YEAR, Integer.parseInt(vYearSpinner));
+        values.put(Films.COLUMN_COUNTRY, vCountrySpinner);
+        values.put(Films.COLUMN_GANRE, vGanreSpinner);
+        values.put(Films.COLUMN_ACTOR, vActorSpinner);
+        values.put(Films.COLUMN_PRODUCER, vProducerSpinner);
+        values.put(Films.COLUMN_IMDB, Double.parseDouble(vImdbEditText));
+        values.put(Films.COLUMN_KINOPOISK, Double.parseDouble(vKinopoiskEditText));
+        values.put(Films.COLUMN_WANT, Integer.parseInt(vWantRadioGroup));
+        values.put(Films.COLUMN_DESCRIPTION, vDescriptionEditText);
 
-        long newRowId = db.insert(FilmsContract.Films.TABLE_NAME, null, values);
+        long newRowId = db.insert(Films.TABLE_NAME, null, values);
     }
 
     // show data in ListView
