@@ -88,14 +88,35 @@ public class FilmraryDbHelper extends SQLiteOpenHelper {
                 + WatchedContract.Watched.COLUMN_RATE + " INTEGER, "
                 + WatchedContract.Watched.COLUMN_OPINION + " TEXT" + ")";
 
+        db.execSQL(SQL_CREATE_ACTORS_TABLE);
+        db.execSQL(SQL_CREATE_ACTOR_FILM_TABLE);
+        db.execSQL(SQL_CREATE_COUNTRIES_TABLE);
+        db.execSQL(SQL_CREATE_COUNTRY_FILM_TABLE);
         db.execSQL(SQL_CREATE_FILMS_TABLE);
+        db.execSQL(SQL_CREATE_GANRES_TABLE);
+        db.execSQL(SQL_CREATE_GANRE_FILM_TABLE);
+        db.execSQL(SQL_CREATE_PRODUCERS_TABLE);
+        db.execSQL(SQL_CREATE_PRODUCER_FILM_TABLE);
+        db.execSQL(SQL_CREATE_WANT_TO_WATCH_TABLE);
+        db.execSQL(SQL_CREATE_WATCHED_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.w("SQLite", "Updating from version " + oldVersion + " to version " + newVersion);
 
-        db.execSQL("DROP TABLE IF EXISTS " + DATABASE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ActorsContract.Actors.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ActorFilmContract.ActorFilm.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + CountriesContract.Countries.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + CountryFilmContract.CountryFilm.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + FilmsContract.Films.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + GanresContract.Ganres.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + GanreFilmContract.GanreFilm.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ProducersContract.Producers.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ProducerFilmContract.ProducerFilm.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + WantToWatchContract.WantToWatch.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + WatchedContract.Watched.TABLE_NAME);
+
         onCreate(db);
     }
 }
