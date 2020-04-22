@@ -1,7 +1,5 @@
 package com.example.filmoteka;
 
-import android.annotation.TargetApi;
-import android.app.LauncherActivity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -30,12 +28,12 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import data.FilmsContract;
-import data.FilmsContract.AddMovie;
-import data.FilmsDbHelper;
+import data.FilmsContract.Films;
+import data.FilmraryDbHelper;
 
 public class MainActivity extends AppCompatActivity {
 
-    public FilmsDbHelper vDbHelper;
+    public FilmraryDbHelper vDbHelper;
 
     String name;
     String year;
@@ -68,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         moviesListView = findViewById(R.id.movies_list_view);
 
-        vDbHelper = new FilmsDbHelper(this);
+        vDbHelper = new FilmraryDbHelper(this);
 
         listItem = new ArrayList<>();
         countries = new ArrayList<>();
@@ -81,8 +79,18 @@ public class MainActivity extends AppCompatActivity {
         moviesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String text = moviesListView.getItemAtPosition(position).toString();
+                SQLiteDatabase db = vDbHelper.getWritableDatabase();
+                //String whereclause = "_id = '" + id + "' ";
+                String whereclause = "_id = '" + Long.toString(id) + "' ";
+                //int delCnt = db.delete(Films.TABLE_NAME, Films._ID + " = '" + Long.toString(id) + "' ", null);
+                //int delCnt = db.delete(Films.TABLE_NAME, "_ID = " + Long.toString(id), null);
+                //int delCnt = db.delete(Films.TABLE_NAME, "_ID" + " = ?", new String[] { Long.toString(id) });
+                int delCnt = db.delete(FilmsContract.Films.TABLE_NAME, FilmsContract.Films.COLUMN_NAME + " = '" + moviesListView.getItemAtPosition(position).toString() + "' ", null);
+                //String text = moviesListView.getItemAtPosition(position).toString();
+                String text = Integer.toString(delCnt) + " deleted " + moviesListView.getItemAtPosition(position).toString();
                 Toast.makeText(MainActivity.this, ""+text, Toast.LENGTH_SHORT).show();
+                listItem.clear();
+                viewMovies();
             }
         });
 
@@ -129,42 +137,72 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = vDbHelper.getReadableDatabase();
 
         String[] projection = {
-                AddMovie._ID,
-                AddMovie.COLUMN_NAME,
-                AddMovie.COLUMN_YEAR,
-                AddMovie.COLUMN_COUNTRY,
-                AddMovie.COLUMN_DESCRIPTION };
+                FilmsContract.Films._ID,
+                FilmsContract.Films.COLUMN_NAME,
+                FilmsContract.Films.COLUMN_YEAR,
+                FilmsContract.Films.COLUMN_COUNTRY,
+                FilmsContract.Films.COLUMN_GANRE,
+                FilmsContract.Films.COLUMN_ACTOR,
+                FilmsContract.Films.COLUMN_PRODUCER,
+                FilmsContract.Films.COLUMN_IMDB,
+                FilmsContract.Films.COLUMN_KINOPOISK,
+                FilmsContract.Films.COLUMN_WANT,
+                FilmsContract.Films.COLUMN_DESCRIPTION };
 
         // query
         try (Cursor cursor = db.query(
-                AddMovie.TABLE_NAME,
+                FilmsContract.Films.TABLE_NAME,
                 projection,
                 null, null, null, null, null)) {
             TextView displayTextView = findViewById(R.id.text_view_info);
             displayTextView.setText("Количество фильмов в приложении: " + cursor.getCount() + " \n\n");
-            displayTextView.append(AddMovie._ID + " - " +
-                    AddMovie.COLUMN_NAME + " - " +
-                    AddMovie.COLUMN_YEAR + " - " +
-                    AddMovie.COLUMN_COUNTRY + " - " +
-                    AddMovie.COLUMN_DESCRIPTION + "\n");
+            displayTextView.append(FilmsContract.Films._ID + " - " +
+                    FilmsContract.Films.COLUMN_NAME + " - " +
+                    FilmsContract.Films.COLUMN_YEAR + " - " +
+                    FilmsContract.Films.COLUMN_COUNTRY + " - " +
+                    FilmsContract.Films.COLUMN_GANRE + " - " +
+                    Films.COLUMN_ACTOR + " - " +
+                    FilmsContract.Films.COLUMN_PRODUCER + " - " +
+                    FilmsContract.Films.COLUMN_IMDB + " - " +
+                    FilmsContract.Films.COLUMN_KINOPOISK + " - " +
+                    FilmsContract.Films.COLUMN_WANT + " - " +
+                    FilmsContract.Films.COLUMN_DESCRIPTION + "\n");
 
-            int idColumnIndex = cursor.getColumnIndex(AddMovie._ID);
-            int nameColumnIndex = cursor.getColumnIndex(AddMovie.COLUMN_NAME);
-            int yearColumnIndex = cursor.getColumnIndex(AddMovie.COLUMN_YEAR);
-            int countryColumnIndex = cursor.getColumnIndex(AddMovie.COLUMN_COUNTRY);
-            int descriptionColumnIndex = cursor.getColumnIndex(AddMovie.COLUMN_DESCRIPTION);
+            int idColumnIndex = cursor.getColumnIndex(FilmsContract.Films._ID);
+            int nameColumnIndex = cursor.getColumnIndex(FilmsContract.Films.COLUMN_NAME);
+            int yearColumnIndex = cursor.getColumnIndex(Films.COLUMN_YEAR);
+            int countryColumnIndex = cursor.getColumnIndex(FilmsContract.Films.COLUMN_COUNTRY);
+            int ganreColumnIndex = cursor.getColumnIndex(FilmsContract.Films.COLUMN_GANRE);
+            int actorColumnIndex = cursor.getColumnIndex(FilmsContract.Films.COLUMN_ACTOR);
+            int producerColumnIndex = cursor.getColumnIndex(FilmsContract.Films.COLUMN_PRODUCER);
+            int imdbColumnIndex = cursor.getColumnIndex(FilmsContract.Films.COLUMN_IMDB);
+            int kinopoiskColumnIndex = cursor.getColumnIndex(FilmsContract.Films.COLUMN_KINOPOISK);
+            int wantColumnIndex = cursor.getColumnIndex(FilmsContract.Films.COLUMN_WANT);
+            int descriptionColumnIndex = cursor.getColumnIndex(FilmsContract.Films.COLUMN_DESCRIPTION);
 
             while (cursor.moveToNext()) {
-                int currentId = cursor.getInt(idColumnIndex);
-                String currentName = cursor.getString(nameColumnIndex);
-                int currentYear = cursor.getInt(yearColumnIndex);
-                String currentCountry = cursor.getString(countryColumnIndex);
-                String currentDescription = cursor.getString(descriptionColumnIndex);
+                int currentId = (idColumnIndex >= 0) ? cursor.getInt(idColumnIndex) : -1;
+                String currentName = (idColumnIndex >= 0) ? cursor.getString(nameColumnIndex) : "Null";
+                int currentYear = (idColumnIndex >= 0) ? cursor.getInt(yearColumnIndex) : -1;
+                String currentCountry = (idColumnIndex >= 0) ? cursor.getString(countryColumnIndex) : "Null";
+                String currentGanre = (idColumnIndex >= 0) ? cursor.getString(ganreColumnIndex) : "Null";
+                String currentActor = (idColumnIndex >= 0) ? cursor.getString(actorColumnIndex) : "Null";
+                String currentProducer = (idColumnIndex >= 0) ? cursor.getString(producerColumnIndex) : "Null";
+                double currentImdb = (idColumnIndex >= 0) ? cursor.getDouble(imdbColumnIndex) : -1;
+                double currentKinopoisk = (idColumnIndex >= 0) ? cursor.getDouble(kinopoiskColumnIndex) : -1;
+                int currentWant = (idColumnIndex >= 0) ? cursor.getInt(wantColumnIndex) : -1;
+                String currentDescription = (idColumnIndex >= 0) ? cursor.getString(descriptionColumnIndex) : "Null";
 
                 displayTextView.append(("\n" + currentId + " - " +
                         currentName + " - " +
                         currentYear + " - " +
                         currentCountry + " - " +
+                        currentGanre + " - " +
+                        currentActor + " - " +
+                        currentProducer + " - " +
+                        currentImdb + " - " +
+                        currentKinopoisk + " - " +
+                        currentWant + " - " +
                         currentDescription));
             }
         }
@@ -229,24 +267,24 @@ public class MainActivity extends AppCompatActivity {
                           String vDescriptionEditText) {
         SQLiteDatabase db = vDbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(AddMovie.COLUMN_NAME, vNameEditText);
-        values.put(AddMovie.COLUMN_YEAR, Integer.parseInt(vYearSpinner));
-        values.put(AddMovie.COLUMN_COUNTRY, vCountrySpinner);
-        values.put(AddMovie.COLUMN_GANRE, vGanreSpinner);
-        values.put(AddMovie.COLUMN_ACTOR, vActorSpinner);
-        values.put(AddMovie.COLUMN_PRODUCER, vProducerSpinner);
-        values.put(AddMovie.COLUMN_IMDB, Double.parseDouble(vImdbEditText));
-        values.put(AddMovie.COLUMN_KINOPOISK, Double.parseDouble(vKinopoiskEditText));
-        values.put(AddMovie.COLUMN_WANT, Integer.parseInt(vWantRadioGroup));
-        values.put(AddMovie.COLUMN_DESCRIPTION, vDescriptionEditText);
+        values.put(FilmsContract.Films.COLUMN_NAME, vNameEditText);
+        values.put(FilmsContract.Films.COLUMN_YEAR, Integer.parseInt(vYearSpinner));
+        values.put(FilmsContract.Films.COLUMN_COUNTRY, vCountrySpinner);
+        values.put(FilmsContract.Films.COLUMN_GANRE, vGanreSpinner);
+        values.put(FilmsContract.Films.COLUMN_ACTOR, vActorSpinner);
+        values.put(FilmsContract.Films.COLUMN_PRODUCER, vProducerSpinner);
+        values.put(FilmsContract.Films.COLUMN_IMDB, Double.parseDouble(vImdbEditText));
+        values.put(FilmsContract.Films.COLUMN_KINOPOISK, Double.parseDouble(vKinopoiskEditText));
+        values.put(FilmsContract.Films.COLUMN_WANT, Integer.parseInt(vWantRadioGroup));
+        values.put(FilmsContract.Films.COLUMN_DESCRIPTION, vDescriptionEditText);
 
-        long newRowId = db.insert(FilmsContract.AddMovie.TABLE_NAME, null, values);
+        long newRowId = db.insert(FilmsContract.Films.TABLE_NAME, null, values);
     }
 
     // show data in ListView
     public void viewMovies() {
         SQLiteDatabase db = vDbHelper.getReadableDatabase();
-        String query = "SELECT * FROM " + FilmsContract.AddMovie.TABLE_NAME;
+        String query = "SELECT * FROM " + FilmsContract.Films.TABLE_NAME;
         Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.getCount() == 0) {
@@ -265,8 +303,8 @@ public class MainActivity extends AppCompatActivity {
     // find movie by some id
     public void searchMovies(String text) {
         SQLiteDatabase db = vDbHelper.getReadableDatabase();
-        String query = "SELECT * FROM "+ FilmsContract.AddMovie.TABLE_NAME
-                + " WHERE "+ FilmsContract.AddMovie.COLUMN_NAME
+        String query = "SELECT * FROM "+ FilmsContract.Films.TABLE_NAME
+                + " WHERE "+ FilmsContract.Films.COLUMN_NAME
                 + " LIKE  '%" + text + "%'";
         Cursor cursor = db.rawQuery(query, null);
 
@@ -280,5 +318,6 @@ public class MainActivity extends AppCompatActivity {
             moviesListView.setAdapter(adapter);
         }
     }
+
 
 }
