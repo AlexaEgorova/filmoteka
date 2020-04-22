@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     String name;
     String year;
     String country;
+    String age;
     String ganre;
     String actor;
     String producer;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     String kinopoisk;
     String want;
     String description;
+    String link;
     boolean fromEditor = false;
 
     ArrayList<String> listItem;
@@ -55,33 +57,42 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> ganres;
     ArrayList<String> actors;
     ArrayList<String> producers;
-//    ArrayList<String> wants;
-//    ArrayList<String> watcheds;
 
+    // main window
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        // all movies are showen in moviesListView as a list with clickable elements
         moviesListView = findViewById(R.id.movies_list_view);
 
+        // for work with db
         vDbHelper = new FilmraryDbHelper(this);
 
+        // Array Lists for work with Spinners
+        //todo: fill setupSpinner() voids
+        //todo: each Array List should be filled with info from table with same name (actors from Actors)
         listItem = new ArrayList<>();
         countries = new ArrayList<>();
         ganres = new ArrayList<>();
         actors = new ArrayList<>();
         producers = new ArrayList<>();
 
+        // to show the list of movies
         viewMovies();
 
+        // waits for click on list element
+        // now if it is clicked - it deletes  (no eto ne tochno)
+        // todo: on click open new intent(window) with all info about chosen movie
+        // todo: new intent means new .xml file
         moviesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SQLiteDatabase db = vDbHelper.getWritableDatabase();
                 //String whereclause = "_id = '" + id + "' ";
-                String whereclause = "_id = '" + Long.toString(id) + "' ";
+                //String whereclause = "_id = '" + Long.toString(id) + "' ";
                 //int delCnt = db.delete(Films.TABLE_NAME, Films._ID + " = '" + Long.toString(id) + "' ", null);
                 //int delCnt = db.delete(Films.TABLE_NAME, "_ID = " + Long.toString(id), null);
                 //int delCnt = db.delete(Films.TABLE_NAME, "_ID" + " = ?", new String[] { Long.toString(id) });
@@ -89,23 +100,29 @@ public class MainActivity extends AppCompatActivity {
                 //String text = moviesListView.getItemAtPosition(position).toString();
                 String text = Integer.toString(delCnt) + " deleted " + moviesListView.getItemAtPosition(position).toString();
                 Toast.makeText(MainActivity.this, ""+text, Toast.LENGTH_SHORT).show();
+                // todo: check why doesnt't clear up immediately
                 listItem.clear();
                 viewMovies();
             }
         });
 
+        // add button
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // if clicked - new intent(window) opens
+                // todo: add Age and Link field on intent
                 Intent intent = new Intent(MainActivity.this, EditorActivity.class);
                 startActivity(intent);
             }
         });
+
         Intent thisIntent = getIntent();
         name = thisIntent.getStringExtra("name");
         year = thisIntent.getStringExtra("year");
         country = thisIntent.getStringExtra("country");
+        age = thisIntent.getStringExtra("age");
         ganre = thisIntent.getStringExtra("ganre");
         actor = thisIntent.getStringExtra("actor");
         producer = thisIntent.getStringExtra("producer");
@@ -113,13 +130,14 @@ public class MainActivity extends AppCompatActivity {
         kinopoisk = thisIntent.getStringExtra("kinopoisk");
         want = thisIntent.getStringExtra("want");
         description = thisIntent.getStringExtra("description");
+        link = thisIntent.getStringExtra("link");
         fromEditor = thisIntent.getBooleanExtra("fromEditor", fromEditor);
         if (fromEditor) {
             addMovie(name,
-                    year, country, ganre, actor, producer,
+                    year, country, age, ganre, actor, producer,
                     imdb, kinopoisk,
                     want,
-                    description);
+                    description, link);
             listItem.clear();
             viewMovies();
         }
@@ -260,11 +278,13 @@ public class MainActivity extends AppCompatActivity {
 
     // add data
     private void addMovie(String vNameEditText,
-                          String vYearSpinner, String vCountrySpinner, String vGanreSpinner,
+                          String vYearSpinner, String vCountrySpinner, String vAgeEditText, String vGanreSpinner,
                           String vActorSpinner, String vProducerSpinner,
                           String vImdbEditText, String vKinopoiskEditText,
                           String vWantRadioGroup,
-                          String vDescriptionEditText) {
+                          String vDescriptionEditText, String vLinkEditText) {
+        //todo: add Age and link to values
+        //todo: check maybe Age and link are needed somewhere else
         SQLiteDatabase db = vDbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Films.COLUMN_NAME, vNameEditText);
