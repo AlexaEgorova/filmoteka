@@ -4,7 +4,7 @@ import android.provider.BaseColumns;
 
 public class GanreFilmContract {
     private GanreFilmContract() {
-    };
+    }
 
     public static final class GanreFilm implements BaseColumns {
         public final static String TABLE_NAME = "ganre_film";

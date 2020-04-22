@@ -4,7 +4,7 @@ import android.provider.BaseColumns;
 
 public class GanresContract {
     private GanresContract() {
-    };
+    }
 
     public static final class Ganres implements BaseColumns {
         public final static String TABLE_NAME = "ganres";

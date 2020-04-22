@@ -4,7 +4,7 @@ import android.provider.BaseColumns;
 
 public class WatchedContract {
     private WatchedContract() {
-    };
+    }
 
     public static final class Watched implements BaseColumns {
         public final static String TABLE_NAME = "watched";

@@ -4,7 +4,7 @@ import android.provider.BaseColumns;
 
 public final class FilmsContract {
     private FilmsContract() {
-    };
+    }
 
     public static final class Films implements BaseColumns {
         public final static String TABLE_NAME = "films";

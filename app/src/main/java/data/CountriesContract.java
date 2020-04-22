@@ -4,7 +4,7 @@ import android.provider.BaseColumns;
 
 public class CountriesContract {
     private CountriesContract() {
-    };
+    }
 
     public static final class Countries implements BaseColumns {
         public final static String TABLE_NAME = "countries";
