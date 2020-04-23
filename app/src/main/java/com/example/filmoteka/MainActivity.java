@@ -26,12 +26,24 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 
+import data.ActorFilmContract;
+import data.ActorsContract;
+import data.CountriesContract;
+import data.CountryFilmContract;
 import data.FilmsContract;
 import data.FilmsContract.Films;
 import data.FilmraryDbHelper;
+import data.GanreFilmContract;
+import data.GanresContract;
+import data.ProducerFilmContract;
+import data.ProducersContract;
+import data.WantToWatchContract;
+import data.WatchedContract;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -304,6 +316,8 @@ public class MainActivity extends AppCompatActivity {
                           String vDescriptionEditText, String vLinkEditText) {
         //todo: check maybe Age and link are needed somewhere else
         SQLiteDatabase db = vDbHelper.getWritableDatabase();
+        int currentId;
+
         ContentValues values = new ContentValues();
         values.put(Films.COLUMN_NAME, vNameEditText);
         values.put(Films.COLUMN_YEAR, Integer.parseInt(vYearSpinner));
@@ -317,9 +331,70 @@ public class MainActivity extends AppCompatActivity {
         values.put(Films.COLUMN_WANT, Integer.parseInt(vWantRadioGroup));
         values.put(Films.COLUMN_DESCRIPTION, vDescriptionEditText);
         values.put(Films.COLUMN_LINK, vLinkEditText);
+        long newFilmsRowId = db.insert(Films.TABLE_NAME, null, values);
+        Log.d("addMovie", "Added film with Row ID" + newFilmsRowId);
 
-        long newRowId = db.insert(Films.TABLE_NAME, null, values);
-        Log.d("addMovie", "Added film with Row ID" + newRowId);
+        values.clear();
+        String query = "SELECT * FROM " + ActorsContract.Actors.TABLE_NAME
+                + " WHERE " + ActorsContract.Actors.COLUMN_NAME + " = '" + vActorSpinner.split(" ")[0] + "'"
+                + " AND surname = '" + vActorSpinner.split(" ")[1] + "'";
+        try (Cursor cursor = db.rawQuery(query, null)) {
+            currentId = cursor.getPosition();
+            values.put(ActorFilmContract.ActorFilm.COLUMN_ACTOR_ID, (int) currentId);
+            values.put(ActorFilmContract.ActorFilm.COLUMN_FILM_ID, (int) newFilmsRowId);
+            long newActorFilmRowId = db.insert(ActorFilmContract.ActorFilm.TABLE_NAME, null, values);
+            Log.d("addMovie", "Added ActorFilm with Row ID" + newActorFilmRowId);
+        }
+
+        values.clear();
+        query = "SELECT * FROM " + CountriesContract.Countries.TABLE_NAME
+                + " WHERE " + CountriesContract.Countries.COLUMN_NAME + " = '" + vCountrySpinner + "'";
+        try (Cursor cursor = db.rawQuery(query, null)) {
+            currentId = cursor.getPosition();
+            values.put(CountryFilmContract.CountryFilm.COLUMN_COUNTRY_ID, (int) currentId);
+            values.put(CountryFilmContract.CountryFilm.COLUMN_FILM_ID, (int) newFilmsRowId);
+            long newCountryFilmRowId = db.insert(ActorFilmContract.ActorFilm.TABLE_NAME, null, values);
+            Log.d("addMovie", "Added CountryFilm with Row ID" + newCountryFilmRowId);
+        }
+
+        values.clear();
+        query = "SELECT * FROM " + GanresContract.Ganres.TABLE_NAME
+                + " WHERE " + GanresContract.Ganres.COLUMN_NAME + " = '" + vGanreSpinner + "'";
+        try (Cursor cursor = db.rawQuery(query, null)) {
+            currentId = cursor.getPosition();
+            values.put(GanreFilmContract.GanreFilm.COLUMN_GANRE_ID, (int) currentId);
+            values.put(GanreFilmContract.GanreFilm.COLUMN_FILM_ID, (int) newFilmsRowId);
+            long newGanreFilmRowId = db.insert(GanreFilmContract.GanreFilm.TABLE_NAME, null, values);
+            Log.d("addMovie", "Added GanreFilm with Row ID" + newGanreFilmRowId);
+        }
+
+        values.clear();
+        query = "SELECT * FROM " + ProducersContract.Producers.TABLE_NAME
+                + " WHERE " + ProducersContract.Producers.COLUMN_NAME + " = '" + vProducerSpinner.split(" ")[0] + "'"
+                + " AND surname = '" + vProducerSpinner.split(" ")[1] + "'";
+        try (Cursor cursor = db.rawQuery(query, null)) {
+            currentId = cursor.getPosition();
+            values.put(ProducerFilmContract.ProducerFilm.COLUMN_PRODUCER_ID, (int) currentId);
+            values.put(ProducerFilmContract.ProducerFilm.COLUMN_FILM_ID, (int) newFilmsRowId);
+            long newProducerFilmRowId = db.insert(ProducerFilmContract.ProducerFilm.TABLE_NAME, null, values);
+            Log.d("addMovie", "Added ProducerFilm with Row ID" + newProducerFilmRowId);
+        }
+
+        if (Integer.parseInt(vWantRadioGroup) == 1) {
+            values.clear();
+            values.put(WantToWatchContract.WantToWatch.COLUMN_FILM_ID, (int)newFilmsRowId);
+            values.put(WantToWatchContract.WantToWatch.COLUMN_ADD_DATE, Calendar.DATE);
+            long newWantToWatchRowId = db.insert(WantToWatchContract.WantToWatch.TABLE_NAME, null, values);
+            Log.d("addMovie", "Added WantToWatch with Row ID" + newWantToWatchRowId);
+
+        } else if (Integer.parseInt(vWantRadioGroup) == 2){
+            values.clear();
+            values.put(WatchedContract.Watched.COLUMN_FILM_ID, (int)newFilmsRowId);
+            values.put(WatchedContract.Watched.COLUMN_DATE, Calendar.DATE);
+            long newWatchedRowId = db.insert(WatchedContract.Watched.TABLE_NAME, null, values);
+            Log.d("addMovie", "Added Watched with Row ID" + newWatchedRowId);
+        }
+
     }
 
     // show data in ListView
@@ -332,7 +407,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "No data in db", Toast.LENGTH_SHORT).show();
             } else {
                 while (cursor.moveToNext()) {
-                    listItem.add(cursor.getString(COLUMN_NAME_IDX)); // 1 for name, 0 for index
+                    listItem.add(cursor.getString(COLUMN_NAME)); // 1 for name, 0 for index
                 }
                 adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItem);
                 moviesListView.setAdapter(adapter);
@@ -353,7 +428,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "No such data in db", Toast.LENGTH_SHORT).show();
             } else {
                 while (cursor.moveToNext()) {
-                    listItem.add(cursor.getString(COLUMN_NAME_IDX)); // 1 for name, 0 for index
+                    listItem.add(cursor.getString(COLUMN_NAME)); // 1 for name, 0 for index
                 }
                 adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItem);
                 moviesListView.setAdapter(adapter);
