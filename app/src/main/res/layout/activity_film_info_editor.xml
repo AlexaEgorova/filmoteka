@@ -370,6 +370,7 @@
                 android:background="@android:color/holo_blue_dark"
                 android:layout_marginRight="100dp"
                 android:hint="@string/info_editor_accept_hint"
-                android:text="@string/info_editor_accept"/>
+                android:text="@string/info_editor_accept"
+                android:onClick="onClick"/>
     </LinearLayout>
 </ScrollView>

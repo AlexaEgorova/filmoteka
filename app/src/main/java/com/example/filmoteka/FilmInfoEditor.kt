@@ -1,19 +1,13 @@
 package com.example.filmoteka
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import data.FilmsContract
 import kotlinx.android.synthetic.main.activity_film_info_editor.*
-import kotlinx.android.synthetic.main.activity_film_info_editor.actor_spinner
-import kotlinx.android.synthetic.main.activity_film_info_editor.age_edit_text
-import kotlinx.android.synthetic.main.activity_film_info_editor.ganre_spinner
-import kotlinx.android.synthetic.main.activity_film_info_editor.imdb_edit_text
-import kotlinx.android.synthetic.main.activity_film_info_editor.kinopoisk_edit_text
-import kotlinx.android.synthetic.main.activity_film_info_editor.name_edit_text
-import kotlinx.android.synthetic.main.activity_film_info_editor.producer_spinner
-import kotlinx.android.synthetic.main.activity_film_info_editor.radio_do_not_add
-import kotlinx.android.synthetic.main.activity_film_info_editor.year_spinner
 import java.util.*
 
 class FilmInfoEditor : AppCompatActivity() {
@@ -85,5 +79,49 @@ class FilmInfoEditor : AppCompatActivity() {
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, years)
         year_spinner.adapter = adapter
         year_spinner.setSelection(0)
+    }
+
+    fun onClick(view: View) {
+        val vNameEditText = name_edit_text.text.toString()
+        val vYearSpinner = year_spinner.selectedItem.toString()
+        val vCountrySpinner = country_spinner.selectedItem.toString()
+        val vGenreSpinner = ganre_spinner.selectedItem.toString()
+        val vAgeText = age_edit_text.text.toString()
+        val vActorSpinner = actor_spinner.selectedItem.toString()
+        val vProducerSpinner = producer_spinner.selectedItem.toString()
+        val vImbdEditText = imdb_edit_text.text.toString()
+        val vKinopoiskEditText = kinopoisk_edit_text.text.toString()
+        val vWantRadioGroup = checkRadioButtons().toString()
+        val vLinkText = link_edit_text.text.toString()
+        val vDescriptionEditText = description_edit_text.text.toString()
+
+        if (vNameEditText.isEmpty() || vImbdEditText.isEmpty() || vKinopoiskEditText.isEmpty()) {
+            Toast.makeText(this, "Some fields are empty!", Toast.LENGTH_LONG).show()
+            return
+        }
+
+        val filmId = intent.getStringExtra(FilmsContract.Films._ID)
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("delete", true)
+        intent.putExtra(FilmsContract.Films._ID, filmId)
+        intent.putExtra(FilmsContract.Films.COLUMN_NAME, vNameEditText)
+        intent.putExtra(FilmsContract.Films.COLUMN_YEAR, vYearSpinner)
+        intent.putExtra(FilmsContract.Films.COLUMN_COUNTRY, vCountrySpinner)
+        intent.putExtra(FilmsContract.Films.COLUMN_GANRE, vGenreSpinner)
+        intent.putExtra(FilmsContract.Films.COLUMN_ACTOR, vActorSpinner)
+        intent.putExtra(FilmsContract.Films.COLUMN_AGE, vAgeText)
+        intent.putExtra(FilmsContract.Films.COLUMN_PRODUCER, vProducerSpinner)
+        intent.putExtra(FilmsContract.Films.COLUMN_IMDB, vImbdEditText)
+        intent.putExtra(FilmsContract.Films.COLUMN_KINOPOISK, vKinopoiskEditText)
+        intent.putExtra(FilmsContract.Films.COLUMN_WANT, vWantRadioGroup)
+        intent.putExtra(FilmsContract.Films.COLUMN_LINK, vLinkText)
+        intent.putExtra(FilmsContract.Films.COLUMN_DESCRIPTION, vDescriptionEditText)
+        intent.putExtra("fromEditor", true)
+        startActivity(intent)
+    }
+
+    private fun checkRadioButtons(): Int {
+        return if (radio_do_not_add.isChecked) 0 else if (radio_want_to_watch.isChecked) 1 else  //if (fWatchedRadioButton.isChecked())
+            2
     }
 }
