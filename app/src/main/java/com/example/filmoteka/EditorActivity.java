@@ -39,12 +39,7 @@ public class EditorActivity extends AppCompatActivity {
      * Год премьеры, минимальное значение 1895, максимальное - текущий год.
      */
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_editor);
-
+    private void findViews() {
         fNameEditText = findViewById(R.id.name_edit_text);
         fYearSpinner = findViewById(R.id.year_spinner);
         fCountrySpinner = findViewById(R.id.country_spinner);
@@ -57,6 +52,15 @@ public class EditorActivity extends AppCompatActivity {
         fWantRadioButton = findViewById(R.id.radio_want_to_watch);
         fWatchedRadioButton = findViewById(R.id.radio_watched);
         fDescriptionEditText = findViewById(R.id.description_edit_text);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_editor);
+
+        findViews();
 
         vWant = checkRadioButtons();
 
@@ -79,7 +83,7 @@ public class EditorActivity extends AppCompatActivity {
         addGanreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String text = "This button will add ganre in future";
+                String text = "This button will add genre in future";
                 Toast.makeText(EditorActivity.this, "" + text, Toast.LENGTH_LONG).show();
             }
         });
@@ -102,7 +106,6 @@ public class EditorActivity extends AppCompatActivity {
             }
         });
 
-        //todo: add validity check
         Button addMovieButton = findViewById(R.id.add_button);
         addMovieButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +113,7 @@ public class EditorActivity extends AppCompatActivity {
                 String vNameEditText = fNameEditText.getText().toString();
                 String vYearSpinner = fYearSpinner.getSelectedItem().toString();
                 String vCountrySpinner = fCountrySpinner.getSelectedItem().toString();
-                String vGanreSpinner = fGanreSpinner.getSelectedItem().toString();
+                String vGenreSpinner = fGanreSpinner.getSelectedItem().toString();
                 String vActorSpinner = fActorSpinner.getSelectedItem().toString();
                 String vProducerSpinner = fProducerSpinner.getSelectedItem().toString();
                 String vImbdEditText = fImbdEditText.getText().toString();
@@ -118,11 +121,16 @@ public class EditorActivity extends AppCompatActivity {
                 String vWantRadioGroup = Integer.toString(vWant);
                 String vDescriptionEditText = fDescriptionEditText.getText().toString();
 
+                if (vNameEditText.isEmpty() || vImbdEditText.isEmpty() || vKinopoiskEditText.isEmpty()) {
+                    Toast.makeText(EditorActivity.this, "Some fields are empty!", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 Intent intent = new Intent(EditorActivity.this, MainActivity.class);
                 intent.putExtra("name", vNameEditText);
                 intent.putExtra("year", vYearSpinner);
                 intent.putExtra("country", vCountrySpinner);
-                intent.putExtra("ganre", vGanreSpinner);
+                intent.putExtra("genre", vGenreSpinner);
                 intent.putExtra("actor", vActorSpinner);
                 intent.putExtra("producer", vProducerSpinner);
                 intent.putExtra("imdb", vImbdEditText);

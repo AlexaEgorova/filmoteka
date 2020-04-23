@@ -8,10 +8,29 @@
     <string name="russia_country">Россия</string>
     <string name="usa_country">США</string>
     <string name="france_country">Франция</string>
+    <string name="heade_text_view">Добавить новый фильм</string>
+    <string name="film_year">Год:</string>
+    <string name="film_name">Название фильма:</string>
+    <string name="film_country">Страна:</string>
+    <string name="film_genre">Жанр:</string>
+    <string name="film_producer">Режиссёр:</string>
+    <string name="film_actor">Актёр:</string>
+    <string name="film_kinopoisk_rating">Рейтинг на Кинопоиск:</string>
+    <string name="film_imdb_rating">Рейтинг на IMDB:</string>
+    <string name="film_description">Описание:</string>
 
     <string-array name="array_country_options">
         <item>@string/russia_country</item>
         <item>@string/usa_country</item>
         <item>@string/france_country</item>
     </string-array>
+    <string name="title_activity_film_info">FilmInfo</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>

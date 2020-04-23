@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.util.Log;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.RequiresApi;
@@ -90,19 +91,21 @@ public class MainActivity extends AppCompatActivity {
         moviesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SQLiteDatabase db = vDbHelper.getWritableDatabase();
+//                SQLiteDatabase db = vDbHelper.getWritableDatabase();
                 //String whereclause = "_id = '" + id + "' ";
                 //String whereclause = "_id = '" + Long.toString(id) + "' ";
                 //int delCnt = db.delete(Films.TABLE_NAME, Films._ID + " = '" + Long.toString(id) + "' ", null);
                 //int delCnt = db.delete(Films.TABLE_NAME, "_ID = " + Long.toString(id), null);
                 //int delCnt = db.delete(Films.TABLE_NAME, "_ID" + " = ?", new String[] { Long.toString(id) });
-                int delCnt = db.delete(FilmsContract.Films.TABLE_NAME, FilmsContract.Films.COLUMN_NAME + " = '" + moviesListView.getItemAtPosition(position).toString() + "' ", null);
+//                int delCnt = db.delete(FilmsContract.Films.TABLE_NAME, FilmsContract.Films.COLUMN_NAME + " = '" + moviesListView.getItemAtPosition(position).toString() + "' ", null);
                 //String text = moviesListView.getItemAtPosition(position).toString();
-                String text = delCnt + " deleted " + moviesListView.getItemAtPosition(position).toString();
-                Toast.makeText(MainActivity.this, "" + text, Toast.LENGTH_SHORT).show();
-                // todo: check why doesnt't clear up immediately
-                listItem.clear();
-                viewMovies();
+//                String text = delCnt + " deleted " + moviesListView.getItemAtPosition(position).toString();
+//                Toast.makeText(MainActivity.this, "" + text, Toast.LENGTH_SHORT).show();
+//                // todo: check why doesnt't clear up immediately
+//                listItem.clear();
+//                viewMovies();
+                Intent intent = new Intent(MainActivity.this, FilmInfo.class);
+                startActivity(intent);
             }
         });
 
@@ -119,19 +122,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Intent thisIntent = getIntent();
-        name = thisIntent.getStringExtra("name");
-        year = thisIntent.getStringExtra("year");
-        country = thisIntent.getStringExtra("country");
-        age = thisIntent.getStringExtra("age");
-        ganre = thisIntent.getStringExtra("ganre");
-        actor = thisIntent.getStringExtra("actor");
-        producer = thisIntent.getStringExtra("producer");
-        imdb = thisIntent.getStringExtra("imdb");
-        kinopoisk = thisIntent.getStringExtra("kinopoisk");
-        want = thisIntent.getStringExtra("want");
-        description = thisIntent.getStringExtra("description");
-        link = thisIntent.getStringExtra("link");
-        fromEditor = thisIntent.getBooleanExtra("fromEditor", fromEditor);
+        parseIntentWithFilm(thisIntent);
+
         if (fromEditor) {
             addMovie(name,
                     year, country, age, ganre, actor, producer,
@@ -142,6 +134,28 @@ public class MainActivity extends AppCompatActivity {
             viewMovies();
         }
         fromEditor = false;
+    }
+
+    private void parseIntentWithFilm(Intent intent) {
+        Bundle filmInfo = intent.getExtras();
+
+        if (filmInfo == null || filmInfo.isEmpty()) {
+            return;
+        }
+
+        name = intent.getStringExtra("name");
+        year = intent.getStringExtra("year");
+        country = intent.getStringExtra("country");
+        age = intent.getStringExtra("age");
+        ganre = intent.getStringExtra("genre");
+        actor = intent.getStringExtra("actor");
+        producer = intent.getStringExtra("producer");
+        imdb = intent.getStringExtra("imdb");
+        kinopoisk = intent.getStringExtra("kinopoisk");
+        want = intent.getStringExtra("want");
+        description = intent.getStringExtra("description");
+        link = intent.getStringExtra("link");
+        fromEditor = intent.getBooleanExtra("fromEditor", fromEditor);
     }
 
     @Override
@@ -300,6 +314,7 @@ public class MainActivity extends AppCompatActivity {
         values.put(Films.COLUMN_LINK, vLinkEditText);
 
         long newRowId = db.insert(Films.TABLE_NAME, null, values);
+        Log.d("addMovie", "Added film with Row ID" + newRowId);
     }
 
     // show data in ListView
