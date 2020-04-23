@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
+import data.FilmsContract;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,6 +21,7 @@ import java.util.Calendar;
 public class EditorActivity extends AppCompatActivity {
 
     private EditText fNameEditText;
+    private EditText fAgeEditText;
     private Spinner fYearSpinner;
     private Spinner fCountrySpinner;
     private Spinner fGanreSpinner;
@@ -30,6 +32,7 @@ public class EditorActivity extends AppCompatActivity {
     private RadioButton fDontRadioButton;
     private RadioButton fWantRadioButton;
     private RadioButton fWatchedRadioButton;
+    private EditText fLinkEditText;
     private EditText fDescriptionEditText;
 
     String vCountry;
@@ -44,6 +47,7 @@ public class EditorActivity extends AppCompatActivity {
         fYearSpinner = findViewById(R.id.year_spinner);
         fCountrySpinner = findViewById(R.id.country_spinner);
         fGanreSpinner = findViewById(R.id.ganre_spinner);
+        fAgeEditText = findViewById(R.id.age_edit_text);
         fActorSpinner = findViewById(R.id.actor_spinner);
         fProducerSpinner = findViewById(R.id.producer_spinner);
         fImbdEditText = findViewById(R.id.imdb_edit_text);
@@ -51,6 +55,7 @@ public class EditorActivity extends AppCompatActivity {
         fDontRadioButton = findViewById(R.id.radio_do_not_add);
         fWantRadioButton = findViewById(R.id.radio_want_to_watch);
         fWatchedRadioButton = findViewById(R.id.radio_watched);
+        fLinkEditText = findViewById(R.id.link_edit_text);
         fDescriptionEditText = findViewById(R.id.description_edit_text);
     }
 
@@ -114,11 +119,13 @@ public class EditorActivity extends AppCompatActivity {
                 String vYearSpinner = fYearSpinner.getSelectedItem().toString();
                 String vCountrySpinner = fCountrySpinner.getSelectedItem().toString();
                 String vGenreSpinner = fGanreSpinner.getSelectedItem().toString();
+                String vAgeText = fAgeEditText.getText().toString();
                 String vActorSpinner = fActorSpinner.getSelectedItem().toString();
                 String vProducerSpinner = fProducerSpinner.getSelectedItem().toString();
                 String vImbdEditText = fImbdEditText.getText().toString();
                 String vKinopoiskEditText = fKinopoiskEditText.getText().toString();
                 String vWantRadioGroup = Integer.toString(vWant);
+                String vLinkText = fLinkEditText.getText().toString();
                 String vDescriptionEditText = fDescriptionEditText.getText().toString();
 
                 if (vNameEditText.isEmpty() || vImbdEditText.isEmpty() || vKinopoiskEditText.isEmpty()) {
@@ -127,16 +134,18 @@ public class EditorActivity extends AppCompatActivity {
                 }
 
                 Intent intent = new Intent(EditorActivity.this, MainActivity.class);
-                intent.putExtra("name", vNameEditText);
-                intent.putExtra("year", vYearSpinner);
-                intent.putExtra("country", vCountrySpinner);
-                intent.putExtra("genre", vGenreSpinner);
-                intent.putExtra("actor", vActorSpinner);
-                intent.putExtra("producer", vProducerSpinner);
-                intent.putExtra("imdb", vImbdEditText);
-                intent.putExtra("kinopoisk", vKinopoiskEditText);
-                intent.putExtra("want", vWantRadioGroup);
-                intent.putExtra("description", vDescriptionEditText);
+                intent.putExtra(FilmsContract.Films.COLUMN_NAME, vNameEditText);
+                intent.putExtra(FilmsContract.Films.COLUMN_YEAR, vYearSpinner);
+                intent.putExtra(FilmsContract.Films.COLUMN_COUNTRY, vCountrySpinner);
+                intent.putExtra(FilmsContract.Films.COLUMN_GANRE, vGenreSpinner);
+                intent.putExtra(FilmsContract.Films.COLUMN_ACTOR, vActorSpinner);
+                intent.putExtra(FilmsContract.Films.COLUMN_AGE, vAgeText);
+                intent.putExtra(FilmsContract.Films.COLUMN_PRODUCER, vProducerSpinner);
+                intent.putExtra(FilmsContract.Films.COLUMN_IMDB, vImbdEditText);
+                intent.putExtra(FilmsContract.Films.COLUMN_KINOPOISK, vKinopoiskEditText);
+                intent.putExtra(FilmsContract.Films.COLUMN_WANT, vWantRadioGroup);
+                intent.putExtra(FilmsContract.Films.COLUMN_LINK, vLinkText);
+                intent.putExtra(FilmsContract.Films.COLUMN_DESCRIPTION, vDescriptionEditText);
                 intent.putExtra("fromEditor", true);
                 startActivity(intent);
             }

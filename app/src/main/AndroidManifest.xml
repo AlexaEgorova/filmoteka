@@ -9,6 +9,8 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+        <activity android:name=".FilmInfoEditor">
+        </activity>
         <activity
                 android:name=".FilmInfo"
                 android:label="@string/title_activity_film_info"

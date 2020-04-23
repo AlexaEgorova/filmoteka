@@ -19,6 +19,10 @@
     <string name="film_imdb_rating">Рейтинг на IMDB:</string>
     <string name="film_description">Описание:</string>
 
+    <string name="info_editor_header">Редактировать информацию</string>
+    <string name="info_editor_accept">Применить</string>
+    <string name="info_editor_accept_hint">Сохранить изменения</string>
+
     <string-array name="array_country_options">
         <item>@string/russia_country</item>
         <item>@string/usa_country</item>

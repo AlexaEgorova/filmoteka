@@ -65,4 +65,9 @@ class FilmInfo : AppCompatActivity() {
         startActivity(intent)
         this.finish()
     }
+
+    fun onClickEdit(view: View) {
+        intent.setClass(this, FilmInfoEditor::class.java)
+        startActivity(intent)
+    }
 }

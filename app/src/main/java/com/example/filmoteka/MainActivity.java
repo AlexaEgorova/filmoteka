@@ -86,9 +86,6 @@ public class MainActivity extends AppCompatActivity {
         // all movies are showed in moviesListView as a list with clickable elements
         moviesListView = findViewById(R.id.movies_list_view);
 
-        if (getIntent().getBooleanExtra("delete", false)) {
-            deleteMovie(getIntent().getStringExtra(FilmsContract.Films._ID));
-        }
 
         // for work with db
         vDbHelper = new FilmraryDbHelper(this);
@@ -104,25 +101,13 @@ public class MainActivity extends AppCompatActivity {
         // to show the list of movies
         viewMovies();
 
-        // waits for click on list element
-        // now if it is clicked - it deletes  (no eto ne tochno)
-        // todo: on click open new intent(window) with all info about chosen movie
+        if (getIntent().getBooleanExtra("delete", false)) {
+            deleteMovie(getIntent().getStringExtra(FilmsContract.Films._ID));
+        }
+
         moviesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                SQLiteDatabase db = vDbHelper.getWritableDatabase();
-                //String whereclause = "_id = '" + id + "' ";
-                //String whereclause = "_id = '" + Long.toString(id) + "' ";
-                //int delCnt = db.delete(Films.TABLE_NAME, Films._ID + " = '" + Long.toString(id) + "' ", null);
-                //int delCnt = db.delete(Films.TABLE_NAME, "_ID = " + Long.toString(id), null);
-                //int delCnt = db.delete(Films.TABLE_NAME, "_ID" + " = ?", new String[] { Long.toString(id) });
-//                int delCnt = db.delete(FilmsContract.Films.TABLE_NAME, FilmsContract.Films.COLUMN_NAME + " = '" + moviesListView.getItemAtPosition(position).toString() + "' ", null);
-                //String text = moviesListView.getItemAtPosition(position).toString();
-//                String text = delCnt + " deleted " + moviesListView.getItemAtPosition(position).toString();
-//                Toast.makeText(MainActivity.this, "" + text, Toast.LENGTH_SHORT).show();
-//                // todo: check why doesnt't clear up immediately
-//                listItem.clear();
-//                viewMovies();
                 Intent intent = new Intent(MainActivity.this, FilmInfo.class);
                 String film = (String) moviesListView.getItemAtPosition(position);
                 String[] filmString = searchMovieByName(film);
@@ -166,18 +151,18 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        name = intent.getStringExtra("name");
-        year = intent.getStringExtra("year");
-        country = intent.getStringExtra("country");
-        age = intent.getStringExtra("age");
-        ganre = intent.getStringExtra("genre");
-        actor = intent.getStringExtra("actor");
-        producer = intent.getStringExtra("producer");
-        imdb = intent.getStringExtra("imdb");
-        kinopoisk = intent.getStringExtra("kinopoisk");
-        want = intent.getStringExtra("want");
-        description = intent.getStringExtra("description");
-        link = intent.getStringExtra("link");
+        name = intent.getStringExtra(Films.COLUMN_NAME);
+        year = intent.getStringExtra(Films.COLUMN_YEAR);
+        country = intent.getStringExtra(Films.COLUMN_YEAR);
+        age = intent.getStringExtra(Films.COLUMN_AGE);
+        ganre = intent.getStringExtra(Films.COLUMN_GANRE);
+        actor = intent.getStringExtra(Films.COLUMN_ACTOR);
+        producer = intent.getStringExtra(Films.COLUMN_PRODUCER);
+        imdb = intent.getStringExtra(Films.COLUMN_IMDB);
+        kinopoisk = intent.getStringExtra(Films.COLUMN_KINOPOISK);
+        want = intent.getStringExtra(Films.COLUMN_WANT);
+        description = intent.getStringExtra(Films.COLUMN_DESCRIPTION);
+        link = intent.getStringExtra(Films.COLUMN_LINK);
         fromEditor = intent.getBooleanExtra("fromEditor", fromEditor);
     }
 
@@ -478,8 +463,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void deleteMovie(String id) {
         SQLiteDatabase db = vDbHelper.getWritableDatabase();
-        db.delete(Films.TABLE_NAME, Films._ID + " = " + id, null);
+        int deleted = db.delete(Films.TABLE_NAME, Films._ID + " = " + id, null);
         listItem.clear();
+        moviesListView.setAdapter(null);
         viewMovies();
     }
 
