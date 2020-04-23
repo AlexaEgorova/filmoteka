@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
 
         name = intent.getStringExtra(Films.COLUMN_NAME);
         year = intent.getStringExtra(Films.COLUMN_YEAR);
-        country = intent.getStringExtra(Films.COLUMN_YEAR);
+        country = intent.getStringExtra(Films.COLUMN_COUNTRY);
         age = intent.getStringExtra(Films.COLUMN_AGE);
         ganre = intent.getStringExtra(Films.COLUMN_GANRE);
         actor = intent.getStringExtra(Films.COLUMN_ACTOR);
