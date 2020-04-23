@@ -47,7 +47,7 @@ import data.WatchedContract;
 
 public class MainActivity extends AppCompatActivity {
 
-    final int COLUMN_NAME_IDX = 1;
+    final int COLUMN_NAME = 1;
     public FilmraryDbHelper vDbHelper;
 
     String name;
