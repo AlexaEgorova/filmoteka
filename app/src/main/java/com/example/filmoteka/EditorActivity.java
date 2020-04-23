@@ -58,12 +58,7 @@ public class EditorActivity extends AppCompatActivity {
         fWatchedRadioButton = findViewById(R.id.radio_watched);
         fDescriptionEditText = findViewById(R.id.description_edit_text);
 
-        if (fDontRadioButton.isChecked())
-            vWant = 0;
-        else if (fWantRadioButton.isChecked())
-            vWant = 1;
-        else if (fWatchedRadioButton.isChecked())
-            vWant = 2;
+        vWant = checkRadioButtons();
 
         setupYearSpinner();
         setupCountrySpinner();
@@ -76,7 +71,7 @@ public class EditorActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String text = "This button will add country in future";
-                Toast.makeText(EditorActivity.this, ""+text, Toast.LENGTH_LONG).show();
+                Toast.makeText(EditorActivity.this, "" + text, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -85,7 +80,7 @@ public class EditorActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String text = "This button will add ganre in future";
-                Toast.makeText(EditorActivity.this, ""+text, Toast.LENGTH_LONG).show();
+                Toast.makeText(EditorActivity.this, "" + text, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -94,7 +89,7 @@ public class EditorActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String text = "This button will add actor in future";
-                Toast.makeText(EditorActivity.this, ""+text, Toast.LENGTH_LONG).show();
+                Toast.makeText(EditorActivity.this, "" + text, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -103,7 +98,7 @@ public class EditorActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String text = "This button will add producer in future";
-                Toast.makeText(EditorActivity.this, ""+text, Toast.LENGTH_LONG).show();
+                Toast.makeText(EditorActivity.this, "" + text, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -138,6 +133,15 @@ public class EditorActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private int checkRadioButtons() {
+        if (fDontRadioButton.isChecked())
+            return 0;
+        else if (fWantRadioButton.isChecked())
+            return 1;
+        else //if (fWatchedRadioButton.isChecked())
+            return 2;
     }
 
     private void setupYearSpinner() {
@@ -186,14 +190,24 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void setupGanreSpinner() {
-
+        String[] genres = {"Боевик", "Вестерн", "Гангстерский фильм", "Детектив", "Драма", "Исторический фильм",
+                "Комедия", "Мелодрама", "Музыкальный фильм", "Нуар", "Политический фильм", "Приключенческий фильм",
+                "Сказка", "Трагедия", "Трагикомедия",};
+        fGanreSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, genres));
+        fGanreSpinner.setSelection(0);
     }
 
     private void setupActorSpinner() {
-
+        String[] actors = {"Брэд Питт", "Алексей Панин", "Хайден Кристенсен", "Анджелина Джоли",
+                "Джет Ли", "Александр Ревва"};
+        fActorSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, actors));
+        fActorSpinner.setSelection(0);
     }
 
     private void setupProducerSpinner() {
-
+        String[] producer = {"Джеймс Кэмерон", "Джордж Лукас", "Тим Бёртон", "Акира Куросава", "Тимур Бекмамбетов",
+                "Сарик Андреасян", "Люк Бессон"};
+        fProducerSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, producer));
+        fProducerSpinner.setSelection(0);
     }
 }

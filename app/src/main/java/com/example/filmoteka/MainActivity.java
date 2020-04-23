@@ -33,6 +33,7 @@ import data.FilmraryDbHelper;
 
 public class MainActivity extends AppCompatActivity {
 
+    final int COLUMN_NAME = 1;
     public FilmraryDbHelper vDbHelper;
 
     String name;
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     boolean fromEditor = false;
 
     ArrayList<String> listItem;
-    ArrayAdapter adapter;
+    ArrayAdapter<String> adapter;
     ListView moviesListView;
 
     ArrayList<String> countries;
@@ -65,14 +66,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        // all movies are showen in moviesListView as a list with clickable elements
+        // all movies are showed in moviesListView as a list with clickable elements
         moviesListView = findViewById(R.id.movies_list_view);
 
         // for work with db
         vDbHelper = new FilmraryDbHelper(this);
 
-        // Array Lists for work with Spinners
-        //todo: fill setupSpinner() voids
+        // Вроде сделал todo_: fill setupSpinner() voids
         //todo: each Array List should be filled with info from table with same name (actors from Actors)
         listItem = new ArrayList<>();
         countries = new ArrayList<>();
@@ -98,8 +98,8 @@ public class MainActivity extends AppCompatActivity {
                 //int delCnt = db.delete(Films.TABLE_NAME, "_ID" + " = ?", new String[] { Long.toString(id) });
                 int delCnt = db.delete(FilmsContract.Films.TABLE_NAME, FilmsContract.Films.COLUMN_NAME + " = '" + moviesListView.getItemAtPosition(position).toString() + "' ", null);
                 //String text = moviesListView.getItemAtPosition(position).toString();
-                String text = Integer.toString(delCnt) + " deleted " + moviesListView.getItemAtPosition(position).toString();
-                Toast.makeText(MainActivity.this, ""+text, Toast.LENGTH_SHORT).show();
+                String text = delCnt + " deleted " + moviesListView.getItemAtPosition(position).toString();
+                Toast.makeText(MainActivity.this, "" + text, Toast.LENGTH_SHORT).show();
                 // todo: check why doesnt't clear up immediately
                 listItem.clear();
                 viewMovies();
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
                 Films.COLUMN_IMDB,
                 Films.COLUMN_KINOPOISK,
                 Films.COLUMN_WANT,
-                Films.COLUMN_DESCRIPTION };
+                Films.COLUMN_DESCRIPTION};
 
         // query
         try (Cursor cursor = db.query(
@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-// search
+    // search
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -244,16 +244,16 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                ArrayList<String> movieslist = new ArrayList<>();
+                ArrayList<String> moviesList = new ArrayList<>();
 
                 for (String movie : listItem) {
-                    if (movie.toLowerCase().contains(newText.toLowerCase())){
-                        movieslist.add(movie);
+                    if (movie.toLowerCase().contains(newText.toLowerCase())) {
+                        moviesList.add(movie);
                     }
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this,
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this,
                         android.R.layout.simple_list_item_1,
-                        movieslist);
+                        moviesList);
                 moviesListView.setAdapter(adapter);
                 return false;
             }
@@ -283,13 +283,13 @@ public class MainActivity extends AppCompatActivity {
                           String vImdbEditText, String vKinopoiskEditText,
                           String vWantRadioGroup,
                           String vDescriptionEditText, String vLinkEditText) {
-        //todo: add Age and link to values
         //todo: check maybe Age and link are needed somewhere else
         SQLiteDatabase db = vDbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Films.COLUMN_NAME, vNameEditText);
         values.put(Films.COLUMN_YEAR, Integer.parseInt(vYearSpinner));
         values.put(Films.COLUMN_COUNTRY, vCountrySpinner);
+        values.put(Films.COLUMN_AGE, vAgeEditText);
         values.put(Films.COLUMN_GANRE, vGanreSpinner);
         values.put(Films.COLUMN_ACTOR, vActorSpinner);
         values.put(Films.COLUMN_PRODUCER, vProducerSpinner);
@@ -297,6 +297,7 @@ public class MainActivity extends AppCompatActivity {
         values.put(Films.COLUMN_KINOPOISK, Double.parseDouble(vKinopoiskEditText));
         values.put(Films.COLUMN_WANT, Integer.parseInt(vWantRadioGroup));
         values.put(Films.COLUMN_DESCRIPTION, vDescriptionEditText);
+        values.put(Films.COLUMN_LINK, vLinkEditText);
 
         long newRowId = db.insert(Films.TABLE_NAME, null, values);
     }
@@ -305,37 +306,38 @@ public class MainActivity extends AppCompatActivity {
     public void viewMovies() {
         SQLiteDatabase db = vDbHelper.getReadableDatabase();
         String query = "SELECT * FROM " + FilmsContract.Films.TABLE_NAME;
-        Cursor cursor = db.rawQuery(query, null);
+        try (Cursor cursor = db.rawQuery(query, null)) {
 
-        if (cursor.getCount() == 0) {
-            Toast.makeText(this, "No data in db", Toast.LENGTH_SHORT).show();
-        } else {
-            while (cursor.moveToNext()) {
-                listItem.add(cursor.getString(1)); // 1 for name, 0 for index
+            if (cursor.getCount() == 0) {
+                Toast.makeText(this, "No data in db", Toast.LENGTH_SHORT).show();
+            } else {
+                while (cursor.moveToNext()) {
+                    listItem.add(cursor.getString(COLUMN_NAME)); // 1 for name, 0 for index
+                }
+                adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItem);
+                moviesListView.setAdapter(adapter);
             }
-            adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItem);
-            moviesListView.setAdapter(adapter);
         }
-        //cursor.close();
     }
 
-    // todo: variaty of indexes
+    // todo: variety of indexes
     // find movie by some id
     public void searchMovies(String text) {
         SQLiteDatabase db = vDbHelper.getReadableDatabase();
-        String query = "SELECT * FROM "+ FilmsContract.Films.TABLE_NAME
-                + " WHERE "+ FilmsContract.Films.COLUMN_NAME
+        String query = "SELECT * FROM " + FilmsContract.Films.TABLE_NAME
+                + " WHERE " + FilmsContract.Films.COLUMN_NAME
                 + " LIKE  '%" + text + "%'";
-        Cursor cursor = db.rawQuery(query, null);
+        try (Cursor cursor = db.rawQuery(query, null)) {
 
-        if (cursor.getCount() == 0) {
-            Toast.makeText(this, "No such data in db", Toast.LENGTH_SHORT).show();
-        } else {
-            while (cursor.moveToNext()) {
-                listItem.add(cursor.getString(1)); // 1 for name, 0 for index
+            if (cursor.getCount() == 0) {
+                Toast.makeText(this, "No such data in db", Toast.LENGTH_SHORT).show();
+            } else {
+                while (cursor.moveToNext()) {
+                    listItem.add(cursor.getString(COLUMN_NAME)); // 1 for name, 0 for index
+                }
+                adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItem);
+                moviesListView.setAdapter(adapter);
             }
-            adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItem);
-            moviesListView.setAdapter(adapter);
         }
     }
 
