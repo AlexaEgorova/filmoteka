@@ -86,6 +86,10 @@ public class MainActivity extends AppCompatActivity {
         // for work with db
         vDbHelper = new FilmraryDbHelper(this);
 
+        if (getIntent().getBooleanExtra("delete", false)) {
+            deleteMovie(getIntent().getStringExtra(FilmsContract.Films._ID));
+        }
+
         // Вроде сделал todo_: fill setupSpinner() voids
         //todo: each Array List should be filled with info from table with same name (actors from Actors)
         listItem = new ArrayList<>();
@@ -382,14 +386,14 @@ public class MainActivity extends AppCompatActivity {
 
         if (Integer.parseInt(vWantRadioGroup) == 1) {
             values.clear();
-            values.put(WantToWatchContract.WantToWatch.COLUMN_FILM_ID, (int)newFilmsRowId);
+            values.put(WantToWatchContract.WantToWatch.COLUMN_FILM_ID, (int) newFilmsRowId);
             values.put(WantToWatchContract.WantToWatch.COLUMN_ADD_DATE, Calendar.DATE);
             long newWantToWatchRowId = db.insert(WantToWatchContract.WantToWatch.TABLE_NAME, null, values);
             Log.d("addMovie", "Added WantToWatch with Row ID" + newWantToWatchRowId);
 
-        } else if (Integer.parseInt(vWantRadioGroup) == 2){
+        } else if (Integer.parseInt(vWantRadioGroup) == 2) {
             values.clear();
-            values.put(WatchedContract.Watched.COLUMN_FILM_ID, (int)newFilmsRowId);
+            values.put(WatchedContract.Watched.COLUMN_FILM_ID, (int) newFilmsRowId);
             values.put(WatchedContract.Watched.COLUMN_DATE, Calendar.DATE);
             long newWatchedRowId = db.insert(WatchedContract.Watched.TABLE_NAME, null, values);
             Log.d("addMovie", "Added Watched with Row ID" + newWatchedRowId);
@@ -454,6 +458,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return result;
+    }
+
+    public void deleteMovie(String id) {
+        SQLiteDatabase db = vDbHelper.getWritableDatabase();
+        db.delete(Films.TABLE_NAME, Films._ID + " = " + id, null);
+        listItem.clear();
+        viewMovies();
     }
 
 }

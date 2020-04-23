@@ -1,8 +1,10 @@
 package com.example.filmoteka
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import data.FilmsContract
 import kotlinx.android.synthetic.main.activity_film_info.*
@@ -53,5 +55,14 @@ class FilmInfo : AppCompatActivity() {
         filmKinopoisk.text = getFirstPart(filmKinopoisk)
         filmDescription.text = getFirstPart(filmDescription)
         super.onBackPressed()
+    }
+
+    fun onClick(view: View) {
+        val filmId = intent.getStringExtra(FilmsContract.Films._ID)
+        intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("delete", true)
+        intent.putExtra(FilmsContract.Films._ID, filmId)
+        startActivity(intent)
+        this.finish()
     }
 }
