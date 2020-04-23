@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import data.FilmsContract;
 import data.FilmsContract.Films;
@@ -34,7 +35,7 @@ import data.FilmraryDbHelper;
 
 public class MainActivity extends AppCompatActivity {
 
-    final int COLUMN_NAME = 1;
+    final int COLUMN_NAME_IDX = 1;
     public FilmraryDbHelper vDbHelper;
 
     String name;
@@ -87,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
         // waits for click on list element
         // now if it is clicked - it deletes  (no eto ne tochno)
         // todo: on click open new intent(window) with all info about chosen movie
-        // todo: new intent means new .xml file
         moviesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -105,6 +105,11 @@ public class MainActivity extends AppCompatActivity {
 //                listItem.clear();
 //                viewMovies();
                 Intent intent = new Intent(MainActivity.this, FilmInfo.class);
+                String film = (String) moviesListView.getItemAtPosition(position);
+                String[] filmString = searchMovieByName(film);
+                for (int i = 0; i < Films.COLUMNS.length; ++i) {
+                    intent.putExtra(Films.COLUMNS[i], filmString[i]);
+                }
                 startActivity(intent);
             }
         });
@@ -327,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "No data in db", Toast.LENGTH_SHORT).show();
             } else {
                 while (cursor.moveToNext()) {
-                    listItem.add(cursor.getString(COLUMN_NAME)); // 1 for name, 0 for index
+                    listItem.add(cursor.getString(COLUMN_NAME_IDX)); // 1 for name, 0 for index
                 }
                 adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItem);
                 moviesListView.setAdapter(adapter);
@@ -348,7 +353,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "No such data in db", Toast.LENGTH_SHORT).show();
             } else {
                 while (cursor.moveToNext()) {
-                    listItem.add(cursor.getString(COLUMN_NAME)); // 1 for name, 0 for index
+                    listItem.add(cursor.getString(COLUMN_NAME_IDX)); // 1 for name, 0 for index
                 }
                 adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItem);
                 moviesListView.setAdapter(adapter);
@@ -356,5 +361,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public String[] searchMovieByName(String name) {
+        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        String query = "SELECT * FROM " + FilmsContract.Films.TABLE_NAME
+                + " WHERE (" + FilmsContract.Films.COLUMN_NAME + ") = '" + name + "'";
+        String[] result = new String[Films.COLUMNS.length];
+        try (Cursor cursor = db.rawQuery(query, null)) {
+
+            if (cursor.getCount() == 0) {
+                Toast.makeText(this, "No such data in db", Toast.LENGTH_SHORT).show();
+            } else {
+                while (cursor.moveToNext()) {
+                    for (int i = 0; i < Films.COLUMNS.length; ++i) {
+                        result[i] = cursor.getString(i);
+                    }
+                }
+            }
+        }
+        return result;
+    }
 
 }
