@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="false">
+    <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#7FCDD1"
+        android:orientation="vertical"
+        tools:context=".EditorActivity">
+
+        <TextView
+            android:id="@+id/header_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingTop="20dp"
+            android:paddingRight="10dp"
+            android:shadowColor="#0F0F0F"
+            android:text="@string/heade_text_view"
+            android:textSize="24sp"
+            app:fontFamily="sans-serif-black"/>
+
+        <LinearLayout
+            android:id="@+id/name_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+
+            <!--        <TextView-->
+            <!--            android:id="@+id/name_text_view"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="match_parent"-->
+            <!--            android:layout_gravity="center"-->
+            <!--            android:paddingTop="11dp"-->
+            <!--            android:text="Название:"-->
+            <!--            android:textSize="16sp" />-->
+
+            <EditText
+                android:id="@+id/name_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="Название фильма"
+                android:focusable="true"
+                android:paddingLeft="10dp"
+                android:background="@android:color/white"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/year_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/year_text_view"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:paddingTop="11dp"
+                android:text="Год:"
+                android:textSize="16sp"/>
+
+            <Spinner
+                android:id="@+id/year_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:spinnerMode="dropdown"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/country_container"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/country_text_view"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:paddingTop="11dp"
+                android:text="Страна:"
+                android:textSize="16sp"/>
+
+            <Spinner
+                android:id="@+id/country_spinner"
+                android:layout_width="260dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:spinnerMode="dropdown"/>
+
+            <Button
+                android:id="@+id/add_country_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/background_light"
+                android:text="+"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ganre_container"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/ganre_text_view"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:paddingTop="11dp"
+                android:text="Жанр:"
+                android:textSize="16sp"/>
+
+            <Spinner
+                android:id="@+id/ganre_spinner"
+                android:layout_width="260dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:spinnerMode="dropdown"/>
+
+            <Button
+                android:id="@+id/add_ganre_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/background_light"
+                android:text="+"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/actor_container"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/actor_text_view"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:paddingTop="11dp"
+                android:text="Актер:"
+                android:textSize="16sp"/>
+
+            <Spinner
+                android:id="@+id/actor_spinner"
+                android:layout_width="260dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:spinnerMode="dropdown"/>
+
+            <Button
+                android:id="@+id/add_actor_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/background_light"
+                android:text="+"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/producer_container"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/producer_text_view"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:paddingTop="11dp"
+                android:text="Режиссёр:"
+                android:textSize="16sp"/>
+
+            <Spinner
+                android:id="@+id/producer_spinner"
+                android:layout_width="260dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:spinnerMode="dropdown"/>
+
+            <Button
+                android:id="@+id/add_producer_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/background_light"
+                android:text="+"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rate_container"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <EditText
+                    android:id="@+id/imdb_edit_text"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/white"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:hint="Рейтинг IMDb"
+                    android:textAlignment="center"
+                    android:layout_marginTop="10dp"
+                    android:textSize="14sp"/>
+
+                <EditText
+                    android:id="@+id/kinopoisk_edit_text"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:background="@android:color/white"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:hint="Рейтинг КиноПоиск"
+                    android:textAlignment="center"
+                    android:layout_marginTop="10dp"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:orientation="vertical">
+
+
+                <EditText
+                    android:id="@+id/age_edit_text"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/white"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:hint="Возраст просмотра"
+                    android:textAlignment="center"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="14sp"/>
+
+            </LinearLayout>
+
+            <RadioGroup
+                android:id="@+id/wants_radio"
+                android:layout_marginLeft="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RadioButton
+                    android:id="@+id/radio_do_not_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/radiobutton_selector"
+                    android:checked="true"
+                    android:text="Не добавлять в мою коллекцию"/>
+
+                <RadioButton
+                    android:id="@+id/radio_want_to_watch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/radiobutton_selector"
+                    android:text="Хочу посмотреть"/>
+
+                <RadioButton
+                    android:id="@+id/radio_watched"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/radiobutton_selector"
+                    android:text="Посмотрено"/>
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/link_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/link_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="Ссылка на трейлер"
+                android:focusable="true"
+                android:background="@android:color/white"
+                android:paddingLeft="10dp"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/descriprion_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/description_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="Краткое описание фильма"
+                android:focusable="true"
+                android:background="@android:color/white"
+                android:paddingLeft="10dp"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/add_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="50dp"
+            android:background="@android:color/holo_blue_dark"
+            android:layout_marginRight="100dp"
+            android:hint="Подтвердить добавление фильма"
+            android:text="Добавить"/>
+    </LinearLayout>
+</ScrollView>

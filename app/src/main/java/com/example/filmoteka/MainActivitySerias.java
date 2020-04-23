@@ -48,7 +48,7 @@ import data.ProducersContract;
 import data.WantToWatchContract;
 import data.WatchedContract;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivitySerias extends AppCompatActivity {
 
     final int COLUMN_NAME = 1;
     public FilmraryDbHelper vDbHelper;
@@ -86,10 +86,6 @@ public class MainActivity extends AppCompatActivity {
         // all movies are showed in moviesListView as a list with clickable elements
         moviesListView = findViewById(R.id.movies_list_view);
 
-        if (getIntent().getBooleanExtra("delete", false)) {
-            deleteMovie(getIntent().getStringExtra(FilmsContract.Films._ID));
-        }
-
         // for work with db
         vDbHelper = new FilmraryDbHelper(this);
 
@@ -123,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
 //                // todo: check why doesnt't clear up immediately
 //                listItem.clear();
 //                viewMovies();
-                Intent intent = new Intent(MainActivity.this, FilmInfo.class);
+                Intent intent = new Intent(MainActivitySerias.this, FilmInfo.class);
                 String film = (String) moviesListView.getItemAtPosition(position);
                 String[] filmString = searchMovieByName(film);
                 for (int i = 0; i < Films.COLUMNS.length; ++i) {
@@ -140,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // if clicked - new intent(window) opens
                 // todo: add Age and Link field on intent
-                Intent intent = new Intent(MainActivity.this, EditorActivity.class);
+                Intent intent = new Intent(MainActivitySerias.this, EditorActivity.class);
                 startActivity(intent);
             }
         });
@@ -289,7 +285,7 @@ public class MainActivity extends AppCompatActivity {
                         moviesList.add(movie);
                     }
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this,
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivitySerias.this,
                         android.R.layout.simple_list_item_1,
                         moviesList);
                 moviesListView.setAdapter(adapter);
@@ -472,13 +468,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return result;
-    }
-
-    public void deleteMovie(String id) {
-        SQLiteDatabase db = vDbHelper.getWritableDatabase();
-        db.delete(Films.TABLE_NAME, Films._ID + " = " + id, null);
-        listItem.clear();
-        viewMovies();
     }
 
 }
