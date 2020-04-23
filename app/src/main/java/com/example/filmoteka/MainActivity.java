@@ -139,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // if clicked - new intent(window) opens
-                // todo: add Age and Link field on intent
                 Intent intent = new Intent(MainActivity.this, EditorActivity.class);
                 startActivity(intent);
             }
@@ -308,9 +307,12 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            AlertDialog dialog = DialogScreen.getDialog(this);
-            dialog.show();
-            initSettings(dialog);
+            Intent intent = new Intent(MainActivity.this, MainActivitySerias.class);
+            startActivity(intent);
+//            AlertDialog dialog = DialogScreen.getDialog(this);
+//            dialog.show();
+//            initSettings(dialog);
+
         }
 
         return super.onOptionsItemSelected(item);

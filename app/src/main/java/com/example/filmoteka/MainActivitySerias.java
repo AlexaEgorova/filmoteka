@@ -80,7 +80,7 @@ public class MainActivitySerias extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_serias);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // all movies are showed in moviesListView as a list with clickable elements
@@ -304,9 +304,11 @@ public class MainActivitySerias extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            AlertDialog dialog = DialogScreen.getDialog(this);
-            dialog.show();
-            initSettings(dialog);
+            Intent intent = new Intent(MainActivitySerias.this, MainActivity.class);
+            startActivity(intent);
+//            AlertDialog dialog = DialogScreen.getDialog(this);
+//            dialog.show();
+//            initSettings(dialog);
         }
 
         return super.onOptionsItemSelected(item);
