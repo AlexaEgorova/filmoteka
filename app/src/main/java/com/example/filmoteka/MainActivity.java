@@ -358,7 +358,7 @@ public class MainActivity extends AppCompatActivity {
             currentId = cursor.getPosition();
             values.put(CountryFilmContract.CountryFilm.COLUMN_COUNTRY_ID, (int) currentId);
             values.put(CountryFilmContract.CountryFilm.COLUMN_FILM_ID, (int) newFilmsRowId);
-            long newCountryFilmRowId = db.insert(ActorFilmContract.ActorFilm.TABLE_NAME, null, values);
+            long newCountryFilmRowId = db.insert(CountryFilmContract.CountryFilm.TABLE_NAME, null, values);
             Log.d("addMovie", "Added CountryFilm with Row ID" + newCountryFilmRowId);
         }
 

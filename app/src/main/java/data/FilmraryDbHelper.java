@@ -9,7 +9,7 @@ import android.util.Log;
 public class FilmraryDbHelper extends SQLiteOpenHelper {
 
     public static final String LOG_TAG = FilmraryDbHelper.class.getSimpleName();
-    public static final String DATABASE_NAME = "filmrary.db";
+    private static final String DATABASE_NAME = "filmrary.db";
     private static final int DATABASE_VERSION = 1;
 
     public FilmraryDbHelper(Context context) {
@@ -88,6 +88,63 @@ public class FilmraryDbHelper extends SQLiteOpenHelper {
                 + WatchedContract.Watched.COLUMN_RATE + " INTEGER, "
                 + WatchedContract.Watched.COLUMN_OPINION + " TEXT" + ")";
 
+        String SQL_CREATE_SERIAS_TABLE = "CREATE TABLE " + SeriasContract.Serias.TABLE_NAME + "("
+                + SeriasContract.Serias._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + SeriasContract.Serias.COLUMN_NAME + " TEXT NOT NULL, "
+                + SeriasContract.Serias.COLUMN_START_YEAR + " INTEGER NOT NULL, "
+                + SeriasContract.Serias.COLUMN_SEASONS_NUM + " INTEGER, "
+                + SeriasContract.Serias.COLUMN_EP_DURATION + " INTEGER, "
+                + SeriasContract.Serias.COLUMN_EP_IN_SEASON_NUM + " INTEGER, "
+                + SeriasContract.Serias.COLUMN_STATE + " TEXT, "
+                + SeriasContract.Serias.COLUMN_COUNTRY + " TEXT, "
+                + SeriasContract.Serias.COLUMN_AGE + " INTEGER, "
+                + SeriasContract.Serias.COLUMN_GANRE + " TEXT, "
+                + SeriasContract.Serias.COLUMN_ACTOR + " TEXT, "
+                + SeriasContract.Serias.COLUMN_PRODUCER + " TEXT, "
+                + SeriasContract.Serias.COLUMN_IMDB + " DOUBLE, "
+                + SeriasContract.Serias.COLUMN_KINOPOISK + " DOUBLE, "
+                + SeriasContract.Serias.COLUMN_WANT + " INTEGER, "
+                + SeriasContract.Serias.COLUMN_LINK + " TEXT, "
+                + SeriasContract.Serias.COLUMN_DESCRIPTION + " TEXT)";
+
+        String SQL_CREATE_ACTOR_SERIAS_TABLE = "CREATE TABLE " + ActorSeriasContract.ActorSerias.TABLE_NAME + "("
+                + ActorSeriasContract.ActorSerias._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + ActorSeriasContract.ActorSerias.COLUMN_ACTOR_ID + " INTEGER NOT NULL, "
+                + ActorSeriasContract.ActorSerias.COLUMN_SERIAS_ID + " INTEGER NOT NULL" + ")";
+
+        String SQL_CREATE_COUNTRY_SERIAS_TABLE = "CREATE TABLE " + CountrySeriasContract.CountrySerias.TABLE_NAME + "("
+                + CountrySeriasContract.CountrySerias._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + CountrySeriasContract.CountrySerias.COLUMN_COUNTRY_ID + " INTEGER NOT NULL, "
+                + CountrySeriasContract.CountrySerias.COLUMN_SERIAS_ID + " INTEGER NOT NULL" + ")";
+
+        String SQL_CREATE_GANRE_SERIAS_TABLE = "CREATE TABLE " + GanreSeriasContract.GanreSerias.TABLE_NAME + "("
+                + GanreSeriasContract.GanreSerias._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + GanreSeriasContract.GanreSerias.COLUMN_GANRE_ID + " INTEGER NOT NULL, "
+                + GanreSeriasContract.GanreSerias.COLUMN_SERIAS_ID + " INTEGER NOT NULL" + ")";
+
+        String SQL_CREATE_PRODUCER_SERIAS_TABLE = "CREATE TABLE " + ProducerSeriasContract.ProducerSerias.TABLE_NAME + "("
+                + ProducerSeriasContract.ProducerSerias._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + ProducerSeriasContract.ProducerSerias.COLUMN_PRODUCER_ID + " INTEGER NOT NULL, "
+                + ProducerSeriasContract.ProducerSerias.COLUMN_SERIAS_ID + " INTEGER NOT NULL" + ")";
+
+        String SQL_CREATE_WANT_TO_WATCH_SERIAS_TABLE = "CREATE TABLE " + WantToWatchSeriasContract.WantToWatchSerias.TABLE_NAME + "("
+                + WantToWatchSeriasContract.WantToWatchSerias._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + WantToWatchSeriasContract.WantToWatchSerias.COLUMN_SERIAS_ID + " INTEGER NOT NULL, "
+                + WantToWatchSeriasContract.WantToWatchSerias.COLUMN_ADD_DATE + " DATE" + ")";
+
+        String SQL_CREATE_WATCHED_SERIAS_TABLE = "CREATE TABLE " + WatchedSeriasContract.WatchedSerias.TABLE_NAME + "("
+                + WatchedSeriasContract.WatchedSerias._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + WatchedSeriasContract.WatchedSerias.COLUMN_SERIAS_ID + " INTEGER NOT NULL, "
+                + WatchedSeriasContract.WatchedSerias.COLUMN_DATE + " DATE, "
+                + WatchedSeriasContract.WatchedSerias.COLUMN_RATE + " INTEGER, "
+                + WatchedSeriasContract.WatchedSerias.COLUMN_OPINION + " TEXT" + ")";
+
+        String SQL_CREATE_WATCING_SERIAS_TABLE = "CREATE TABLE " + WatchingSeriasContract.WatchingSerias.TABLE_NAME + "("
+                + WatchingSeriasContract.WatchingSerias._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + WatchingSeriasContract.WatchingSerias.COLUMN_SERIAS_ID + " INTEGER NOT NULL, "
+                + WatchingSeriasContract.WatchingSerias.COLUMN_SEASON_NUM + " INTEGER, "
+                + WatchingSeriasContract.WatchingSerias.COLUMN_EPISODE_NUM + " INTEGER)";
+
         db.execSQL(SQL_CREATE_ACTORS_TABLE);
         db.execSQL(SQL_CREATE_ACTOR_FILM_TABLE);
         db.execSQL(SQL_CREATE_COUNTRIES_TABLE);
@@ -99,6 +156,15 @@ public class FilmraryDbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_PRODUCER_FILM_TABLE);
         db.execSQL(SQL_CREATE_WANT_TO_WATCH_TABLE);
         db.execSQL(SQL_CREATE_WATCHED_TABLE);
+
+        db.execSQL(SQL_CREATE_SERIAS_TABLE);
+        db.execSQL(SQL_CREATE_ACTOR_SERIAS_TABLE);
+        db.execSQL(SQL_CREATE_COUNTRY_SERIAS_TABLE);
+        db.execSQL(SQL_CREATE_GANRE_SERIAS_TABLE);
+        db.execSQL(SQL_CREATE_PRODUCER_SERIAS_TABLE);
+        db.execSQL(SQL_CREATE_WANT_TO_WATCH_SERIAS_TABLE);
+        db.execSQL(SQL_CREATE_WATCHED_SERIAS_TABLE);
+        db.execSQL(SQL_CREATE_WATCING_SERIAS_TABLE);
     }
 
     @Override
@@ -116,6 +182,15 @@ public class FilmraryDbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + ProducerFilmContract.ProducerFilm.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + WantToWatchContract.WantToWatch.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + WatchedContract.Watched.TABLE_NAME);
+
+        db.execSQL("DROP TABLE IF EXISTS " + SeriasContract.Serias.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ActorSeriasContract.ActorSerias.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + CountrySeriasContract.CountrySerias.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + GanreSeriasContract.GanreSerias.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ProducerSeriasContract.ProducerSerias.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + WantToWatchSeriasContract.WantToWatchSerias.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + WatchedSeriasContract.WatchedSerias.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + WatchingSeriasContract.WatchingSerias.TABLE_NAME);
 
         onCreate(db);
     }

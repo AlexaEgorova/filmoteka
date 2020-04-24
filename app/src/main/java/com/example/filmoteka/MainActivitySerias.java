@@ -1,17 +1,14 @@
 package com.example.filmoteka;
 
 import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
 import android.os.Bundle;
 
 import android.util.Log;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -26,27 +23,26 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
+import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 
-import data.ActorFilmContract;
+import data.ActorSeriasContract;
 import data.ActorsContract;
 import data.CountriesContract;
-import data.CountryFilmContract;
-import data.FilmsContract;
-import data.FilmsContract.Films;
+import data.CountrySeriasContract;
+import data.GanreSeriasContract;
+import data.ProducerSeriasContract;
+import data.SeriasContract;
+import data.SeriasContract.Serias;
 import data.FilmraryDbHelper;
-import data.GanreFilmContract;
 import data.GanresContract;
-import data.ProducerFilmContract;
 import data.ProducersContract;
-import data.WantToWatchContract;
-import data.WatchedContract;
+import data.WantToWatchSeriasContract;
+import data.WatchedSeriasContract;
+
 
 public class MainActivitySerias extends AppCompatActivity {
 
@@ -54,7 +50,11 @@ public class MainActivitySerias extends AppCompatActivity {
     public FilmraryDbHelper vDbHelper;
 
     String name;
-    String year;
+    String start_year;
+    String seasons_num;
+    String ep_duration;
+    String ep_in_season_num;
+    String state;
     String country;
     String age;
     String ganre;
@@ -63,8 +63,9 @@ public class MainActivitySerias extends AppCompatActivity {
     String imdb;
     String kinopoisk;
     String want;
-    String description;
     String link;
+    String description;
+
     boolean fromEditor = false;
 
     ArrayList<String> listItem;
@@ -76,7 +77,7 @@ public class MainActivitySerias extends AppCompatActivity {
     ArrayList<String> actors;
     ArrayList<String> producers;
 
-    // main window
+    // main serias window
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,24 +107,14 @@ public class MainActivitySerias extends AppCompatActivity {
         moviesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                SQLiteDatabase db = vDbHelper.getWritableDatabase();
-                //String whereclause = "_id = '" + id + "' ";
-                //String whereclause = "_id = '" + Long.toString(id) + "' ";
-                //int delCnt = db.delete(Films.TABLE_NAME, Films._ID + " = '" + Long.toString(id) + "' ", null);
-                //int delCnt = db.delete(Films.TABLE_NAME, "_ID = " + Long.toString(id), null);
-                //int delCnt = db.delete(Films.TABLE_NAME, "_ID" + " = ?", new String[] { Long.toString(id) });
-//                int delCnt = db.delete(FilmsContract.Films.TABLE_NAME, FilmsContract.Films.COLUMN_NAME + " = '" + moviesListView.getItemAtPosition(position).toString() + "' ", null);
-                //String text = moviesListView.getItemAtPosition(position).toString();
-//                String text = delCnt + " deleted " + moviesListView.getItemAtPosition(position).toString();
-//                Toast.makeText(MainActivity.this, "" + text, Toast.LENGTH_SHORT).show();
 //                // todo: check why doesnt't clear up immediately
 //                listItem.clear();
 //                viewMovies();
-                Intent intent = new Intent(MainActivitySerias.this, FilmInfo.class);
-                String film = (String) moviesListView.getItemAtPosition(position);
-                String[] filmString = searchMovieByName(film);
-                for (int i = 0; i < Films.COLUMNS.length; ++i) {
-                    intent.putExtra(Films.COLUMNS[i], filmString[i]);
+                Intent intent = new Intent(MainActivitySerias.this, SeriasInfo.class);
+                String serias = (String) moviesListView.getItemAtPosition(position);
+                String[] seriasString = searchSeriasByName(serias);
+                for (int i = 0; i < Serias.COLUMNS.length; ++i) {
+                    intent.putExtra(Serias.COLUMNS[i], seriasString[i]);
                 }
                 startActivity(intent);
             }
@@ -135,8 +126,7 @@ public class MainActivitySerias extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // if clicked - new intent(window) opens
-                // todo: add Age and Link field on intent
-                Intent intent = new Intent(MainActivitySerias.this, EditorActivity.class);
+                Intent intent = new Intent(MainActivitySerias.this, EditorActivitySerias.class);
                 startActivity(intent);
             }
         });
@@ -145,8 +135,8 @@ public class MainActivitySerias extends AppCompatActivity {
         parseIntentWithFilm(thisIntent);
 
         if (fromEditor) {
-            addMovie(name,
-                    year, country, age, ganre, actor, producer,
+            addSerias(name, start_year, seasons_num, ep_duration, ep_in_season_num, state,
+                    country, age, ganre, actor, producer,
                     imdb, kinopoisk,
                     want,
                     description, link);
@@ -158,13 +148,15 @@ public class MainActivitySerias extends AppCompatActivity {
 
     private void parseIntentWithFilm(Intent intent) {
         Bundle filmInfo = intent.getExtras();
-
         if (filmInfo == null || filmInfo.isEmpty()) {
             return;
         }
-
         name = intent.getStringExtra("name");
-        year = intent.getStringExtra("year");
+        start_year = intent.getStringExtra("start_year");
+        seasons_num = intent.getStringExtra("seasons_num");
+        ep_duration = intent.getStringExtra("ep_duration");
+        ep_in_season_num = intent.getStringExtra("ep_in_season_num");
+        state = intent.getStringExtra("state");
         country = intent.getStringExtra("country");
         age = intent.getStringExtra("age");
         ganre = intent.getStringExtra("genre");
@@ -173,8 +165,8 @@ public class MainActivitySerias extends AppCompatActivity {
         imdb = intent.getStringExtra("imdb");
         kinopoisk = intent.getStringExtra("kinopoisk");
         want = intent.getStringExtra("want");
-        description = intent.getStringExtra("description");
         link = intent.getStringExtra("link");
+        description = intent.getStringExtra("description");
         fromEditor = intent.getBooleanExtra("fromEditor", fromEditor);
     }
 
@@ -184,81 +176,6 @@ public class MainActivitySerias extends AppCompatActivity {
         //displayDatabaseInfo();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void displayDatabaseInfo() {
-        SQLiteDatabase db = vDbHelper.getReadableDatabase();
-
-        String[] projection = {
-                Films._ID,
-                Films.COLUMN_NAME,
-                Films.COLUMN_YEAR,
-                Films.COLUMN_COUNTRY,
-                Films.COLUMN_GANRE,
-                Films.COLUMN_ACTOR,
-                Films.COLUMN_PRODUCER,
-                Films.COLUMN_IMDB,
-                Films.COLUMN_KINOPOISK,
-                Films.COLUMN_WANT,
-                Films.COLUMN_DESCRIPTION};
-
-        // query
-        try (Cursor cursor = db.query(
-                Films.TABLE_NAME,
-                projection,
-                null, null, null, null, null)) {
-            TextView displayTextView = findViewById(R.id.text_view_info);
-            displayTextView.setText("Количество фильмов в приложении: " + cursor.getCount() + " \n\n");
-            displayTextView.append(Films._ID + " - " +
-                    Films.COLUMN_NAME + " - " +
-                    Films.COLUMN_YEAR + " - " +
-                    Films.COLUMN_COUNTRY + " - " +
-                    Films.COLUMN_GANRE + " - " +
-                    Films.COLUMN_ACTOR + " - " +
-                    Films.COLUMN_PRODUCER + " - " +
-                    Films.COLUMN_IMDB + " - " +
-                    Films.COLUMN_KINOPOISK + " - " +
-                    Films.COLUMN_WANT + " - " +
-                    Films.COLUMN_DESCRIPTION + "\n");
-
-            int idColumnIndex = cursor.getColumnIndex(Films._ID);
-            int nameColumnIndex = cursor.getColumnIndex(Films.COLUMN_NAME);
-            int yearColumnIndex = cursor.getColumnIndex(Films.COLUMN_YEAR);
-            int countryColumnIndex = cursor.getColumnIndex(Films.COLUMN_COUNTRY);
-            int ganreColumnIndex = cursor.getColumnIndex(Films.COLUMN_GANRE);
-            int actorColumnIndex = cursor.getColumnIndex(Films.COLUMN_ACTOR);
-            int producerColumnIndex = cursor.getColumnIndex(Films.COLUMN_PRODUCER);
-            int imdbColumnIndex = cursor.getColumnIndex(Films.COLUMN_IMDB);
-            int kinopoiskColumnIndex = cursor.getColumnIndex(Films.COLUMN_KINOPOISK);
-            int wantColumnIndex = cursor.getColumnIndex(Films.COLUMN_WANT);
-            int descriptionColumnIndex = cursor.getColumnIndex(Films.COLUMN_DESCRIPTION);
-
-            while (cursor.moveToNext()) {
-                int currentId = (idColumnIndex >= 0) ? cursor.getInt(idColumnIndex) : -1;
-                String currentName = (idColumnIndex >= 0) ? cursor.getString(nameColumnIndex) : "Null";
-                int currentYear = (idColumnIndex >= 0) ? cursor.getInt(yearColumnIndex) : -1;
-                String currentCountry = (idColumnIndex >= 0) ? cursor.getString(countryColumnIndex) : "Null";
-                String currentGanre = (idColumnIndex >= 0) ? cursor.getString(ganreColumnIndex) : "Null";
-                String currentActor = (idColumnIndex >= 0) ? cursor.getString(actorColumnIndex) : "Null";
-                String currentProducer = (idColumnIndex >= 0) ? cursor.getString(producerColumnIndex) : "Null";
-                double currentImdb = (idColumnIndex >= 0) ? cursor.getDouble(imdbColumnIndex) : -1;
-                double currentKinopoisk = (idColumnIndex >= 0) ? cursor.getDouble(kinopoiskColumnIndex) : -1;
-                int currentWant = (idColumnIndex >= 0) ? cursor.getInt(wantColumnIndex) : -1;
-                String currentDescription = (idColumnIndex >= 0) ? cursor.getString(descriptionColumnIndex) : "Null";
-
-                displayTextView.append(("\n" + currentId + " - " +
-                        currentName + " - " +
-                        currentYear + " - " +
-                        currentCountry + " - " +
-                        currentGanre + " - " +
-                        currentActor + " - " +
-                        currentProducer + " - " +
-                        currentImdb + " - " +
-                        currentKinopoisk + " - " +
-                        currentWant + " - " +
-                        currentDescription));
-            }
-        }
-    }
 
     // search
     @Override
@@ -278,16 +195,16 @@ public class MainActivitySerias extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                ArrayList<String> moviesList = new ArrayList<>();
+                ArrayList<String> seriasList = new ArrayList<>();
 
-                for (String movie : listItem) {
-                    if (movie.toLowerCase().contains(newText.toLowerCase())) {
-                        moviesList.add(movie);
+                for (String serias : listItem) {
+                    if (serias.toLowerCase().contains(newText.toLowerCase())) {
+                        seriasList.add(serias);
                     }
                 }
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivitySerias.this,
                         android.R.layout.simple_list_item_1,
-                        moviesList);
+                        seriasList);
                 moviesListView.setAdapter(adapter);
                 return false;
             }
@@ -310,56 +227,61 @@ public class MainActivitySerias extends AppCompatActivity {
 //            dialog.show();
 //            initSettings(dialog);
         }
-
         return super.onOptionsItemSelected(item);
     }
 
-    private void initSettings(AlertDialog dialog) {
-        // Определяем SeekBar и привязываем к нему дельты настроек
-        SeekBar sb_sense = (SeekBar)dialog.findViewById(R.id.seekSense);
-        SeekBar sb_vol = (SeekBar)dialog.findViewById(R.id.seekVol);
-        // Задаем этим SeekBar текущие значения настроек
-        sb_sense.setProgress(76);
-        sb_vol.setProgress(11);
-    }
+    // todo: заполнить спиннеры
+    // todo: сделать опрятную кнопку добавить (мб всплывающее окно, мб всплывающие кнопки)
+    // todo: сделать заполнение таблиц актеры, жанры и пр по кнопкам
+    // todo: сделать что-то (чекбоксы, скроллвью) для просмотра всех таблиц для данной коллекции
+    // todo: поработать над ограничениями
+    // todo: добавить многострочность для больших полей (описание)
+    // todo: в Инфо сделать что-то типа "Посмотреть каст" и туда жахнуть запросом таблицу атеров
+    // todo: сделать нечувствительными к регистру все поля
 
     // add data
-    private void addMovie(String vNameEditText,
-                          String vYearSpinner, String vCountrySpinner, String vAgeEditText, String vGanreSpinner,
-                          String vActorSpinner, String vProducerSpinner,
-                          String vImdbEditText, String vKinopoiskEditText,
-                          String vWantRadioGroup,
-                          String vDescriptionEditText, String vLinkEditText) {
-        //todo: check maybe Age and link are needed somewhere else
+    private void addSerias(String vNameEditText, String vStartYearSpinner,
+                           String vSeasonsNumEditText, String vEpDurationEditText,
+                           String vEpInSeasonNumEditText, String vStateSpinner,
+                           String vCountrySpinner, String vAgeEditText, String vGanreSpinner,
+                           String vActorSpinner, String vProducerSpinner,
+                           String vImdbEditText, String vKinopoiskEditText,
+                           String vWantRadioGroup, String vLinkEditText,
+                           String vDescriptionEditText) {
+
         SQLiteDatabase db = vDbHelper.getWritableDatabase();
         int currentId;
 
         ContentValues values = new ContentValues();
-        values.put(Films.COLUMN_NAME, vNameEditText);
-        values.put(Films.COLUMN_YEAR, Integer.parseInt(vYearSpinner));
-        values.put(Films.COLUMN_COUNTRY, vCountrySpinner);
-        values.put(Films.COLUMN_AGE, vAgeEditText);
-        values.put(Films.COLUMN_GANRE, vGanreSpinner);
-        values.put(Films.COLUMN_ACTOR, vActorSpinner);
-        values.put(Films.COLUMN_PRODUCER, vProducerSpinner);
-        values.put(Films.COLUMN_IMDB, Double.parseDouble(vImdbEditText));
-        values.put(Films.COLUMN_KINOPOISK, Double.parseDouble(vKinopoiskEditText));
-        values.put(Films.COLUMN_WANT, Integer.parseInt(vWantRadioGroup));
-        values.put(Films.COLUMN_DESCRIPTION, vDescriptionEditText);
-        values.put(Films.COLUMN_LINK, vLinkEditText);
-        long newFilmsRowId = db.insert(Films.TABLE_NAME, null, values);
-        Log.d("addMovie", "Added film with Row ID" + newFilmsRowId);
+        values.put(Serias.COLUMN_NAME, vNameEditText);
+        values.put(Serias.COLUMN_START_YEAR, Integer.parseInt(vStartYearSpinner));
+        values.put(Serias.COLUMN_SEASONS_NUM, Integer.parseInt(vSeasonsNumEditText));
+        values.put(Serias.COLUMN_EP_DURATION, Integer.parseInt(vEpDurationEditText));
+        values.put(Serias.COLUMN_EP_IN_SEASON_NUM, Integer.parseInt(vEpInSeasonNumEditText));
+        values.put(Serias.COLUMN_STATE, vStateSpinner);
+        values.put(Serias.COLUMN_COUNTRY, vCountrySpinner);
+        values.put(Serias.COLUMN_AGE, Integer.parseInt(vAgeEditText));
+        values.put(Serias.COLUMN_GANRE, vGanreSpinner);
+        values.put(Serias.COLUMN_ACTOR, vActorSpinner);
+        values.put(Serias.COLUMN_PRODUCER, vProducerSpinner);
+        values.put(Serias.COLUMN_IMDB, Double.parseDouble(vImdbEditText));
+        values.put(Serias.COLUMN_KINOPOISK, Double.parseDouble(vKinopoiskEditText));
+        values.put(Serias.COLUMN_WANT, Integer.parseInt(vWantRadioGroup));
+        values.put(Serias.COLUMN_LINK, vLinkEditText);
+        values.put(Serias.COLUMN_DESCRIPTION, vDescriptionEditText);
+        long newSeriasRowId = db.insert(Serias.TABLE_NAME, null, values);
+        Log.d("addSerias", "Added film with Row ID" + newSeriasRowId);
 
         values.clear();
         String query = "SELECT * FROM " + ActorsContract.Actors.TABLE_NAME
                 + " WHERE " + ActorsContract.Actors.COLUMN_NAME + " = '" + vActorSpinner.split(" ")[0] + "'"
-                + " AND surname = '" + vActorSpinner.split(" ")[1] + "'";
+                + " AND " + ActorsContract.Actors.COLUMN_SURNAME + " = '" + vActorSpinner.split(" ")[1] + "'";
         try (Cursor cursor = db.rawQuery(query, null)) {
             currentId = cursor.getPosition();
-            values.put(ActorFilmContract.ActorFilm.COLUMN_ACTOR_ID, (int) currentId);
-            values.put(ActorFilmContract.ActorFilm.COLUMN_FILM_ID, (int) newFilmsRowId);
-            long newActorFilmRowId = db.insert(ActorFilmContract.ActorFilm.TABLE_NAME, null, values);
-            Log.d("addMovie", "Added ActorFilm with Row ID" + newActorFilmRowId);
+            values.put(ActorSeriasContract.ActorSerias.COLUMN_ACTOR_ID, (int) currentId);
+            values.put(ActorSeriasContract.ActorSerias.COLUMN_SERIAS_ID, (int) newSeriasRowId);
+            long newActorFilmRowId = db.insert(ActorSeriasContract.ActorSerias.TABLE_NAME, null, values);
+            Log.d("addSerias", "Added ActorFilm with Row ID" + newActorFilmRowId);
         }
 
         values.clear();
@@ -367,10 +289,10 @@ public class MainActivitySerias extends AppCompatActivity {
                 + " WHERE " + CountriesContract.Countries.COLUMN_NAME + " = '" + vCountrySpinner + "'";
         try (Cursor cursor = db.rawQuery(query, null)) {
             currentId = cursor.getPosition();
-            values.put(CountryFilmContract.CountryFilm.COLUMN_COUNTRY_ID, (int) currentId);
-            values.put(CountryFilmContract.CountryFilm.COLUMN_FILM_ID, (int) newFilmsRowId);
-            long newCountryFilmRowId = db.insert(ActorFilmContract.ActorFilm.TABLE_NAME, null, values);
-            Log.d("addMovie", "Added CountryFilm with Row ID" + newCountryFilmRowId);
+            values.put(CountrySeriasContract.CountrySerias.COLUMN_COUNTRY_ID, (int) currentId);
+            values.put(CountrySeriasContract.CountrySerias.COLUMN_SERIAS_ID, (int) newSeriasRowId);
+            long newCountryFilmRowId = db.insert(CountrySeriasContract.CountrySerias.TABLE_NAME, null, values);
+            Log.d("addSerias", "Added CountryFilm with Row ID" + newCountryFilmRowId);
         }
 
         values.clear();
@@ -378,10 +300,10 @@ public class MainActivitySerias extends AppCompatActivity {
                 + " WHERE " + GanresContract.Ganres.COLUMN_NAME + " = '" + vGanreSpinner + "'";
         try (Cursor cursor = db.rawQuery(query, null)) {
             currentId = cursor.getPosition();
-            values.put(GanreFilmContract.GanreFilm.COLUMN_GANRE_ID, (int) currentId);
-            values.put(GanreFilmContract.GanreFilm.COLUMN_FILM_ID, (int) newFilmsRowId);
-            long newGanreFilmRowId = db.insert(GanreFilmContract.GanreFilm.TABLE_NAME, null, values);
-            Log.d("addMovie", "Added GanreFilm with Row ID" + newGanreFilmRowId);
+            values.put(GanreSeriasContract.GanreSerias.COLUMN_GANRE_ID, (int) currentId);
+            values.put(GanreSeriasContract.GanreSerias.COLUMN_SERIAS_ID, (int) newSeriasRowId);
+            long newGanreFilmRowId = db.insert(GanreSeriasContract.GanreSerias.TABLE_NAME, null, values);
+            Log.d("addSerias", "Added GanreFilm with Row ID" + newGanreFilmRowId);
         }
 
         values.clear();
@@ -390,25 +312,25 @@ public class MainActivitySerias extends AppCompatActivity {
                 + " AND surname = '" + vProducerSpinner.split(" ")[1] + "'";
         try (Cursor cursor = db.rawQuery(query, null)) {
             currentId = cursor.getPosition();
-            values.put(ProducerFilmContract.ProducerFilm.COLUMN_PRODUCER_ID, (int) currentId);
-            values.put(ProducerFilmContract.ProducerFilm.COLUMN_FILM_ID, (int) newFilmsRowId);
-            long newProducerFilmRowId = db.insert(ProducerFilmContract.ProducerFilm.TABLE_NAME, null, values);
-            Log.d("addMovie", "Added ProducerFilm with Row ID" + newProducerFilmRowId);
+            values.put(ProducerSeriasContract.ProducerSerias.COLUMN_PRODUCER_ID, (int) currentId);
+            values.put(ProducerSeriasContract.ProducerSerias.COLUMN_SERIAS_ID, (int) newSeriasRowId);
+            long newProducerFilmRowId = db.insert(ProducerSeriasContract.ProducerSerias.TABLE_NAME, null, values);
+            Log.d("addSerias", "Added ProducerFilm with Row ID" + newProducerFilmRowId);
         }
 
         if (Integer.parseInt(vWantRadioGroup) == 1) {
             values.clear();
-            values.put(WantToWatchContract.WantToWatch.COLUMN_FILM_ID, (int)newFilmsRowId);
-            values.put(WantToWatchContract.WantToWatch.COLUMN_ADD_DATE, Calendar.DATE);
-            long newWantToWatchRowId = db.insert(WantToWatchContract.WantToWatch.TABLE_NAME, null, values);
-            Log.d("addMovie", "Added WantToWatch with Row ID" + newWantToWatchRowId);
+            values.put(WantToWatchSeriasContract.WantToWatchSerias.COLUMN_SERIAS_ID, (int)newSeriasRowId);
+            values.put(WantToWatchSeriasContract.WantToWatchSerias.COLUMN_ADD_DATE, Calendar.DATE);
+            long newWantToWatchRowId = db.insert(WantToWatchSeriasContract.WantToWatchSerias.TABLE_NAME, null, values);
+            Log.d("addSerias", "Added WantToWatch with Row ID" + newWantToWatchRowId);
 
         } else if (Integer.parseInt(vWantRadioGroup) == 2){
             values.clear();
-            values.put(WatchedContract.Watched.COLUMN_FILM_ID, (int)newFilmsRowId);
-            values.put(WatchedContract.Watched.COLUMN_DATE, Calendar.DATE);
-            long newWatchedRowId = db.insert(WatchedContract.Watched.TABLE_NAME, null, values);
-            Log.d("addMovie", "Added Watched with Row ID" + newWatchedRowId);
+            values.put(WatchedSeriasContract.WatchedSerias.COLUMN_SERIAS_ID, (int)newSeriasRowId);
+            values.put(WatchedSeriasContract.WatchedSerias.COLUMN_DATE, Calendar.DATE);
+            long newWatchedRowId = db.insert(WatchedSeriasContract.WatchedSerias.TABLE_NAME, null, values);
+            Log.d("addSerias", "Added Watched with Row ID" + newWatchedRowId);
         }
 
     }
@@ -416,11 +338,11 @@ public class MainActivitySerias extends AppCompatActivity {
     // show data in ListView
     public void viewMovies() {
         SQLiteDatabase db = vDbHelper.getReadableDatabase();
-        String query = "SELECT * FROM " + FilmsContract.Films.TABLE_NAME;
+        String query = "SELECT * FROM " + SeriasContract.Serias.TABLE_NAME;
         try (Cursor cursor = db.rawQuery(query, null)) {
 
             if (cursor.getCount() == 0) {
-                Toast.makeText(this, "No data in db", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "No data in serias db", Toast.LENGTH_SHORT).show();
             } else {
                 while (cursor.moveToNext()) {
                     listItem.add(cursor.getString(COLUMN_NAME)); // 1 for name, 0 for index
@@ -433,10 +355,10 @@ public class MainActivitySerias extends AppCompatActivity {
 
     // todo: variety of indexes
     // find movie by some id
-    public void searchMovies(String text) {
+    public void searchSerias(String text) {
         SQLiteDatabase db = vDbHelper.getReadableDatabase();
-        String query = "SELECT * FROM " + FilmsContract.Films.TABLE_NAME
-                + " WHERE " + FilmsContract.Films.COLUMN_NAME
+        String query = "SELECT * FROM " + SeriasContract.Serias.TABLE_NAME
+                + " WHERE " + SeriasContract.Serias.COLUMN_NAME
                 + " LIKE  '%" + text + "%'";
         try (Cursor cursor = db.rawQuery(query, null)) {
 
@@ -452,18 +374,18 @@ public class MainActivitySerias extends AppCompatActivity {
         }
     }
 
-    public String[] searchMovieByName(String name) {
+    public String[] searchSeriasByName(String name) {
         SQLiteDatabase db = vDbHelper.getReadableDatabase();
-        String query = "SELECT * FROM " + FilmsContract.Films.TABLE_NAME
-                + " WHERE (" + FilmsContract.Films.COLUMN_NAME + ") = '" + name + "'";
-        String[] result = new String[Films.COLUMNS.length];
+        String query = "SELECT * FROM " + SeriasContract.Serias.TABLE_NAME
+                + " WHERE (" + SeriasContract.Serias.COLUMN_NAME + ") = '" + name + "'";
+        String[] result = new String[Serias.COLUMNS.length];
         try (Cursor cursor = db.rawQuery(query, null)) {
 
             if (cursor.getCount() == 0) {
                 Toast.makeText(this, "No such data in db", Toast.LENGTH_SHORT).show();
             } else {
                 while (cursor.moveToNext()) {
-                    for (int i = 0; i < Films.COLUMNS.length; ++i) {
+                    for (int i = 0; i < Serias.COLUMNS.length; ++i) {
                         result[i] = cursor.getString(i);
                     }
                 }

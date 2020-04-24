@@ -13,7 +13,7 @@ public final class SeriasContract {
         public final static String COLUMN_NAME = "name";
         public final static String COLUMN_START_YEAR = "year";
         public final static String COLUMN_SEASONS_NUM = "seasons_num";
-        public final static String COLUMN_EPISODE_DUR = "episode_duration";
+        public final static String COLUMN_EP_DURATION = "episode_duration";
         public final static String COLUMN_EP_IN_SEASON_NUM = "episodes_in_season_num";
         // 0 - don't know
         // 1 - been showing
@@ -33,7 +33,12 @@ public final class SeriasContract {
         // 2 - been watching
         // 3 - watched
         public final static String COLUMN_WANT = "want";
-        public final static String COLUMN_DESCRIPTION = "description";
         public final static String COLUMN_LINK = "trailer_link";
+        public final static String COLUMN_DESCRIPTION = "description";
+
+        public final static String[] COLUMNS = {_ID, COLUMN_NAME, COLUMN_START_YEAR,
+                COLUMN_SEASONS_NUM, COLUMN_EP_DURATION,  COLUMN_EP_IN_SEASON_NUM, COLUMN_STATE,
+                COLUMN_COUNTRY, COLUMN_AGE, COLUMN_GANRE, COLUMN_ACTOR, COLUMN_PRODUCER,
+                COLUMN_IMDB, COLUMN_KINOPOISK, COLUMN_WANT, COLUMN_LINK, COLUMN_DESCRIPTION};
     }
 }

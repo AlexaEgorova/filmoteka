@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#7FCDD1"
     android:fillViewport="false">
+
+<!--    //    public final static String[] COLUMNS = {_ID, COLUMN_NAME, COLUMN_START_YEAR,-->
+<!--    //            COLUMN_SEASONS_NUM, COLUMN_EP_DURATION,  COLUMN_EP_IN_SEASON_NUM, COLUMN_STATE,-->
+<!--    //            COLUMN_COUNTRY, COLUMN_AGE, COLUMN_GANRE, COLUMN_ACTOR, COLUMN_PRODUCER,-->
+<!--    //            COLUMN_IMDB, COLUMN_KINOPOISK, COLUMN_WANT, COLUMN_LINK, COLUMN_DESCRIPTION};-->
     <LinearLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#7FCDD1"
@@ -21,7 +27,7 @@
             android:paddingTop="20dp"
             android:paddingRight="10dp"
             android:shadowColor="#0F0F0F"
-            android:text="@string/heade_text_view"
+            android:text="@string/addNewSeries"
             android:textSize="24sp"
             app:fontFamily="sans-serif-black"/>
 
@@ -34,24 +40,15 @@
             android:layout_marginRight="10dp"
             android:orientation="horizontal">
 
-            <!--        <TextView-->
-            <!--            android:id="@+id/name_text_view"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="match_parent"-->
-            <!--            android:layout_gravity="center"-->
-            <!--            android:paddingTop="11dp"-->
-            <!--            android:text="Название:"-->
-            <!--            android:textSize="16sp" />-->
-
             <EditText
                 android:id="@+id/name_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:hint="Название фильма"
-                android:focusable="true"
-                android:paddingLeft="10dp"
                 android:background="@android:color/white"
-                android:textSize="14sp"/>
+                android:focusable="true"
+                android:hint="@string/nameOfSeries"
+                android:paddingStart="10dp"
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -70,15 +67,55 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:paddingTop="11dp"
-                android:text="Год:"
+                android:text="@string/year"
                 android:textSize="16sp"/>
 
             <Spinner
                 android:id="@+id/year_spinner"
-                android:layout_width="match_parent"
+                android:layout_width="140dp"
                 android:layout_height="match_parent"
                 android:background="@android:color/white"
-                android:spinnerMode="dropdown"/>
+                android:spinnerMode="dropdown" />
+
+            <EditText
+                android:id="@+id/age_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:background="@android:color/white"
+                android:focusable="true"
+                android:gravity="center"
+                android:hint="@string/ageRate"
+                android:textAlignment="center"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/state_container"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/state_text_view"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:paddingTop="11dp"
+                android:text="@string/status"
+                android:textSize="16sp"/>
+
+            <Spinner
+                android:id="@+id/state_spinner"
+                android:layout_width="290dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:spinnerMode="dropdown" />
+
 
         </LinearLayout>
 
@@ -97,7 +134,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:paddingTop="11dp"
-                android:text="Страна:"
+                android:text="@string/country"
                 android:textSize="16sp"/>
 
             <Spinner
@@ -109,11 +146,11 @@
 
             <Button
                 android:id="@+id/add_country_button"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/background_light"
-                android:text="+"/>
+                android:text="@string/plus"/>
 
         </LinearLayout>
 
@@ -132,7 +169,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:paddingTop="11dp"
-                android:text="Жанр:"
+                android:text="@string/genre"
                 android:textSize="16sp"/>
 
             <Spinner
@@ -144,11 +181,11 @@
 
             <Button
                 android:id="@+id/add_ganre_button"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/background_light"
-                android:text="+"/>
+                android:text="@string/plus"/>
 
         </LinearLayout>
 
@@ -167,7 +204,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:paddingTop="11dp"
-                android:text="Актер:"
+                android:text="@string/actor"
                 android:textSize="16sp"/>
 
             <Spinner
@@ -179,11 +216,11 @@
 
             <Button
                 android:id="@+id/add_actor_button"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/background_light"
-                android:text="+"/>
+                android:text="@string/plus"/>
 
         </LinearLayout>
 
@@ -202,7 +239,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:paddingTop="11dp"
-                android:text="Режиссёр:"
+                android:text="@string/producer"
                 android:textSize="16sp"/>
 
             <Spinner
@@ -214,20 +251,20 @@
 
             <Button
                 android:id="@+id/add_producer_button"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/background_light"
-                android:text="+"/>
+                android:text="@string/plus"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/rate_container"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="120dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
             android:orientation="horizontal">
 
@@ -241,56 +278,118 @@
                     android:id="@+id/imdb_edit_text"
                     android:layout_width="80dp"
                     android:layout_height="40dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="10dp"
                     android:background="@android:color/white"
                     android:focusable="true"
                     android:gravity="center"
-                    android:hint="Рейтинг IMDb"
+                    android:hint="@string/imdb"
                     android:textAlignment="center"
-                    android:layout_marginTop="10dp"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
                 <EditText
                     android:id="@+id/kinopoisk_edit_text"
                     android:layout_width="80dp"
                     android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
                     android:background="@android:color/white"
                     android:focusable="true"
                     android:gravity="center"
-                    android:hint="Рейтинг КиноПоиск"
+                    android:hint="@string/kinopoisk"
                     android:textAlignment="center"
-                    android:layout_marginTop="10dp"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="100dp"
+                android:layout_width="150dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="10dp"
                 android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/age_edit_text"
-                    android:layout_width="80dp"
-                    android:layout_height="40dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@android:color/white"
-                    android:focusable="true"
-                    android:gravity="center"
-                    android:hint="Возраст просмотра"
-                    android:textAlignment="center"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="14sp"/>
+                    <TextView
+                        android:id="@+id/seasons_num_text_view"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingStart="5dp"
+                        android:text="@string/seasonsNum"
+                        android:textSize="12sp" />
 
+                    <EditText
+                        android:id="@+id/seasons_num_edit_text"
+                        android:layout_width="5dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="1"
+                        android:inputType="number"
+                        android:numeric="integer"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/ep_in_season_text_view"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingStart="5dp"
+                        android:text="Эпизодов в сезоне"
+                        android:textSize="12sp" />
+
+                    <EditText
+                        android:id="@+id/ep_in_season_edit_text"
+                        android:layout_width="5dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="1"
+                        android:inputType="number"
+                        android:numeric="integer"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/ep_duration_text_view"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingLeft="5dp"
+                        android:text="Длительность эпизода (мин)"
+                        android:textSize="12sp" />
+
+                    <EditText
+                        android:id="@+id/ep_duration_edit_text"
+                        android:layout_width="5dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="30"
+                        android:inputType="number"
+                        android:textSize="12sp" />
+                </LinearLayout>
             </LinearLayout>
 
             <RadioGroup
                 android:id="@+id/wants_radio"
-                android:layout_marginLeft="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp">
 
                 <RadioButton
                     android:id="@+id/radio_do_not_add"
@@ -298,21 +397,24 @@
                     android:layout_height="wrap_content"
                     android:button="@drawable/radiobutton_selector"
                     android:checked="true"
-                    android:text="Не добавлять в мою коллекцию"/>
+                    android:text="Не добавлять в мою коллекцию"
+                    android:textSize="12sp" />
 
                 <RadioButton
                     android:id="@+id/radio_want_to_watch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:button="@drawable/radiobutton_selector"
-                    android:text="Хочу посмотреть"/>
+                    android:text="Хочу посмотреть"
+                    android:textSize="12sp" />
 
                 <RadioButton
                     android:id="@+id/radio_watched"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:button="@drawable/radiobutton_selector"
-                    android:text="Посмотрено"/>
+                    android:text="Посмотрено"
+                    android:textSize="12sp" />
 
             </RadioGroup>
 
@@ -323,7 +425,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
             android:orientation="horizontal">
 
@@ -331,11 +433,11 @@
                 android:id="@+id/link_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:hint="Ссылка на трейлер"
-                android:focusable="true"
                 android:background="@android:color/white"
+                android:focusable="true"
+                android:hint="Ссылка на трейлер"
                 android:paddingLeft="10dp"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -366,11 +468,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="100dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="50dp"
-            android:background="@android:color/holo_blue_dark"
+            android:layout_marginTop="40dp"
             android:layout_marginRight="100dp"
+            android:layout_marginBottom="40dp"
+            android:background="@android:color/holo_blue_dark"
             android:hint="Подтвердить добавление фильма"
-            android:text="Добавить"/>
+            android:text="Добавить" />
+
     </LinearLayout>
 </ScrollView>

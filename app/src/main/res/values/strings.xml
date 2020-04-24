@@ -37,4 +37,17 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="addNewSeries">Добавить новый сериал</string>
+    <string name="nameOfSeries">Название сериала</string>
+    <string name="year">Год:</string>
+    <string name="ageRate">Возрастной рейтинг</string>
+    <string name="status">Статус:</string>
+    <string name="country">Страна:</string>
+    <string name="plus">+</string>
+    <string name="genre">Жанр:</string>
+    <string name="actor">Актер:</string>
+    <string name="producer">Режиссёр:</string>
+    <string name="imdb">Рейтинг IMDb</string>
+    <string name="kinopoisk">Рейтинг КиноПоиск</string>
+    <string name="seasonsNum">Количество сезонов</string>
 </resources>
