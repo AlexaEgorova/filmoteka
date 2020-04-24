@@ -121,7 +121,10 @@ class FilmInfoEditor : AppCompatActivity() {
     }
 
     private fun checkRadioButtons(): Int {
-        return if (radio_do_not_add.isChecked) 0 else if (radio_want_to_watch.isChecked) 1 else  //if (fWatchedRadioButton.isChecked())
-            2
+        return when {
+            radio_do_not_add.isChecked -> 0
+            radio_want_to_watch.isChecked -> 1
+            else -> 2 //if (fWatchedRadioButton.isChecked())
+        }
     }
 }
