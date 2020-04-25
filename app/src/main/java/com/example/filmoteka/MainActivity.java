@@ -118,17 +118,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // add button
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // if clicked - new intent(window) opens
-                Intent intent = new Intent(MainActivity.this, EditorActivity.class);
-                startActivity(intent);
-            }
-        });
-
         Intent thisIntent = getIntent();
         parseIntentWithFilm(thisIntent);
 
@@ -469,4 +458,8 @@ public class MainActivity extends AppCompatActivity {
         viewMovies();
     }
 
+    public void addMovie(View view) {
+        Intent intent = new Intent(MainActivity.this, EditorActivity.class);
+        startActivity(intent);
+    }
 }
