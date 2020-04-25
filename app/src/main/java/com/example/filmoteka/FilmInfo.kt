@@ -1,6 +1,5 @@
 package com.example.filmoteka
 
-import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -26,24 +25,9 @@ class FilmInfo : AppCompatActivity() {
         appendText(filmDescription, readField(FilmsContract.Films.COLUMN_DESCRIPTION, intent))
     }
 
-    private fun appendText(field: TextView, text: String) {
-        field.text = field.text.toString() + " " + text
-    }
-
+    private fun appendText(field: TextView, text: String): Unit = field.append(" $text")
     private fun readField(field: String, intent: Intent) = intent.getStringExtra(field).toString()
-
-    private fun getFirstPart(textField: TextView): String {
-        val string = textField.text.toString()
-        var spaceIdx = 0
-        for (char in string) {
-            if (char == ' ') {
-                break
-            }
-            ++spaceIdx
-        }
-        string.removeRange(spaceIdx..string.lastIndex)
-        return string
-    }
+    private fun getFirstPart(textField: TextView) = textField.text.toString().substringBefore(" ")
 
     override fun onBackPressed() {
         filmName.text = getFirstPart(filmName)

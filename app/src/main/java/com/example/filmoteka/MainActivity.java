@@ -294,8 +294,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void initSettings(AlertDialog dialog) {
         // Определяем SeekBar и привязываем к нему дельты настроек
-        SeekBar sb_sense = (SeekBar)dialog.findViewById(R.id.seekSense);
-        SeekBar sb_vol = (SeekBar)dialog.findViewById(R.id.seekVol);
+        SeekBar sb_sense = (SeekBar) dialog.findViewById(R.id.seekSense);
+        SeekBar sb_vol = (SeekBar) dialog.findViewById(R.id.seekVol);
         // Задаем этим SeekBar текущие значения настроек
         sb_sense.setProgress(76);
         sb_vol.setProgress(11);
@@ -376,14 +376,14 @@ public class MainActivity extends AppCompatActivity {
 
         if (Integer.parseInt(vWantRadioGroup) == 1) {
             values.clear();
-            values.put(WantToWatchContract.WantToWatch.COLUMN_FILM_ID, (int)newFilmsRowId);
+            values.put(WantToWatchContract.WantToWatch.COLUMN_FILM_ID, (int) newFilmsRowId);
             values.put(WantToWatchContract.WantToWatch.COLUMN_ADD_DATE, Calendar.DATE);
             long newWantToWatchRowId = db.insert(WantToWatchContract.WantToWatch.TABLE_NAME, null, values);
             Log.d("addMovie", "Added WantToWatch with Row ID" + newWantToWatchRowId);
 
-        } else if (Integer.parseInt(vWantRadioGroup) == 2){
+        } else if (Integer.parseInt(vWantRadioGroup) == 2) {
             values.clear();
-            values.put(WatchedContract.Watched.COLUMN_FILM_ID, (int)newFilmsRowId);
+            values.put(WatchedContract.Watched.COLUMN_FILM_ID, (int) newFilmsRowId);
             values.put(WatchedContract.Watched.COLUMN_DATE, Calendar.DATE);
             long newWatchedRowId = db.insert(WatchedContract.Watched.TABLE_NAME, null, values);
             Log.d("addMovie", "Added Watched with Row ID" + newWatchedRowId);
