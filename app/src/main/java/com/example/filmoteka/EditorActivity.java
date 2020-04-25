@@ -75,42 +75,6 @@ public class EditorActivity extends AppCompatActivity {
         setupActorSpinner();
         setupProducerSpinner();
 
-        Button addCountryButton = findViewById(R.id.add_country_button);
-        addCountryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String text = "This button will add country in future";
-                Toast.makeText(EditorActivity.this, "" + text, Toast.LENGTH_LONG).show();
-            }
-        });
-
-        Button addGanreButton = findViewById(R.id.add_ganre_button);
-        addGanreButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String text = "This button will add genre in future";
-                Toast.makeText(EditorActivity.this, "" + text, Toast.LENGTH_LONG).show();
-            }
-        });
-
-        Button addActorButton = findViewById(R.id.add_actor_button);
-        addActorButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String text = "This button will add actor in future";
-                Toast.makeText(EditorActivity.this, "" + text, Toast.LENGTH_LONG).show();
-            }
-        });
-
-        Button addProducerButton = findViewById(R.id.add_producer_button);
-        addProducerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String text = "This button will add producer in future";
-                Toast.makeText(EditorActivity.this, "" + text, Toast.LENGTH_LONG).show();
-            }
-        });
-
         Button addMovieButton = findViewById(R.id.add_button);
         addMovieButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,6 +114,11 @@ public class EditorActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    public void onClick(View view) {
+        String text = "This button will add producer in future";
+        Toast.makeText(EditorActivity.this, "" + text, Toast.LENGTH_LONG).show();
     }
 
     private int checkRadioButtons() {

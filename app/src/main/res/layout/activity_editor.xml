@@ -113,7 +113,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
-                    android:text="+"/>
+                    android:text="+"
+                    android:onClick="onClick"/>
 
         </LinearLayout>
 
@@ -148,7 +149,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
-                    android:text="+"/>
+                    android:text="+"
+                    android:onClick="onClick"/>
 
         </LinearLayout>
 
@@ -183,7 +185,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
-                    android:text="+"/>
+                    android:text="+"
+                    android:onClick="onClick"/>
 
         </LinearLayout>
 
@@ -218,7 +221,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
-                    android:text="+"/>
+                    android:text="+"
+                    android:onClick="onClick"/>
 
         </LinearLayout>
 
@@ -232,57 +236,57 @@
                 android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="80dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-
-            <EditText
-                    android:id="@+id/imdb_edit_text"
                     android:layout_width="80dp"
-                    android:layout_height="40dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@android:color/white"
-                    android:focusable="true"
-                    android:gravity="center"
-                    android:hint="Рейтинг IMDb"
-                    android:textAlignment="center"
-                    android:layout_marginTop="10dp"
-                    android:textSize="14sp"/>
-
-            <EditText
-                    android:id="@+id/kinopoisk_edit_text"
-                    android:layout_width="80dp"
-                    android:layout_height="40dp"
-                    android:background="@android:color/white"
-                    android:focusable="true"
-                    android:gravity="center"
-                    android:hint="Рейтинг КиноПоиск"
-                    android:textAlignment="center"
-                    android:layout_marginTop="10dp"
-                    android:textSize="14sp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:orientation="vertical">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
 
                 <EditText
-                    android:id="@+id/age_edit_text"
-                    android:layout_width="80dp"
-                    android:layout_height="40dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@android:color/white"
-                    android:focusable="true"
-                    android:gravity="center"
-                    android:hint="Возраст просмотра"
-                    android:textAlignment="center"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="14sp"/>
+                        android:id="@+id/imdb_edit_text"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@android:color/white"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:hint="Рейтинг IMDb"
+                        android:textAlignment="center"
+                        android:layout_marginTop="10dp"
+                        android:textSize="14sp"/>
+
+                <EditText
+                        android:id="@+id/kinopoisk_edit_text"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:background="@android:color/white"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:hint="Рейтинг КиноПоиск"
+                        android:textAlignment="center"
+                        android:layout_marginTop="10dp"
+                        android:textSize="14sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:orientation="vertical">
+
+
+                <EditText
+                        android:id="@+id/age_edit_text"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@android:color/white"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:hint="Возраст просмотра"
+                        android:textAlignment="center"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="14sp"/>
 
             </LinearLayout>
 
@@ -319,23 +323,23 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/link_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
+                android:id="@+id/link_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/link_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:hint="Ссылка на трейлер"
-                android:focusable="true"
-                android:background="@android:color/white"
-                android:paddingLeft="10dp"
-                android:textSize="14sp"/>
+                    android:id="@+id/link_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:hint="Ссылка на трейлер"
+                    android:focusable="true"
+                    android:background="@android:color/white"
+                    android:paddingLeft="10dp"
+                    android:textSize="14sp"/>
 
         </LinearLayout>
 
@@ -362,15 +366,15 @@
 
 
         <Button
-            android:id="@+id/add_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="50dp"
-            android:background="@android:color/holo_blue_dark"
-            android:layout_marginRight="100dp"
-            android:hint="Подтвердить добавление фильма"
-            android:text="Добавить"/>
+                android:id="@+id/add_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="50dp"
+                android:background="@android:color/holo_blue_dark"
+                android:layout_marginRight="100dp"
+                android:hint="Подтвердить добавление фильма"
+                android:text="Добавить"/>
     </LinearLayout>
 </ScrollView>
