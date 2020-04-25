@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import android.util.Log;
-import androidx.core.util.Pair;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -316,21 +315,21 @@ public class MainActivity extends AppCompatActivity {
         Log.d("addMovie", "Added film with Row ID" + newFilmsRowId);
 
 
-        String query = shortEqualityQuery(Actors.TABLE_NAME, Actors.COLUMN_NAME, vActorSpinner.split(" ")[0])
+        String query = selectAllFromTableWhere(Actors.TABLE_NAME, Actors.COLUMN_NAME, vActorSpinner.split(" ")[0])
                 + " AND surname = '" + vActorSpinner.split(" ")[1] + "'";
         cascadeAdd(db, query, ActorFilm.COLUMN_ACTOR_ID, ActorFilm.COLUMN_FILM_ID, newFilmsRowId, ActorFilm.TABLE_NAME,
                    "ActorFilm");
 
-        query = shortEqualityQuery(Countries.TABLE_NAME, Countries.COLUMN_NAME, vCountrySpinner);
+        query = selectAllFromTableWhere(Countries.TABLE_NAME, Countries.COLUMN_NAME, vCountrySpinner);
         cascadeAdd(db, query, CountryFilm.COLUMN_COUNTRY_ID, CountryFilm.COLUMN_FILM_ID, newFilmsRowId,
                    CountryFilm.TABLE_NAME, "CountryFilm");
 
-        query = shortEqualityQuery(Ganres.TABLE_NAME, Ganres.COLUMN_NAME, vGanreSpinner);
+        query = selectAllFromTableWhere(Ganres.TABLE_NAME, Ganres.COLUMN_NAME, vGanreSpinner);
         cascadeAdd(db, query, GanreFilm.COLUMN_GANRE_ID, GanreFilm.COLUMN_FILM_ID, newFilmsRowId, GanreFilm.TABLE_NAME,
                    "GenreFilm");
 
-        query = shortEqualityQuery(Producers.TABLE_NAME, Producers.COLUMN_NAME,
-                                   vProducerSpinner.split(" ")[0])
+        query = selectAllFromTableWhere(Producers.TABLE_NAME, Producers.COLUMN_NAME,
+                                        vProducerSpinner.split(" ")[0])
                 + " AND surname = '" + vProducerSpinner.split(" ")[1] + "'";
         cascadeAdd(db, query, ProducerFilm.COLUMN_PRODUCER_ID, ProducerFilm.COLUMN_FILM_ID, newFilmsRowId,
                    ProducerFilm.TABLE_NAME, "ProducerFilm");
@@ -351,7 +350,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private String shortEqualityQuery(String TABLE_NAME, String COLUMN_NAME, String equalTo) {
+    private String selectAllFromTableWhere(String TABLE_NAME, String COLUMN_NAME, String equalTo) {
         return String.format("SELECT * FROM %s WHERE %s = '%s'", TABLE_NAME, COLUMN_NAME, equalTo);
     }
 
