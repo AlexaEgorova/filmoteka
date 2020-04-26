@@ -1,12 +1,9 @@
 package com.example.filmoteka;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -21,22 +18,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import data.FilmsContract;
 import data.FilmsContract.Films;
 import data.FilmraryDbHelper;
-import data.WantToWatchContract;
-import data.WatchedContract;
 
-import static data.ActorsContract.Actors;
-import static data.ActorFilmContract.ActorFilm;
-import static data.CountriesContract.Countries;
-import static data.GanreFilmContract.GanreFilm;
-import static data.CountryFilmContract.CountryFilm;
-import static data.GanresContract.Ganres;
-import static data.ProducersContract.Producers;
-import static data.ProducerFilmContract.ProducerFilm;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -91,10 +77,6 @@ public class MainActivity extends AppCompatActivity {
         // to show the list of movies
         viewMovies();
 
-        if (getIntent().getBooleanExtra("delete", false)) {
-            deleteMovie(getIntent().getStringExtra(FilmsContract.Films._ID));
-        }
-
         moviesListView.setOnItemClickListener((parent, view, position, id) -> {
             Intent intent = new Intent(MainActivity.this, FilmInfo.class);
             String film = (String) moviesListView.getItemAtPosition(position);
@@ -109,11 +91,11 @@ public class MainActivity extends AppCompatActivity {
         parseIntentWithFilm(thisIntent);
 
         if (fromEditor) {
-            addMovie(name,
-                     year, country, age, ganre, actor, producer,
-                     imdb, kinopoisk,
-                     want,
-                     description, link);
+            CommonFunctions.addMovie(name,
+                                     year, country, age, ganre, actor, producer,
+                                     imdb, kinopoisk,
+                                     want,
+                                     description, link, vDbHelper);
             listItem.clear();
             viewMovies();
         }
@@ -289,82 +271,6 @@ public class MainActivity extends AppCompatActivity {
 //    }
 
     // add data
-    private void addMovie(String vNameEditText,
-                          String vYearSpinner, String vCountrySpinner, String vAgeEditText, String vGanreSpinner,
-                          String vActorSpinner, String vProducerSpinner,
-                          String vImdbEditText, String vKinopoiskEditText,
-                          String vWantRadioGroup,
-                          String vDescriptionEditText, String vLinkEditText) {
-        //todo: check maybe Age and link are needed somewhere else
-        SQLiteDatabase db = vDbHelper.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(Films.COLUMN_NAME, vNameEditText);
-        values.put(Films.COLUMN_YEAR, Integer.parseInt(vYearSpinner));
-        values.put(Films.COLUMN_COUNTRY, vCountrySpinner);
-        values.put(Films.COLUMN_AGE, vAgeEditText);
-        values.put(Films.COLUMN_GANRE, vGanreSpinner);
-        values.put(Films.COLUMN_ACTOR, vActorSpinner);
-        values.put(Films.COLUMN_PRODUCER, vProducerSpinner);
-        values.put(Films.COLUMN_IMDB, Double.parseDouble(vImdbEditText));
-        values.put(Films.COLUMN_KINOPOISK, Double.parseDouble(vKinopoiskEditText));
-        values.put(Films.COLUMN_WANT, Integer.parseInt(vWantRadioGroup));
-        values.put(Films.COLUMN_DESCRIPTION, vDescriptionEditText);
-        values.put(Films.COLUMN_LINK, vLinkEditText);
-        int newFilmsRowId = (int) db.insert(Films.TABLE_NAME, null, values);
-        Log.d("addMovie", "Added film with Row ID" + newFilmsRowId);
-
-
-        String query = selectAllFromTableWhere(Actors.TABLE_NAME, Actors.COLUMN_NAME, vActorSpinner.split(" ")[0])
-                + " AND surname = '" + vActorSpinner.split(" ")[1] + "'";
-        cascadeAdd(db, query, ActorFilm.COLUMN_ACTOR_ID, ActorFilm.COLUMN_FILM_ID, newFilmsRowId, ActorFilm.TABLE_NAME,
-                   "ActorFilm");
-
-        query = selectAllFromTableWhere(Countries.TABLE_NAME, Countries.COLUMN_NAME, vCountrySpinner);
-        cascadeAdd(db, query, CountryFilm.COLUMN_COUNTRY_ID, CountryFilm.COLUMN_FILM_ID, newFilmsRowId,
-                   CountryFilm.TABLE_NAME, "CountryFilm");
-
-        query = selectAllFromTableWhere(Ganres.TABLE_NAME, Ganres.COLUMN_NAME, vGanreSpinner);
-        cascadeAdd(db, query, GanreFilm.COLUMN_GANRE_ID, GanreFilm.COLUMN_FILM_ID, newFilmsRowId, GanreFilm.TABLE_NAME,
-                   "GenreFilm");
-
-        query = selectAllFromTableWhere(Producers.TABLE_NAME, Producers.COLUMN_NAME,
-                                        vProducerSpinner.split(" ")[0])
-                + " AND surname = '" + vProducerSpinner.split(" ")[1] + "'";
-        cascadeAdd(db, query, ProducerFilm.COLUMN_PRODUCER_ID, ProducerFilm.COLUMN_FILM_ID, newFilmsRowId,
-                   ProducerFilm.TABLE_NAME, "ProducerFilm");
-
-        values.clear();
-        if (Integer.parseInt(vWantRadioGroup) == 1) {
-            values.put(WantToWatchContract.WantToWatch.COLUMN_FILM_ID, newFilmsRowId);
-            values.put(WantToWatchContract.WantToWatch.COLUMN_ADD_DATE, Calendar.DATE);
-            long newWantToWatchRowId = db.insert(WantToWatchContract.WantToWatch.TABLE_NAME, null, values);
-            Log.d("addMovie", "Added WantToWatch with Row ID" + newWantToWatchRowId);
-
-        } else if (Integer.parseInt(vWantRadioGroup) == 2) {
-            values.put(WatchedContract.Watched.COLUMN_FILM_ID, newFilmsRowId);
-            values.put(WatchedContract.Watched.COLUMN_DATE, Calendar.DATE);
-            long newWatchedRowId = db.insert(WatchedContract.Watched.TABLE_NAME, null, values);
-            Log.d("addMovie", "Added Watched with Row ID" + newWatchedRowId);
-        }
-
-    }
-
-    private String selectAllFromTableWhere(String TABLE_NAME, String COLUMN_NAME, String equalTo) {
-        return String.format("SELECT * FROM %s WHERE %s = '%s'", TABLE_NAME, COLUMN_NAME, equalTo);
-    }
-
-    private void cascadeAdd(SQLiteDatabase db, String query, String firstId, String secondId, int newFilmsRowId,
-                            String TABLE_NAME, String logMessageTableName) {
-        try (Cursor cursor = db.rawQuery(query, null)) {
-            ContentValues values = new ContentValues();
-            int currentId = cursor.getPosition();
-            values.put(firstId, currentId);
-            values.put(secondId, newFilmsRowId);
-            long newRowId = db.insert(TABLE_NAME, null, values);
-            Log.d("addMovie", String.format("Added %s with Row ID%d", logMessageTableName, newRowId));
-        }
-    }
 
     // show data in ListView
     public void viewMovies() {
@@ -423,15 +329,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return result;
-    }
-
-    public void deleteMovie(String id) {
-        SQLiteDatabase db = vDbHelper.getWritableDatabase();
-        int deleted = db.delete(Films.TABLE_NAME, Films._ID + " = " + id, null);
-        listItem.clear();
-        moviesListView.setAdapter(null);
-        viewMovies();
-        Log.d("deleteMovies", String.format("Deleted %d rows", deleted), null);
     }
 
     public void addMovie(View view) {

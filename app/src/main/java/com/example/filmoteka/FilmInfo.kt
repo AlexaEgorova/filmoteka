@@ -3,9 +3,11 @@ package com.example.filmoteka
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
-import data.FilmsContract
+import data.FilmraryDbHelper
+import data.FilmsContract.Films
 import kotlinx.android.synthetic.main.activity_film_info.*
 
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
@@ -15,14 +17,14 @@ class FilmInfo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_film_info)
 
-        appendText(filmName, readField(FilmsContract.Films.COLUMN_NAME, intent))
-        appendText(filmYear, readField(FilmsContract.Films.COLUMN_YEAR, intent))
-        appendText(filmGenre, readField(FilmsContract.Films.COLUMN_GANRE, intent))
-        appendText(filmCountry, readField(FilmsContract.Films.COLUMN_COUNTRY, intent))
-        appendText(filmProducer, readField(FilmsContract.Films.COLUMN_PRODUCER, intent))
-        appendText(filmIMDB, readField(FilmsContract.Films.COLUMN_IMDB, intent))
-        appendText(filmKinopoisk, readField(FilmsContract.Films.COLUMN_KINOPOISK, intent))
-        appendText(filmDescription, readField(FilmsContract.Films.COLUMN_DESCRIPTION, intent))
+        appendText(filmName, readField(Films.COLUMN_NAME, intent))
+        appendText(filmYear, readField(Films.COLUMN_YEAR, intent))
+        appendText(filmGenre, readField(Films.COLUMN_GANRE, intent))
+        appendText(filmCountry, readField(Films.COLUMN_COUNTRY, intent))
+        appendText(filmProducer, readField(Films.COLUMN_PRODUCER, intent))
+        appendText(filmIMDB, readField(Films.COLUMN_IMDB, intent))
+        appendText(filmKinopoisk, readField(Films.COLUMN_KINOPOISK, intent))
+        appendText(filmDescription, readField(Films.COLUMN_DESCRIPTION, intent))
     }
 
     //todo: показывать трейлер по переданной ссылке (либо прямо сюда вставить плеер, либо перебрасывать в интернет)
@@ -44,10 +46,11 @@ class FilmInfo : AppCompatActivity() {
     }
 
     fun onClick(view: View) {
-        val filmId = intent.getStringExtra(FilmsContract.Films._ID)
-        intent = Intent(this, MainActivity::class.java)
-        intent.putExtra("delete", true)
-        intent.putExtra(FilmsContract.Films._ID, filmId)
+        val filmId = intent.getStringExtra(Films._ID)
+        val db = FilmraryDbHelper.getInstance(this).writableDatabase
+        val deleted = db.delete(Films.TABLE_NAME, "${Films._ID} = $filmId", null)
+        Log.d("filmEditDeleteMovies", "Deleted $deleted rows", null)
+        intent.setClass(this, MainActivity::class.java)
         startActivity(intent)
         this.finish()
     }

@@ -1,14 +1,16 @@
 package com.example.filmoteka
 
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import data.FilmsContract
+import data.FilmraryDbHelper
+import data.FilmsContract.Films
 import kotlinx.android.synthetic.main.activity_film_info_editor.*
 import java.util.*
+
 
 class FilmInfoEditor : AppCompatActivity() {
 
@@ -20,31 +22,31 @@ class FilmInfoEditor : AppCompatActivity() {
     }
 
     private fun initFields() {
-        name_edit_text.setText(intent.getStringExtra(FilmsContract.Films.COLUMN_NAME))
+        name_edit_text.setText(intent.getStringExtra(Films.COLUMN_NAME))
 
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-        year_spinner.setSelection(intent.getIntExtra(FilmsContract.Films.COLUMN_YEAR, currentYear) - currentYear)
+        year_spinner.setSelection(intent.getIntExtra(Films.COLUMN_YEAR, currentYear) - currentYear)
 
         setupGenreSpinner()
         setupActorSpinner()
         setupProducerSpinner()
         setupYearSpinner()
 
-        imdb_edit_text.setText(intent.getStringExtra(FilmsContract.Films.COLUMN_IMDB))
-        kinopoisk_edit_text.setText(intent.getStringExtra(FilmsContract.Films.COLUMN_KINOPOISK))
-        age_edit_text.setText(intent.getStringExtra(FilmsContract.Films.COLUMN_AGE))
+        imdb_edit_text.setText(intent.getStringExtra(Films.COLUMN_IMDB))
+        kinopoisk_edit_text.setText(intent.getStringExtra(Films.COLUMN_KINOPOISK))
+        age_edit_text.setText(intent.getStringExtra(Films.COLUMN_AGE))
 
         radio_do_not_add.isChecked = false
         radio_want_to_watch.isChecked = false
         radio_watched.isChecked = false
-        when (intent.getStringExtra(FilmsContract.Films.COLUMN_WANT)) {
+        when (intent.getStringExtra(Films.COLUMN_WANT)) {
             "0" -> radio_do_not_add.isChecked = true
             "1" -> radio_want_to_watch.isChecked = true
             "2" -> radio_watched.isChecked = true
         }
 
-        link_edit_text.setText(intent.getStringExtra(FilmsContract.Films.COLUMN_LINK))
-        description_edit_text.setText(intent.getStringExtra(FilmsContract.Films.COLUMN_DESCRIPTION))
+        link_edit_text.setText(intent.getStringExtra(Films.COLUMN_LINK))
+        description_edit_text.setText(intent.getStringExtra(Films.COLUMN_DESCRIPTION))
     }
 
     private fun setupGenreSpinner() {
@@ -100,24 +102,17 @@ class FilmInfoEditor : AppCompatActivity() {
             return
         }
 
-        val filmId = intent.getStringExtra(FilmsContract.Films._ID)
-        val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra("delete", true)
-        intent.putExtra(FilmsContract.Films._ID, filmId)
-        intent.putExtra(FilmsContract.Films.COLUMN_NAME, vNameEditText)
-        intent.putExtra(FilmsContract.Films.COLUMN_YEAR, vYearSpinner)
-        intent.putExtra(FilmsContract.Films.COLUMN_COUNTRY, vCountrySpinner)
-        intent.putExtra(FilmsContract.Films.COLUMN_GANRE, vGenreSpinner)
-        intent.putExtra(FilmsContract.Films.COLUMN_ACTOR, vActorSpinner)
-        intent.putExtra(FilmsContract.Films.COLUMN_AGE, vAgeText)
-        intent.putExtra(FilmsContract.Films.COLUMN_PRODUCER, vProducerSpinner)
-        intent.putExtra(FilmsContract.Films.COLUMN_IMDB, vImbdEditText)
-        intent.putExtra(FilmsContract.Films.COLUMN_KINOPOISK, vKinopoiskEditText)
-        intent.putExtra(FilmsContract.Films.COLUMN_WANT, vWantRadioGroup)
-        intent.putExtra(FilmsContract.Films.COLUMN_LINK, vLinkText)
-        intent.putExtra(FilmsContract.Films.COLUMN_DESCRIPTION, vDescriptionEditText)
-        intent.putExtra("fromEditor", true)
+        val filmId = intent.getStringExtra(Films._ID)
+        val db = FilmraryDbHelper.getInstance(this).writableDatabase
+        val deleted = db.delete(Films.TABLE_NAME, "${Films._ID} = $filmId", null)
+        Log.d("filmEditDeleteMovies", "Deleted $deleted rows", null)
+
+        CommonFunctions.addMovie(vNameEditText, vYearSpinner, vCountrySpinner, vGenreSpinner, vAgeText, vActorSpinner,
+                vProducerSpinner, vImbdEditText, vKinopoiskEditText, vWantRadioGroup, vLinkText, vDescriptionEditText,
+                FilmraryDbHelper.getInstance(this))
+        intent.setClass(this, MainActivity::class.java)
         startActivity(intent)
+        this.finish()
     }
 
     private fun checkRadioButtons(): Int {
