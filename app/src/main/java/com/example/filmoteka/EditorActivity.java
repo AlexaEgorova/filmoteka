@@ -171,36 +171,6 @@ public class EditorActivity extends AppCompatActivity {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, countries);
             fCountrySpinner.setAdapter(adapter);
         }
-//        ArrayAdapter<CharSequence> countrySpinnerAdapter = ArrayAdapter.createFromResource(this,
-//                R.array.array_country_options, android.R.layout.simple_dropdown_item_1line);
-//
-//        countrySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-//
-//        fCountrySpinner.setAdapter(countrySpinnerAdapter);
-//        fCountrySpinner.setSelection(1);
-//
-//        fCountrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                String selection = (String) parent.getItemAtPosition(position);
-//                if (!TextUtils.isEmpty(selection)) {
-//                    if (selection.equals(getString(R.string.russia_country))) {
-//                        vCountry = "Россия";
-//                    } else if (selection.equals(getString(R.string.usa_country))) {
-//                        vCountry = "США";
-//                    } else if (selection.equals(getString(R.string.france_country))) {
-//                        vCountry = "Франция";
-//                    } else {
-//                        vCountry = "Неизвестно";
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//                vCountry = "Неизвестно";
-//            }
-//        });
     }
 
     private void setupGanreSpinner() {

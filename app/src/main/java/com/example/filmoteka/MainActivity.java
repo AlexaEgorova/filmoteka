@@ -130,82 +130,6 @@ public class MainActivity extends AppCompatActivity {
         //displayDatabaseInfo();
     }
 
-//    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-//    private void displayDatabaseInfo() {
-//        SQLiteDatabase db = vDbHelper.getReadableDatabase();
-//
-//        String[] projection = {
-//                Films._ID,
-//                Films.COLUMN_NAME,
-//                Films.COLUMN_YEAR,
-//                Films.COLUMN_COUNTRY,
-//                Films.COLUMN_GANRE,
-//                Films.COLUMN_ACTOR,
-//                Films.COLUMN_PRODUCER,
-//                Films.COLUMN_IMDB,
-//                Films.COLUMN_KINOPOISK,
-//                Films.COLUMN_WANT,
-//                Films.COLUMN_DESCRIPTION};
-//
-//        // query
-//        try (Cursor cursor = db.query(
-//                Films.TABLE_NAME,
-//                projection,
-//                null, null, null, null, null)) {
-//            TextView displayTextView = findViewById(R.id.text_view_info);
-//            displayTextView.setText("Количество фильмов в приложении: " + cursor.getCount() + " \n\n");
-//            displayTextView.append(Films._ID + " - " +
-//                    Films.COLUMN_NAME + " - " +
-//                    Films.COLUMN_YEAR + " - " +
-//                    Films.COLUMN_COUNTRY + " - " +
-//                    Films.COLUMN_GANRE + " - " +
-//                    Films.COLUMN_ACTOR + " - " +
-//                    Films.COLUMN_PRODUCER + " - " +
-//                    Films.COLUMN_IMDB + " - " +
-//                    Films.COLUMN_KINOPOISK + " - " +
-//                    Films.COLUMN_WANT + " - " +
-//                    Films.COLUMN_DESCRIPTION + "\n");
-//
-//            int idColumnIndex = cursor.getColumnIndex(Films._ID);
-//            int nameColumnIndex = cursor.getColumnIndex(Films.COLUMN_NAME);
-//            int yearColumnIndex = cursor.getColumnIndex(Films.COLUMN_YEAR);
-//            int countryColumnIndex = cursor.getColumnIndex(Films.COLUMN_COUNTRY);
-//            int ganreColumnIndex = cursor.getColumnIndex(Films.COLUMN_GANRE);
-//            int actorColumnIndex = cursor.getColumnIndex(Films.COLUMN_ACTOR);
-//            int producerColumnIndex = cursor.getColumnIndex(Films.COLUMN_PRODUCER);
-//            int imdbColumnIndex = cursor.getColumnIndex(Films.COLUMN_IMDB);
-//            int kinopoiskColumnIndex = cursor.getColumnIndex(Films.COLUMN_KINOPOISK);
-//            int wantColumnIndex = cursor.getColumnIndex(Films.COLUMN_WANT);
-//            int descriptionColumnIndex = cursor.getColumnIndex(Films.COLUMN_DESCRIPTION);
-//
-//            while (cursor.moveToNext()) {
-//                int currentId = (idColumnIndex >= 0) ? cursor.getInt(idColumnIndex) : -1;
-//                String currentName = (idColumnIndex >= 0) ? cursor.getString(nameColumnIndex) : "Null";
-//                int currentYear = (idColumnIndex >= 0) ? cursor.getInt(yearColumnIndex) : -1;
-//                String currentCountry = (idColumnIndex >= 0) ? cursor.getString(countryColumnIndex) : "Null";
-//                String currentGanre = (idColumnIndex >= 0) ? cursor.getString(ganreColumnIndex) : "Null";
-//                String currentActor = (idColumnIndex >= 0) ? cursor.getString(actorColumnIndex) : "Null";
-//                String currentProducer = (idColumnIndex >= 0) ? cursor.getString(producerColumnIndex) : "Null";
-//                double currentImdb = (idColumnIndex >= 0) ? cursor.getDouble(imdbColumnIndex) : -1;
-//                double currentKinopoisk = (idColumnIndex >= 0) ? cursor.getDouble(kinopoiskColumnIndex) : -1;
-//                int currentWant = (idColumnIndex >= 0) ? cursor.getInt(wantColumnIndex) : -1;
-//                String currentDescription = (idColumnIndex >= 0) ? cursor.getString(descriptionColumnIndex) : "Null";
-//
-//                displayTextView.append(("\n" + currentId + " - " +
-//                        currentName + " - " +
-//                        currentYear + " - " +
-//                        currentCountry + " - " +
-//                        currentGanre + " - " +
-//                        currentActor + " - " +
-//                        currentProducer + " - " +
-//                        currentImdb + " - " +
-//                        currentKinopoisk + " - " +
-//                        currentWant + " - " +
-//                        currentDescription));
-//            }
-//        }
-//    }
-
     // search
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -252,9 +176,6 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             Intent intent = new Intent(MainActivity.this, MainActivitySerias.class);
             startActivity(intent);
-//            AlertDialog dialog = DialogScreen.getDialog(this);
-//            dialog.show();
-//            initSettings(dialog);
 
         }
 

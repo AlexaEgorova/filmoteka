@@ -1,11 +1,13 @@
 package com.example.filmoteka
 
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import data.CountriesContract.Countries
 import data.FilmraryDbHelper
 import data.FilmsContract.Films
 import kotlinx.android.synthetic.main.activity_film_info_editor.*
@@ -30,6 +32,7 @@ class FilmInfoEditor : AppCompatActivity() {
         setupGenreSpinner()
         setupActorSpinner()
         setupProducerSpinner()
+        setupCountrySpinner()
         setupYearSpinner()
 
         imdb_edit_text.setText(intent.getStringExtra(Films.COLUMN_IMDB))
@@ -47,6 +50,22 @@ class FilmInfoEditor : AppCompatActivity() {
 
         link_edit_text.setText(intent.getStringExtra(Films.COLUMN_LINK))
         description_edit_text.setText(intent.getStringExtra(Films.COLUMN_DESCRIPTION))
+    }
+
+    private fun setupCountrySpinner() {
+        val db: SQLiteDatabase = FilmraryDbHelper.getInstance(this).readableDatabase
+        val text = "SELECT * FROM ${Countries.TABLE_NAME}"
+        val countries = ArrayList<String>()
+        countries.add(" - ")
+        db.rawQuery(text, null).use { cursor ->
+            if (cursor.count != 0) {
+                while (cursor.moveToNext()) {
+                    countries.add(cursor.getString(1))
+                }
+            }
+            val adapter: ArrayAdapter<String> = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, countries)
+            country_spinner.adapter = adapter
+        }
     }
 
     private fun setupGenreSpinner() {
