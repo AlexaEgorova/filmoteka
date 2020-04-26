@@ -9,16 +9,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 
+import android.text.TextUtils;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import data.CountriesContract;
 import data.FilmsContract;
 import data.FilmsContract.Films;
 import data.FilmraryDbHelper;
@@ -45,12 +49,9 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<String> listItem;
     ArrayAdapter<String> adapter;
-    ListView moviesListView;
 
-    ArrayList<String> countries;
-    ArrayList<String> ganres;
-    ArrayList<String> actors;
-    ArrayList<String> producers;
+    ListView tablesListView;
+    Spinner fTablesSpinner;
 
     // main window
     @Override
@@ -59,27 +60,44 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        // all movies are showed in moviesListView as a list with clickable elements
-        moviesListView = findViewById(R.id.movies_list_view);
 
+        // all movies are showed in tablesListView as a list with clickable elements
+        tablesListView = findViewById(R.id.tables_list_view);
+        fTablesSpinner = findViewById(R.id.tables_spinner);
+        setupTablesSpinner();
 
         // for work with db
         vDbHelper = FilmraryDbHelper.getInstance(this);
 
-        // Вроде сделал todo_: fill setupSpinner() voids
-        //todo: each Array List should be filled with info from table with same name (actors from Actors)
         listItem = new ArrayList<>();
-        countries = new ArrayList<>();
-        ganres = new ArrayList<>();
-        actors = new ArrayList<>();
-        producers = new ArrayList<>();
 
+        fTablesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selection = (String)parentView.getItemAtPosition(position);
+                if(!TextUtils.isEmpty(selection)) {
+                    if (selection.equals("Фильмы")) {
+                        listItem.clear();
+                        viewTableData(Films.TABLE_NAME);
+                    } else { //if (selection.equals("Страны"))
+                        listItem.clear();
+                        viewTableData(CountriesContract.Countries.TABLE_NAME);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                viewTableData(Films.TABLE_NAME);
+            }
+
+        });
         // to show the list of movies
-        viewMovies();
+        //viewTableData();
 
-        moviesListView.setOnItemClickListener((parent, view, position, id) -> {
+        tablesListView.setOnItemClickListener((parent, view, position, id) -> {
             Intent intent = new Intent(MainActivity.this, FilmInfo.class);
-            String film = (String) moviesListView.getItemAtPosition(position);
+            String film = (String) tablesListView.getItemAtPosition(position);
             String[] filmString = searchMovieByName(film);
             for (int i = 0; i < Films.COLUMNS.length; ++i) {
                 intent.putExtra(Films.COLUMNS[i], filmString[i]);
@@ -97,9 +115,21 @@ public class MainActivity extends AppCompatActivity {
                                      want,
                                      description, link, vDbHelper);
             listItem.clear();
-            viewMovies();
+            fTablesSpinner.setSelection(0);
+            viewTableData(Films.TABLE_NAME);
         }
         fromEditor = false;
+    }
+
+    private void setupTablesSpinner() {
+        //todo: add genres
+        //todo: add producers
+        //todo: add actors
+        //todo: add want_to_watch
+        //todo: add watched
+        String[] tables = {"Фильмы", "Страны"};
+        fTablesSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, tables));
+        fTablesSpinner.setSelection(0);
     }
 
     private void parseIntentWithFilm(Intent intent) {
@@ -158,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this,
                                                                   android.R.layout.simple_list_item_1,
                                                                   moviesList);
-                moviesListView.setAdapter(adapter);
+                tablesListView.setAdapter(adapter);
                 return false;
             }
         });
@@ -186,9 +216,9 @@ public class MainActivity extends AppCompatActivity {
     // add data
 
     // show data in ListView
-    public void viewMovies() {
+    public void viewTableData(String tableName) {
         SQLiteDatabase db = vDbHelper.getReadableDatabase();
-        String query = "SELECT * FROM " + FilmsContract.Films.TABLE_NAME;
+        String query = "SELECT * FROM " + tableName;
         try (Cursor cursor = db.rawQuery(query, null)) {
 
             if (cursor.getCount() == 0) {
@@ -198,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
                     listItem.add(cursor.getString(COLUMN_NAME)); // 1 for name, 0 for index
                 }
                 adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItem);
-                moviesListView.setAdapter(adapter);
+                tablesListView.setAdapter(adapter);
             }
         }
     }
@@ -219,7 +249,7 @@ public class MainActivity extends AppCompatActivity {
                     listItem.add(cursor.getString(COLUMN_NAME)); // 1 for name, 0 for index
                 }
                 adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItem);
-                moviesListView.setAdapter(adapter);
+                tablesListView.setAdapter(adapter);
             }
         }
     }

@@ -9,11 +9,9 @@ import android.os.Bundle;
 import android.util.Log;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.MenuItemCompat;
 
 import android.view.MenuInflater;
 import android.view.View;
@@ -22,10 +20,8 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SeekBar;
 import android.widget.Toast;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -84,8 +80,8 @@ public class MainActivitySerias extends AppCompatActivity {
         setContentView(R.layout.activity_main_serias);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        // all movies are showed in moviesListView as a list with clickable elements
-        moviesListView = findViewById(R.id.movies_list_view);
+        // all movies are showed in tablesListView as a list with clickable elements
+        moviesListView = findViewById(R.id.tables_list_view);
 
         // for work with db
         vDbHelper = FilmraryDbHelper.getInstance(this);
@@ -103,32 +99,26 @@ public class MainActivitySerias extends AppCompatActivity {
 
         // waits for click on list element
         // now if it is clicked - it deletes  (no eto ne tochno)
-        // todo: on click open new intent(window) with all info about chosen movie
-        moviesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        // todo: on click open new intent(window) with all info about chosen series
+        moviesListView.setOnItemClickListener((parent, view, position, id) -> {
 //                // todo: check why doesnt't clear up immediately
 //                listItem.clear();
-//                viewMovies();
-                Intent intent = new Intent(MainActivitySerias.this, SeriasInfo.class);
-                String serias = (String) moviesListView.getItemAtPosition(position);
-                String[] seriasString = searchSeriasByName(serias);
-                for (int i = 0; i < Serias.COLUMNS.length; ++i) {
-                    intent.putExtra(Serias.COLUMNS[i], seriasString[i]);
-                }
-                startActivity(intent);
+//                viewTableData();
+            Intent intent = new Intent(MainActivitySerias.this, SeriasInfo.class);
+            String serias = (String) moviesListView.getItemAtPosition(position);
+            String[] seriasString = searchSeriasByName(serias);
+            for (int i = 0; i < Serias.COLUMNS.length; ++i) {
+                intent.putExtra(Serias.COLUMNS[i], seriasString[i]);
             }
+            startActivity(intent);
         });
 
         // add button
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // if clicked - new intent(window) opens
-                Intent intent = new Intent(MainActivitySerias.this, EditorActivitySerias.class);
-                startActivity(intent);
-            }
+        fab.setOnClickListener(view -> {
+            // if clicked - new intent(window) opens
+            Intent intent = new Intent(MainActivitySerias.this, EditorActivitySerias.class);
+            startActivity(intent);
         });
 
         Intent thisIntent = getIntent();
@@ -281,7 +271,7 @@ public class MainActivitySerias extends AppCompatActivity {
                 + " AND " + ActorsContract.Actors.COLUMN_SURNAME + " = '" + vActorSpinner.split(" ")[1] + "'";
         try (Cursor cursor = db.rawQuery(query, null)) {
             currentId = cursor.getPosition();
-            values.put(ActorSeriasContract.ActorSerias.COLUMN_ACTOR_ID, (int) currentId);
+            values.put(ActorSeriasContract.ActorSerias.COLUMN_ACTOR_ID, currentId);
             values.put(ActorSeriasContract.ActorSerias.COLUMN_SERIAS_ID, (int) newSeriasRowId);
             long newActorFilmRowId = db.insert(ActorSeriasContract.ActorSerias.TABLE_NAME, null, values);
             Log.d("addSerias", "Added ActorFilm with Row ID" + newActorFilmRowId);
@@ -292,7 +282,7 @@ public class MainActivitySerias extends AppCompatActivity {
                 + " WHERE " + CountriesContract.Countries.COLUMN_NAME + " = '" + vCountrySpinner + "'";
         try (Cursor cursor = db.rawQuery(query, null)) {
             currentId = cursor.getPosition();
-            values.put(CountrySeriasContract.CountrySerias.COLUMN_COUNTRY_ID, (int) currentId);
+            values.put(CountrySeriasContract.CountrySerias.COLUMN_COUNTRY_ID, currentId);
             values.put(CountrySeriasContract.CountrySerias.COLUMN_SERIAS_ID, (int) newSeriasRowId);
             long newCountryFilmRowId = db.insert(CountrySeriasContract.CountrySerias.TABLE_NAME, null, values);
             Log.d("addSerias", "Added CountryFilm with Row ID" + newCountryFilmRowId);
@@ -303,7 +293,7 @@ public class MainActivitySerias extends AppCompatActivity {
                 + " WHERE " + GanresContract.Ganres.COLUMN_NAME + " = '" + vGanreSpinner + "'";
         try (Cursor cursor = db.rawQuery(query, null)) {
             currentId = cursor.getPosition();
-            values.put(GanreSeriasContract.GanreSerias.COLUMN_GANRE_ID, (int) currentId);
+            values.put(GanreSeriasContract.GanreSerias.COLUMN_GANRE_ID, currentId);
             values.put(GanreSeriasContract.GanreSerias.COLUMN_SERIAS_ID, (int) newSeriasRowId);
             long newGanreFilmRowId = db.insert(GanreSeriasContract.GanreSerias.TABLE_NAME, null, values);
             Log.d("addSerias", "Added GanreFilm with Row ID" + newGanreFilmRowId);
@@ -315,7 +305,7 @@ public class MainActivitySerias extends AppCompatActivity {
                 + " AND surname = '" + vProducerSpinner.split(" ")[1] + "'";
         try (Cursor cursor = db.rawQuery(query, null)) {
             currentId = cursor.getPosition();
-            values.put(ProducerSeriasContract.ProducerSerias.COLUMN_PRODUCER_ID, (int) currentId);
+            values.put(ProducerSeriasContract.ProducerSerias.COLUMN_PRODUCER_ID, currentId);
             values.put(ProducerSeriasContract.ProducerSerias.COLUMN_SERIAS_ID, (int) newSeriasRowId);
             long newProducerFilmRowId = db.insert(ProducerSeriasContract.ProducerSerias.TABLE_NAME, null, values);
             Log.d("addSerias", "Added ProducerFilm with Row ID" + newProducerFilmRowId);
