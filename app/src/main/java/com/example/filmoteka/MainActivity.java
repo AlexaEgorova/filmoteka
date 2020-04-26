@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // for work with db
-        vDbHelper = new FilmraryDbHelper(this);
+        vDbHelper = FilmraryDbHelper.getInstance(this);
 
         // Вроде сделал todo_: fill setupSpinner() voids
         //todo: each Array List should be filled with info from table with same name (actors from Actors)

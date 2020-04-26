@@ -13,7 +13,7 @@ public class FilmraryDbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "filmrary.db";
     private static final int DATABASE_VERSION = 1;
 
-    public FilmraryDbHelper(Context context) {
+    private FilmraryDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
     }

@@ -88,7 +88,7 @@ public class MainActivitySerias extends AppCompatActivity {
         moviesListView = findViewById(R.id.movies_list_view);
 
         // for work with db
-        vDbHelper = new FilmraryDbHelper(this);
+        vDbHelper = FilmraryDbHelper.getInstance(this);
 
         // Вроде сделал todo_: fill setupSpinner() voids
         //todo: each Array List should be filled with info from table with same name (actors from Actors)
@@ -185,7 +185,7 @@ public class MainActivitySerias extends AppCompatActivity {
         inflater.inflate(R.menu.menu_main, menu);
 
         MenuItem searchItem = menu.findItem(R.id.item_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        SearchView searchView = (SearchView) searchItem.getActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
