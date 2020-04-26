@@ -44,6 +44,7 @@ public class EditorActivity extends AppCompatActivity {
     int vWant = 0;
 
     public FilmraryDbHelper vDbHelper;
+    ArrayList<String> countries;
 
     /**
      * Год премьеры, минимальное значение 1895, максимальное - текущий год.
@@ -68,6 +69,8 @@ public class EditorActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        vDbHelper = FilmraryDbHelper.getInstance(this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
@@ -149,11 +152,20 @@ public class EditorActivity extends AppCompatActivity {
         fYearSpinner.setSelection(0);
     }
 
+
     private void setupCountrySpinner() {
         SQLiteDatabase db = vDbHelper.getReadableDatabase();
         String text = "SELECT * FROM " + CountriesContract.Countries.TABLE_NAME;
+        countries = new ArrayList<>();
+        countries.add(" - ");
         try (Cursor cursor = db.rawQuery(text, null)) {
-
+            if (cursor.getCount() != 0) {
+                while (cursor.moveToNext()) {
+                    countries.add(cursor.getString(1));
+                }
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, countries);
+            fCountrySpinner.setAdapter(adapter);
         }
 //        ArrayAdapter<CharSequence> countrySpinnerAdapter = ArrayAdapter.createFromResource(this,
 //                R.array.array_country_options, android.R.layout.simple_dropdown_item_1line);

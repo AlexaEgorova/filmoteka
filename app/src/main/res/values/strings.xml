@@ -50,4 +50,10 @@
     <string name="imdb">Рейтинг IMDb</string>
     <string name="kinopoisk">Рейтинг КиноПоиск</string>
     <string name="seasonsNum">Количество сезонов</string>
+    <string name="add_new_string">Добавить новую страну</string>
+    <string name="confirm_add">Подтвердить добавление фильма</string>
+    <string name="фвв">Добавить</string>
+    <string name="add">Добавить</string>
+    <string name="country_name">Название страны</string>
+    <string name="one">1</string>
 </resources>

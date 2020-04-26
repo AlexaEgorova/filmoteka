@@ -3,6 +3,8 @@ package com.example.filmoteka;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -16,6 +18,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import data.CountriesContract;
+import data.FilmraryDbHelper;
 
 public class EditorActivitySerias extends AppCompatActivity {
 
@@ -38,9 +43,12 @@ public class EditorActivitySerias extends AppCompatActivity {
     private EditText fLinkEditText;
     private EditText fDescriptionEditText;
 
+    ArrayList<String> countries;
+
     String vCountry;
     int vWant = 0;
     int vState  = 0;
+    FilmraryDbHelper vDbHelper;
 
     /**
      * Год премьеры, минимальное значение 1895, максимальное - текущий год.
@@ -65,6 +73,8 @@ public class EditorActivitySerias extends AppCompatActivity {
         fWatchedRadioButton = findViewById(R.id.radio_watched);
         fLinkEditText = findViewById(R.id.link_edit_text);
         fDescriptionEditText = findViewById(R.id.description_edit_text);
+
+
     }
 
     @Override
@@ -74,6 +84,7 @@ public class EditorActivitySerias extends AppCompatActivity {
         setContentView(R.layout.activity_editor_serias);
 
         findViews();
+        vDbHelper = FilmraryDbHelper.getInstance(this);
 
         vWant = checkRadioButtons();
 
@@ -88,8 +99,8 @@ public class EditorActivitySerias extends AppCompatActivity {
         addCountryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String text = "This button will add country in future";
-                Toast.makeText(EditorActivitySerias.this, "" + text, Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(EditorActivitySerias.this, AddCountry.class);
+                startActivity(intent);
             }
         });
 
@@ -196,36 +207,19 @@ public class EditorActivitySerias extends AppCompatActivity {
     }
 
     private void setupCountrySpinner() {
-        ArrayAdapter<CharSequence> countrySpinnerAdapter = ArrayAdapter.createFromResource(this,
-                R.array.array_country_options, android.R.layout.simple_dropdown_item_1line);
-
-        countrySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-
-        fCountrySpinner.setAdapter(countrySpinnerAdapter);
-        fCountrySpinner.setSelection(1);
-
-        fCountrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selection = (String) parent.getItemAtPosition(position);
-                if (!TextUtils.isEmpty(selection)) {
-                    if (selection.equals(getString(R.string.russia_country))) {
-                        vCountry = "Россия";
-                    } else if (selection.equals(getString(R.string.usa_country))) {
-                        vCountry = "США";
-                    } else if (selection.equals(getString(R.string.france_country))) {
-                        vCountry = "Франция";
-                    } else {
-                        vCountry = "Неизвестно";
-                    }
+        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        String text = "SELECT * FROM " + CountriesContract.Countries.TABLE_NAME;
+        countries = new ArrayList<>();
+        countries.add(" - ");
+        try (Cursor cursor = db.rawQuery(text, null)) {
+            if (cursor.getCount() != 0) {
+                while (cursor.moveToNext()) {
+                    countries.add(cursor.getString(1));
                 }
             }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                vCountry = "Неизвестно";
-            }
-        });
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, countries);
+            fCountrySpinner.setAdapter(adapter);
+        }
     }
 
     private void setupGanreSpinner() {
