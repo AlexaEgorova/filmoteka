@@ -124,6 +124,16 @@ public class EditorActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button addCountryButton = findViewById(R.id.add_country_button);
+        addCountryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(EditorActivity.this, AddCountry.class);
+                intent.putExtra("name", this.getClass().getSimpleName().toString());
+                startActivity(intent);
+            }
+        });
     }
 
     public void onClick(View view) {
@@ -224,7 +234,5 @@ public class EditorActivity extends AppCompatActivity {
     private String selectAllFromTableWhere(String TABLE_NAME, String COLUMN_NAME, String equalTo) {
         return String.format("SELECT * FROM %s WHERE %s = '%s'", TABLE_NAME, COLUMN_NAME, equalTo);
     }
-
-
 
 }

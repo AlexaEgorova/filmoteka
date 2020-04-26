@@ -26,6 +26,9 @@ public class AddCountry extends AppCompatActivity{
 
     protected void onCreate(Bundle savedInstanceState) {
 
+        Intent fromIntent = getIntent();
+        String fromActivityName = fromIntent.getStringExtra("name");
+
         vDbHelper = FilmraryDbHelper.getInstance(this);
 
         super.onCreate(savedInstanceState);
@@ -44,7 +47,11 @@ public class AddCountry extends AppCompatActivity{
             // а чё делать, если фильм не добавлен? пока давай оставаться на странице..
             boolean added = addCountry(vAddCountryEditText);
             if (added) {
-                Intent intent = new Intent(AddCountry.this, EditorActivitySerias.class);
+                Intent intent;
+                if (fromActivityName.equalsIgnoreCase(".EditorActivity"))
+                    intent = new Intent(AddCountry.this, EditorActivity.class);
+                else //if (fromActivityName.equalsIgnoreCase("EditorActivitySerias"))
+                    intent = new Intent(AddCountry.this, EditorActivitySerias.class);
                 startActivity(intent);
             }
         });

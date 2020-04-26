@@ -261,14 +261,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    private void initSettings(AlertDialog dialog) {
-//        // Определяем SeekBar и привязываем к нему дельты настроек
-//        SeekBar sb_sense = (SeekBar) dialog.findViewById(R.id.seekSense);
-//        SeekBar sb_vol = (SeekBar) dialog.findViewById(R.id.seekVol);
-//        // Задаем этим SeekBar текущие значения настроек
-//        sb_sense.setProgress(76);
-//        sb_vol.setProgress(11);
-//    }
 
     // add data
 

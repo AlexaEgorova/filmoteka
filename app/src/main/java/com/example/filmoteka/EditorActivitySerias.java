@@ -100,6 +100,7 @@ public class EditorActivitySerias extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(EditorActivitySerias.this, AddCountry.class);
+                intent.putExtra("name", this.getClass().getSimpleName());
                 startActivity(intent);
             }
         });
