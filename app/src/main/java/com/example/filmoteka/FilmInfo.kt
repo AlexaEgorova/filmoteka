@@ -49,7 +49,7 @@ class FilmInfo : AppCompatActivity() {
         val filmId = intent.getStringExtra(Films._ID)
         val db = FilmraryDbHelper.getInstance(this).writableDatabase
         val deleted = db.delete(Films.TABLE_NAME, "${Films._ID} = $filmId", null)
-        Log.d("filmEditDeleteMovies", "Deleted $deleted rows", null)
+        Log.d("filmInfoDeleteMovies", "Deleted $deleted rows", null)
         intent.setClass(this, MainActivity::class.java)
         startActivity(intent)
         this.finish()
