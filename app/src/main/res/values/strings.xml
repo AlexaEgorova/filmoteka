@@ -56,4 +56,5 @@
     <string name="add">Добавить</string>
     <string name="country_name">Название страны</string>
     <string name="one">1</string>
+    <string name="film_edit_plus">+</string>
 </resources>
