@@ -25,6 +25,8 @@ class FilmInfo : AppCompatActivity() {
         appendText(filmDescription, readField(FilmsContract.Films.COLUMN_DESCRIPTION, intent))
     }
 
+    //todo: показывать трейлер по переданной ссылке (либо прямо сюда вставить плеер, либо перебрасывать в интернет)
+
     private fun appendText(field: TextView, text: String): Unit = field.append(" $text")
     private fun readField(field: String, intent: Intent) = intent.getStringExtra(field).toString()
     private fun getFirstPart(textField: TextView) = textField.text.toString().substringBefore(" ")

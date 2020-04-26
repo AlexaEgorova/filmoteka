@@ -3,6 +3,8 @@ package com.example.filmoteka;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,6 +15,9 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import data.CountriesContract;
+import data.FilmraryDbHelper;
 import data.FilmsContract;
 
 import java.util.ArrayList;
@@ -37,6 +42,8 @@ public class EditorActivity extends AppCompatActivity {
 
     String vCountry;
     int vWant = 0;
+
+    public FilmraryDbHelper vDbHelper;
 
     /**
      * Год премьеры, минимальное значение 1895, максимальное - текущий год.
@@ -143,36 +150,41 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void setupCountrySpinner() {
-        ArrayAdapter<CharSequence> countrySpinnerAdapter = ArrayAdapter.createFromResource(this,
-                R.array.array_country_options, android.R.layout.simple_dropdown_item_1line);
+        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        String text = "SELECT * FROM " + CountriesContract.Countries.TABLE_NAME;
+        try (Cursor cursor = db.rawQuery(text, null)) {
 
-        countrySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-
-        fCountrySpinner.setAdapter(countrySpinnerAdapter);
-        fCountrySpinner.setSelection(1);
-
-        fCountrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selection = (String) parent.getItemAtPosition(position);
-                if (!TextUtils.isEmpty(selection)) {
-                    if (selection.equals(getString(R.string.russia_country))) {
-                        vCountry = "Россия";
-                    } else if (selection.equals(getString(R.string.usa_country))) {
-                        vCountry = "США";
-                    } else if (selection.equals(getString(R.string.france_country))) {
-                        vCountry = "Франция";
-                    } else {
-                        vCountry = "Неизвестно";
-                    }
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                vCountry = "Неизвестно";
-            }
-        });
+        }
+//        ArrayAdapter<CharSequence> countrySpinnerAdapter = ArrayAdapter.createFromResource(this,
+//                R.array.array_country_options, android.R.layout.simple_dropdown_item_1line);
+//
+//        countrySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+//
+//        fCountrySpinner.setAdapter(countrySpinnerAdapter);
+//        fCountrySpinner.setSelection(1);
+//
+//        fCountrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                String selection = (String) parent.getItemAtPosition(position);
+//                if (!TextUtils.isEmpty(selection)) {
+//                    if (selection.equals(getString(R.string.russia_country))) {
+//                        vCountry = "Россия";
+//                    } else if (selection.equals(getString(R.string.usa_country))) {
+//                        vCountry = "США";
+//                    } else if (selection.equals(getString(R.string.france_country))) {
+//                        vCountry = "Франция";
+//                    } else {
+//                        vCountry = "Неизвестно";
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//                vCountry = "Неизвестно";
+//            }
+//        });
     }
 
     private void setupGanreSpinner() {
@@ -196,4 +208,11 @@ public class EditorActivity extends AppCompatActivity {
         fProducerSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, producer));
         fProducerSpinner.setSelection(0);
     }
+
+    private String selectAllFromTableWhere(String TABLE_NAME, String COLUMN_NAME, String equalTo) {
+        return String.format("SELECT * FROM %s WHERE %s = '%s'", TABLE_NAME, COLUMN_NAME, equalTo);
+    }
+
+
+
 }

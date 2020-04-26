@@ -238,6 +238,9 @@ public class MainActivitySerias extends AppCompatActivity {
     // todo: добавить многострочность для больших полей (описание)
     // todo: в Инфо сделать что-то типа "Посмотреть каст" и туда жахнуть запросом таблицу атеров
     // todo: сделать нечувствительными к регистру все поля
+    // todo: расшарить все функции для фильмов на сериалы
+    // todo: заменить редактируемый возраст на стандартный в spinner'e
+    // todo: сделать сортировку таблиц
 
     // add data
     private void addSerias(String vNameEditText, String vStartYearSpinner,

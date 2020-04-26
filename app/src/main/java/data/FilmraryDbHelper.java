@@ -7,6 +7,7 @@ import android.util.Log;
 
 
 public class FilmraryDbHelper extends SQLiteOpenHelper {
+    private static FilmraryDbHelper instance = null;
 
     public static final String LOG_TAG = FilmraryDbHelper.class.getSimpleName();
     private static final String DATABASE_NAME = "filmrary.db";
@@ -14,6 +15,16 @@ public class FilmraryDbHelper extends SQLiteOpenHelper {
 
     public FilmraryDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
+    }
+
+    private Context context;
+
+    public static FilmraryDbHelper getInstance(Context context) {
+        if (instance == null) {
+            instance = new FilmraryDbHelper(context.getApplicationContext());
+        }
+        return instance;
     }
 
     @Override
