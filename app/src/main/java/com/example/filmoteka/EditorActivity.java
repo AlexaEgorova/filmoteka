@@ -86,53 +86,47 @@ public class EditorActivity extends AppCompatActivity {
         setupProducerSpinner();
 
         Button addMovieButton = findViewById(R.id.add_button);
-        addMovieButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String vNameEditText = fNameEditText.getText().toString();
-                String vYearSpinner = fYearSpinner.getSelectedItem().toString();
-                String vCountrySpinner = fCountrySpinner.getSelectedItem().toString();
-                String vGenreSpinner = fGanreSpinner.getSelectedItem().toString();
-                String vAgeText = fAgeEditText.getText().toString();
-                String vActorSpinner = fActorSpinner.getSelectedItem().toString();
-                String vProducerSpinner = fProducerSpinner.getSelectedItem().toString();
-                String vImbdEditText = fImbdEditText.getText().toString();
-                String vKinopoiskEditText = fKinopoiskEditText.getText().toString();
-                String vWantRadioGroup = Integer.toString(vWant);
-                String vLinkText = fLinkEditText.getText().toString();
-                String vDescriptionEditText = fDescriptionEditText.getText().toString();
+        addMovieButton.setOnClickListener(view -> {
+            String vNameEditText = fNameEditText.getText().toString();
+            String vYearSpinner = fYearSpinner.getSelectedItem().toString();
+            String vCountrySpinner = fCountrySpinner.getSelectedItem().toString();
+            String vGenreSpinner = fGanreSpinner.getSelectedItem().toString();
+            String vAgeText = fAgeEditText.getText().toString();
+            String vActorSpinner = fActorSpinner.getSelectedItem().toString();
+            String vProducerSpinner = fProducerSpinner.getSelectedItem().toString();
+            String vImbdEditText = fImbdEditText.getText().toString();
+            String vKinopoiskEditText = fKinopoiskEditText.getText().toString();
+            String vWantRadioGroup = Integer.toString(vWant);
+            String vLinkText = fLinkEditText.getText().toString();
+            String vDescriptionEditText = fDescriptionEditText.getText().toString();
 
-                if (vNameEditText.isEmpty() || vImbdEditText.isEmpty() || vKinopoiskEditText.isEmpty()) {
-                    Toast.makeText(EditorActivity.this, "Some fields are empty!", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                Intent intent = new Intent(EditorActivity.this, MainActivity.class);
-                intent.putExtra(FilmsContract.Films.COLUMN_NAME, vNameEditText);
-                intent.putExtra(FilmsContract.Films.COLUMN_YEAR, vYearSpinner);
-                intent.putExtra(FilmsContract.Films.COLUMN_COUNTRY, vCountrySpinner);
-                intent.putExtra(FilmsContract.Films.COLUMN_GANRE, vGenreSpinner);
-                intent.putExtra(FilmsContract.Films.COLUMN_ACTOR, vActorSpinner);
-                intent.putExtra(FilmsContract.Films.COLUMN_AGE, vAgeText);
-                intent.putExtra(FilmsContract.Films.COLUMN_PRODUCER, vProducerSpinner);
-                intent.putExtra(FilmsContract.Films.COLUMN_IMDB, vImbdEditText);
-                intent.putExtra(FilmsContract.Films.COLUMN_KINOPOISK, vKinopoiskEditText);
-                intent.putExtra(FilmsContract.Films.COLUMN_WANT, vWantRadioGroup);
-                intent.putExtra(FilmsContract.Films.COLUMN_LINK, vLinkText);
-                intent.putExtra(FilmsContract.Films.COLUMN_DESCRIPTION, vDescriptionEditText);
-                intent.putExtra("fromEditor", true);
-                startActivity(intent);
+            if (vNameEditText.isEmpty() || vImbdEditText.isEmpty() || vKinopoiskEditText.isEmpty()) {
+                Toast.makeText(EditorActivity.this, "Some fields are empty!", Toast.LENGTH_LONG).show();
+                return;
             }
+
+            Intent intent = new Intent(EditorActivity.this, MainActivity.class);
+            intent.putExtra(FilmsContract.Films.COLUMN_NAME, vNameEditText);
+            intent.putExtra(FilmsContract.Films.COLUMN_YEAR, vYearSpinner);
+            intent.putExtra(FilmsContract.Films.COLUMN_COUNTRY, vCountrySpinner);
+            intent.putExtra(FilmsContract.Films.COLUMN_GANRE, vGenreSpinner);
+            intent.putExtra(FilmsContract.Films.COLUMN_ACTOR, vActorSpinner);
+            intent.putExtra(FilmsContract.Films.COLUMN_AGE, vAgeText);
+            intent.putExtra(FilmsContract.Films.COLUMN_PRODUCER, vProducerSpinner);
+            intent.putExtra(FilmsContract.Films.COLUMN_IMDB, vImbdEditText);
+            intent.putExtra(FilmsContract.Films.COLUMN_KINOPOISK, vKinopoiskEditText);
+            intent.putExtra(FilmsContract.Films.COLUMN_WANT, vWantRadioGroup);
+            intent.putExtra(FilmsContract.Films.COLUMN_LINK, vLinkText);
+            intent.putExtra(FilmsContract.Films.COLUMN_DESCRIPTION, vDescriptionEditText);
+            intent.putExtra("fromEditor", true);
+            startActivity(intent);
         });
 
         Button addCountryButton = findViewById(R.id.add_country_button);
-        addCountryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(EditorActivity.this, AddCountry.class);
-                intent.putExtra("name", this.getClass().getSimpleName().toString());
-                startActivity(intent);
-            }
+        addCountryButton.setOnClickListener(view -> {
+            Intent intent = new Intent(EditorActivity.this, AddCountry.class);
+            intent.putExtra("name", "editor");
+            startActivity(intent);
         });
     }
 

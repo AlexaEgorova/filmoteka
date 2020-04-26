@@ -48,9 +48,9 @@ public class AddCountry extends AppCompatActivity{
             boolean added = addCountry(vAddCountryEditText);
             if (added) {
                 Intent intent;
-                if (fromActivityName.equalsIgnoreCase(".EditorActivity"))
+                if (fromActivityName.equalsIgnoreCase("editor"))
                     intent = new Intent(AddCountry.this, EditorActivity.class);
-                else //if (fromActivityName.equalsIgnoreCase("EditorActivitySerias"))
+                else //if (fromActivityName.equalsIgnoreCase("editorSerias"))
                     intent = new Intent(AddCountry.this, EditorActivitySerias.class);
                 startActivity(intent);
             }

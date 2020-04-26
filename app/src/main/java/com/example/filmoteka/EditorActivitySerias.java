@@ -96,93 +96,78 @@ public class EditorActivitySerias extends AppCompatActivity {
         setupProducerSpinner();
 
         Button addCountryButton = findViewById(R.id.add_country_button);
-        addCountryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(EditorActivitySerias.this, AddCountry.class);
-                intent.putExtra("name", this.getClass().getSimpleName());
-                startActivity(intent);
-            }
+        addCountryButton.setOnClickListener(view -> {
+            Intent intent = new Intent(EditorActivitySerias.this, AddCountry.class);
+            intent.putExtra("name", "editorSerias");
+            startActivity(intent);
         });
 
         Button addGanreButton = findViewById(R.id.add_ganre_button);
-        addGanreButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String text = "This button will add genre in future";
-                Toast.makeText(EditorActivitySerias.this, "" + text, Toast.LENGTH_LONG).show();
-            }
+        addGanreButton.setOnClickListener(view -> {
+            String text = "This button will add genre in future";
+            Toast.makeText(EditorActivitySerias.this, "" + text, Toast.LENGTH_LONG).show();
         });
 
         Button addActorButton = findViewById(R.id.add_actor_button);
-        addActorButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String text = "This button will add actor in future";
-                Toast.makeText(EditorActivitySerias.this, "" + text, Toast.LENGTH_LONG).show();
-            }
+        addActorButton.setOnClickListener(view -> {
+            String text = "This button will add actor in future";
+            Toast.makeText(EditorActivitySerias.this, "" + text, Toast.LENGTH_LONG).show();
         });
 
         Button addProducerButton = findViewById(R.id.add_producer_button);
-        addProducerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String text = "This button will add producer in future";
-                Toast.makeText(EditorActivitySerias.this, "" + text, Toast.LENGTH_LONG).show();
-            }
+        addProducerButton.setOnClickListener(view -> {
+            String text = "This button will add producer in future";
+            Toast.makeText(EditorActivitySerias.this, "" + text, Toast.LENGTH_LONG).show();
         });
 
         Button addMovieButton = findViewById(R.id.add_button);
-        addMovieButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String vNameEditText = fNameEditText.getText().toString();
-                String vStartYearSpinner = fStartYearSpinner.getSelectedItem().toString();
-                String vSeasonsNumEditText = fSeasonsNumEditText.getText().toString();
-                String vEpDurationEditText = fEpDurationEditText.getText().toString();
-                String vEpInSeasonNumEditText = fEpInSeasonNumEditText.getText().toString();
-                String vStateSpinner = fStateSpinner.getSelectedItem().toString();
-                String vCountrySpinner = fCountrySpinner.getSelectedItem().toString();
-                String vAgeEditText = fAgeEditText.getText().toString();
-                String vGenreSpinner = fGanreSpinner.getSelectedItem().toString();
-                String vActorSpinner = fActorSpinner.getSelectedItem().toString();
-                String vProducerSpinner = fProducerSpinner.getSelectedItem().toString();
-                String vImbdEditText = fImbdEditText.getText().toString();
-                String vKinopoiskEditText = fKinopoiskEditText.getText().toString();
-                String vWantRadioGroup = Integer.toString(vWant);
-                String vLinkEditText = fLinkEditText.getText().toString();
-                String vDescriptionEditText = fDescriptionEditText.getText().toString();
+        addMovieButton.setOnClickListener(view -> {
+            String vNameEditText = fNameEditText.getText().toString();
+            String vStartYearSpinner = fStartYearSpinner.getSelectedItem().toString();
+            String vSeasonsNumEditText = fSeasonsNumEditText.getText().toString();
+            String vEpDurationEditText = fEpDurationEditText.getText().toString();
+            String vEpInSeasonNumEditText = fEpInSeasonNumEditText.getText().toString();
+            String vStateSpinner = fStateSpinner.getSelectedItem().toString();
+            String vCountrySpinner = fCountrySpinner.getSelectedItem().toString();
+            String vAgeEditText = fAgeEditText.getText().toString();
+            String vGenreSpinner = fGanreSpinner.getSelectedItem().toString();
+            String vActorSpinner = fActorSpinner.getSelectedItem().toString();
+            String vProducerSpinner = fProducerSpinner.getSelectedItem().toString();
+            String vImbdEditText = fImbdEditText.getText().toString();
+            String vKinopoiskEditText = fKinopoiskEditText.getText().toString();
+            String vWantRadioGroup = Integer.toString(vWant);
+            String vLinkEditText = fLinkEditText.getText().toString();
+            String vDescriptionEditText = fDescriptionEditText.getText().toString();
 
-                if (vNameEditText.isEmpty() || vImbdEditText.isEmpty() || vKinopoiskEditText.isEmpty()) {
-                    Toast.makeText(EditorActivitySerias.this, "Some fields are empty!", Toast.LENGTH_LONG).show();
-                    return;
-                }
+            if (vNameEditText.isEmpty() || vImbdEditText.isEmpty() || vKinopoiskEditText.isEmpty()) {
+                Toast.makeText(EditorActivitySerias.this, "Some fields are empty!", Toast.LENGTH_LONG).show();
+                return;
+            }
 
-    //    public final static String[] COLUMNS = {_ID, COLUMN_NAME, COLUMN_START_YEAR,
+//    public final static String[] COLUMNS = {_ID, COLUMN_NAME, COLUMN_START_YEAR,
 //            COLUMN_SEASONS_NUM, COLUMN_EP_DURATION, COLUMN_EP_IN_SEASON_NUM, COLUMN_STATE,
 //            COLUMN_COUNTRY, COLUMN_AGE, COLUMN_GANRE, COLUMN_ACTOR, COLUMN_PRODUCER,
 //            COLUMN_IMDB, COLUMN_KINOPOISK, COLUMN_WANT, COLUMN_LINK, COLUMN_DESCRIPTION};
 
-                Intent intent = new Intent(EditorActivitySerias.this, MainActivitySerias.class);
-                intent.putExtra("name", vNameEditText);
-                intent.putExtra("start_year", vStartYearSpinner);
-                intent.putExtra("seasons_num", vSeasonsNumEditText);
-                intent.putExtra("ep_duration", vEpDurationEditText);
-                intent.putExtra("ep_in_season_num", vEpInSeasonNumEditText);
-                intent.putExtra("state", vStateSpinner);
-                intent.putExtra("country", vCountrySpinner);
-                intent.putExtra("age",  vAgeEditText);
-                intent.putExtra("genre", vGenreSpinner);
-                intent.putExtra("actor", vActorSpinner);
-                intent.putExtra("producer", vProducerSpinner);
-                intent.putExtra("imdb", vImbdEditText);
-                intent.putExtra("kinopoisk", vKinopoiskEditText);
-                intent.putExtra("want", vWantRadioGroup);
-                intent.putExtra("link", vLinkEditText);
-                intent.putExtra("description", vDescriptionEditText);
-                intent.putExtra("fromEditor", true);
-                startActivity(intent);
-            }
+            Intent intent = new Intent(EditorActivitySerias.this, MainActivitySerias.class);
+            intent.putExtra("name", vNameEditText);
+            intent.putExtra("start_year", vStartYearSpinner);
+            intent.putExtra("seasons_num", vSeasonsNumEditText);
+            intent.putExtra("ep_duration", vEpDurationEditText);
+            intent.putExtra("ep_in_season_num", vEpInSeasonNumEditText);
+            intent.putExtra("state", vStateSpinner);
+            intent.putExtra("country", vCountrySpinner);
+            intent.putExtra("age",  vAgeEditText);
+            intent.putExtra("genre", vGenreSpinner);
+            intent.putExtra("actor", vActorSpinner);
+            intent.putExtra("producer", vProducerSpinner);
+            intent.putExtra("imdb", vImbdEditText);
+            intent.putExtra("kinopoisk", vKinopoiskEditText);
+            intent.putExtra("want", vWantRadioGroup);
+            intent.putExtra("link", vLinkEditText);
+            intent.putExtra("description", vDescriptionEditText);
+            intent.putExtra("fromEditor", true);
+            startActivity(intent);
         });
     }
 
