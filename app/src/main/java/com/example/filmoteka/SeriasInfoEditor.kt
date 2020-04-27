@@ -14,7 +14,6 @@ import data.FilmraryDbHelper
 import data.GanresContract
 import data.ProducersContract
 import data.SeriasContract.Serias
-import kotlinx.android.synthetic.main.activity_info_serias.*
 import kotlinx.android.synthetic.main.activity_serias_info_editor.*
 import java.util.*
 
@@ -35,8 +34,8 @@ class SeriasInfoEditor : AppCompatActivity() {
         year_spinner.setSelection(intent.getIntExtra(Serias.COLUMN_START_YEAR, currentYear) - currentYear)
 
         seasons_num_edit_text.setText(intent.getStringExtra(Serias.COLUMN_SEASONS_NUM))
-        series_info_episodes_a_season.text = intent.getStringExtra(Serias.COLUMN_EP_IN_SEASON_NUM)
-        series_info_episode_length.text = intent.getStringExtra(Serias.COLUMN_EP_DURATION)
+        ep_in_season_edit_text.setText(intent.getStringExtra(Serias.COLUMN_EP_IN_SEASON_NUM))
+        ep_duration_edit_text.setText(intent.getStringExtra(Serias.COLUMN_EP_DURATION))
 
         setupStateSpinner()
         setupGenreSpinner()
@@ -203,35 +202,16 @@ class SeriasInfoEditor : AppCompatActivity() {
             return
         }
 
-        val intent = Intent(this, MainActivitySerias::class.java)
-        intent.putExtra(Serias.COLUMN_NAME, vNameEditText)
-        intent.putExtra(Serias.COLUMN_START_YEAR, vStartYearSpinner)
-        intent.putExtra(Serias.COLUMN_SEASONS_NUM, vSeasonsNumEditText)
-        intent.putExtra(Serias.COLUMN_EP_DURATION, vEpDurationEditText)
-        intent.putExtra(Serias.COLUMN_EP_IN_SEASON_NUM, vEpInSeasonNumEditText)
-        intent.putExtra(Serias.COLUMN_STATE, vStateSpinner)
-        intent.putExtra(Serias.COLUMN_COUNTRY, vCountrySpinner)
-        intent.putExtra(Serias.COLUMN_AGE, vAgeEditText)
-        intent.putExtra(Serias.COLUMN_GANRE, vGenreSpinner)
-        intent.putExtra(Serias.COLUMN_ACTOR, vActorSpinner)
-        intent.putExtra(Serias.COLUMN_PRODUCER, vProducerSpinner)
-        intent.putExtra(Serias.COLUMN_IMDB, vImdbEditText)
-        intent.putExtra(Serias.COLUMN_KINOPOISK, vKinopoiskEditText)
-        intent.putExtra(Serias.COLUMN_WANT, vWantRadioGroup)
-        intent.putExtra(Serias.COLUMN_LINK, vLinkEditText)
-        intent.putExtra(Serias.COLUMN_DESCRIPTION, vDescriptionEditText)
-        intent.putExtra("fromEditor", true)
-
-        val filmId = intent.getStringExtra(Serias._ID)
+        val seriesId = intent.getStringExtra(Serias._ID)
         val db = FilmraryDbHelper.getInstance(this).writableDatabase
-        val deleted = db.delete(Serias.TABLE_NAME, "${Serias._ID} = $filmId", null)
-        Log.d("filmEditDeleteMovies", "Deleted $deleted rows", null)
+        val deleted = db.delete(Serias.TABLE_NAME, "${Serias._ID} = $seriesId", null)
+        Log.d("seriesEditDeleteMovies", "Deleted $deleted rows", null)
 
         CommonFunctions.addSerias(vNameEditText, vStartYearSpinner, vSeasonsNumEditText, vEpDurationEditText,
                 vEpInSeasonNumEditText, vStateSpinner, vCountrySpinner, vAgeEditText, vGenreSpinner, vActorSpinner,
                 vProducerSpinner, vImdbEditText, vKinopoiskEditText, vWantRadioGroup, vLinkEditText,
                 vDescriptionEditText, FilmraryDbHelper.getInstance(this))
-        intent.setClass(this, MainActivity::class.java)
+        intent.setClass(this, MainActivitySerias::class.java)
         startActivity(intent)
         finish()
     }
