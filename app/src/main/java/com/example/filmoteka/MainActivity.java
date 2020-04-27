@@ -102,11 +102,11 @@ public class MainActivity extends AppCompatActivity {
                         tableSpinnerMode = GENRES;
                     }  else if (selection.equalsIgnoreCase("хочу посмотреть")) {
                         listItem.clear();
-                        viewTableData(WantToWatchContract.WantToWatch.TABLE_NAME);
+                        viewTableDataWatch(WantToWatchContract.WantToWatch.TABLE_NAME);
                         tableSpinnerMode = WANT;
                     }  else if (selection.equalsIgnoreCase("посмотрел")) {
                         listItem.clear();
-                        viewTableData(WatchedContract.Watched.TABLE_NAME);
+                        viewTableDataWatch(WatchedContract.Watched.TABLE_NAME);
                         tableSpinnerMode = WATCHED;
                     } else { //if (selection.equals("Страны"))
                         listItem.clear();
