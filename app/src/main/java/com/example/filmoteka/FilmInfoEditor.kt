@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import data.ActorsContract
 import data.CountriesContract.Countries
 import data.FilmraryDbHelper
 import data.FilmsContract.Films
@@ -123,7 +124,7 @@ class FilmInfoEditor : AppCompatActivity() {
 
     private fun setupActorSpinner() {
         val db: SQLiteDatabase = FilmraryDbHelper.getInstance(this).readableDatabase
-        val text = "SELECT * FROM ${Countries.TABLE_NAME}"
+        val text = "SELECT * FROM ${ActorsContract.Actors.TABLE_NAME}"
         val actors = ArrayList<String>()
         actors.add(" - ")
         db.rawQuery(text, null).use { cursor ->
