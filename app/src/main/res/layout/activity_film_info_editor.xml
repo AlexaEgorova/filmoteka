@@ -9,7 +9,7 @@
             android:layout_height="wrap_content"
             android:background="#7FCDD1"
             android:orientation="vertical"
-            tools:context=".EditorActivity">
+            tools:context=".FilmInfoEditor">
 
         <TextView
                 android:id="@+id/header_text_view"

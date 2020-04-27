@@ -17,8 +17,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import data.CountriesContract;
-import data.FilmraryDbHelper;
+import data.*;
 import data.SeriasContract.Serias;
 
 public class EditorActivitySerias extends AppCompatActivity {
@@ -43,6 +42,9 @@ public class EditorActivitySerias extends AppCompatActivity {
     private EditText fDescriptionEditText;
 
     ArrayList<String> countries;
+    ArrayList<String> actors;
+    ArrayList<String> producers;
+    ArrayList<String> genres;
 
     String vCountry;
     int vWant = 0;
@@ -231,25 +233,53 @@ public class EditorActivitySerias extends AppCompatActivity {
     }
 
     private void setupGanreSpinner() {
-        String[] genres = {" - ", "Боевик", "Вестерн", "Гангстерский фильм", "Детектив", "Драма", "Исторический фильм",
-                "Комедия", "Мелодрама", "Музыкальный фильм", "Нуар", "Политический фильм", "Приключенческий фильм",
-                "Сказка", "Трагедия", "Трагикомедия",};
-        fGanreSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, genres));
-        fGanreSpinner.setSelection(0);
+        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        String text = "SELECT * FROM " + GanresContract.Ganres.TABLE_NAME;
+        genres = new ArrayList<>();
+        genres.add(" - ");
+        try (Cursor cursor = db.rawQuery(text, null)) {
+            if (cursor.getCount() != 0) {
+                while (cursor.moveToNext()) {
+                    genres.add(cursor.getString(1));
+                }
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
+                                                              genres);
+            fGanreSpinner.setAdapter(adapter);
+        }
     }
 
     private void setupActorSpinner() {
-        String[] actors = {" - ", "Брэд Питт", "Алексей Панин", "Хайден Кристенсен", "Анджелина Джоли",
-                "Джет Ли", "Александр Ревва"};
-        fActorSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, actors));
-        fActorSpinner.setSelection(0);
+        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        String text = "SELECT * FROM " + ActorsContract.Actors.TABLE_NAME;
+        actors = new ArrayList<>();
+        actors.add(" - ");
+        try (Cursor cursor = db.rawQuery(text, null)) {
+            if (cursor.getCount() != 0) {
+                while (cursor.moveToNext()) {
+                    actors.add(cursor.getString(1) + " " + cursor.getString(2));
+                }
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
+                                                              actors);
+            fActorSpinner.setAdapter(adapter);
+        }
     }
 
     private void setupProducerSpinner() {
-        String[] producer = {" - ", "Джеймс Кэмерон", "Джордж Лукас", "Тим Бёртон", "Акира Куросава", "Тимур Бекмамбетов",
-                "Сарик Андреасян", "Люк Бессон"};
-        fProducerSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, producer));
-        fProducerSpinner.setSelection(0);
+        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        String text = "SELECT * FROM " + ProducersContract.Producers.TABLE_NAME;
+        producers = new ArrayList<>();
+        producers.add(" - ");
+        try (Cursor cursor = db.rawQuery(text, null)) {
+            if (cursor.getCount() != 0) {
+                while (cursor.moveToNext()) {
+                    producers.add(cursor.getString(1) + " " + cursor.getString(2));
+                }
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, producers);
+            fProducerSpinner.setAdapter(adapter);
+        }
     }
 
     private void setupStateSpinner() {

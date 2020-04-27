@@ -66,7 +66,7 @@ class SeriasInfo : AppCompatActivity() {
         Log.d("seriasInfoDeleteMovies", "Deleted $deleted rows", null)
         intent.setClass(this, MainActivitySerias::class.java)
         startActivity(intent)
-        this.finish()
+        finish()
     }
 
     fun onClickEdit(view: View) {
