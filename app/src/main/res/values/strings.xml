@@ -60,7 +60,7 @@
     <string name="films_collection">КОЛЛЕКЦИЯ ФИЛЬМОВ</string>
     <string name="series">СЕРИАЛЫ</string>
     <string name="series_name">Название сериала</string>
-    <string name="premier_year">Год премьеры</string>
+    <string name="premier_year">Год премьеры:</string>
     <string name="episodes_in_season">Эпизодов в сезоне</string>
     <string name="episode_duration">Длительность эпизода (мин)</string>
     <string name="_30">30</string>
@@ -85,4 +85,9 @@
     <string name="producer_add_hint">Добавить продюсера</string>
     <string name="add_new_genre">Добавить новый жанр</string>
     <string name="genre_name">Жанр</string>
+    <string name="editSeries">Изменить сериал</string>
+    <string name="series_info_state">Статус:</string>
+    <string name="info_seasonsNum">Количество сезонов:</string>
+    <string name="info_episodes_a_season">Эпизодов в сезоне:</string>
+    <string name="info_episode_length">Длительность эпизода:</string>
 </resources>

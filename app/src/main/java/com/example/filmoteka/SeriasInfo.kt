@@ -30,6 +30,10 @@ class SeriasInfo : AppCompatActivity() {
         appendText(seriesIMDB, readField(Serias.COLUMN_IMDB, intent))
         appendText(seriesKinopoisk, readField(Serias.COLUMN_KINOPOISK, intent))
         appendText(seriesDescription, readField(Serias.COLUMN_DESCRIPTION, intent))
+        appendText(series_info_state, readField(Serias.COLUMN_STATE, intent))
+        appendText(series_info_season_number, readField(Serias.COLUMN_SEASONS_NUM, intent))
+        appendText(series_info_episodes_a_season, readField(Serias.COLUMN_EP_IN_SEASON_NUM, intent))
+        appendText(series_info_episode_length, readField(Serias.COLUMN_EP_DURATION, intent))
 
         addPlayer(intent.getStringExtra(Serias.COLUMN_LINK).toString())
     }
@@ -48,6 +52,10 @@ class SeriasInfo : AppCompatActivity() {
         seriesIMDB.text = getFirstPart(seriesIMDB)
         seriesKinopoisk.text = getFirstPart(seriesKinopoisk)
         seriesDescription.text = getFirstPart(seriesDescription)
+        series_info_state.text = getFirstPart(series_info_state)
+        series_info_season_number.text = getFirstPart(series_info_season_number)
+        series_info_episodes_a_season.text = getFirstPart(series_info_episodes_a_season)
+        series_info_episode_length.text = getFirstPart(series_info_episode_length)
         super.onBackPressed()
     }
 

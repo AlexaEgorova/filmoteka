@@ -23,7 +23,7 @@
             android:paddingTop="20dp"
             android:paddingRight="10dp"
             android:shadowColor="#0F0F0F"
-            android:text="@string/addNewSeries"
+            android:text="@string/info_editor_header"
             android:textSize="24sp"
             app:fontFamily="sans-serif-black"/>
 

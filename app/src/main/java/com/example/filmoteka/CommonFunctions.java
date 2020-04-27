@@ -20,6 +20,7 @@ import static data.ProducerFilmContract.ProducerFilm;
 
 import static data.WatchedContract.Watched;
 import static data.WantToWatchContract.WantToWatch;
+import static data.SeriasContract.Serias;
 
 public class CommonFunctions {
     public static void addMovie(String vNameEditText,
@@ -78,6 +79,101 @@ public class CommonFunctions {
             values.put(Watched.COLUMN_DATE, Calendar.DATE);
             long newWatchedRowId = db.insert(Watched.TABLE_NAME, null, values);
             Log.d("addMovie", "Added Watched with Row ID" + newWatchedRowId);
+        }
+
+    }
+
+    public static void addSerias(String vNameEditText, String vStartYearSpinner,
+                                 String vSeasonsNumEditText, String vEpDurationEditText,
+                                 String vEpInSeasonNumEditText, String vStateSpinner,
+                                 String vCountrySpinner, String vAgeEditText, String vGanreSpinner,
+                                 String vActorSpinner, String vProducerSpinner,
+                                 String vImdbEditText, String vKinopoiskEditText,
+                                 String vWantRadioGroup, String vLinkEditText, String vDescriptionEditText,
+                                 FilmraryDbHelper vDbHelper) {
+
+        SQLiteDatabase db = vDbHelper.getWritableDatabase();
+        int currentId;
+
+        ContentValues values = new ContentValues();
+        values.put(Serias.COLUMN_NAME, vNameEditText);
+        values.put(Serias.COLUMN_START_YEAR, Integer.parseInt(vStartYearSpinner));
+        values.put(Serias.COLUMN_SEASONS_NUM, Integer.parseInt(vSeasonsNumEditText));
+        values.put(Serias.COLUMN_EP_DURATION, Integer.parseInt(vEpDurationEditText));
+        values.put(Serias.COLUMN_EP_IN_SEASON_NUM, Integer.parseInt(vEpInSeasonNumEditText));
+        values.put(Serias.COLUMN_STATE, vStateSpinner);
+        values.put(Serias.COLUMN_COUNTRY, vCountrySpinner);
+        values.put(Serias.COLUMN_AGE, Integer.parseInt(vAgeEditText));
+        values.put(Serias.COLUMN_GANRE, vGanreSpinner);
+        values.put(Serias.COLUMN_ACTOR, vActorSpinner);
+        values.put(Serias.COLUMN_PRODUCER, vProducerSpinner);
+        values.put(Serias.COLUMN_IMDB, Double.parseDouble(vImdbEditText));
+        values.put(Serias.COLUMN_KINOPOISK, Double.parseDouble(vKinopoiskEditText));
+        values.put(Serias.COLUMN_WANT, Integer.parseInt(vWantRadioGroup));
+        values.put(Serias.COLUMN_LINK, vLinkEditText);
+        values.put(Serias.COLUMN_DESCRIPTION, vDescriptionEditText);
+        long newSeriasRowId = db.insert(Serias.TABLE_NAME, null, values);
+        Log.d("addSerias", "Added film with Row ID" + newSeriasRowId);
+
+        values.clear();
+        String query = "SELECT * FROM " + ActorsContract.Actors.TABLE_NAME
+                + " WHERE " + ActorsContract.Actors.COLUMN_NAME + " = '" + vActorSpinner.split(" ")[0] + "'"
+                + " AND " + ActorsContract.Actors.COLUMN_SURNAME + " = '" + vActorSpinner.split(" ")[1] + "'";
+        try (Cursor cursor = db.rawQuery(query, null)) {
+            currentId = cursor.getPosition();
+            values.put(ActorSeriasContract.ActorSerias.COLUMN_ACTOR_ID, currentId);
+            values.put(ActorSeriasContract.ActorSerias.COLUMN_SERIAS_ID, (int) newSeriasRowId);
+            long newActorFilmRowId = db.insert(ActorSeriasContract.ActorSerias.TABLE_NAME, null, values);
+            Log.d("addSerias", "Added ActorFilm with Row ID" + newActorFilmRowId);
+        }
+
+        values.clear();
+        query = "SELECT * FROM " + CountriesContract.Countries.TABLE_NAME
+                + " WHERE " + CountriesContract.Countries.COLUMN_NAME + " = '" + vCountrySpinner + "'";
+        try (Cursor cursor = db.rawQuery(query, null)) {
+            currentId = cursor.getPosition();
+            values.put(CountrySeriasContract.CountrySerias.COLUMN_COUNTRY_ID, currentId);
+            values.put(CountrySeriasContract.CountrySerias.COLUMN_SERIAS_ID, (int) newSeriasRowId);
+            long newCountryFilmRowId = db.insert(CountrySeriasContract.CountrySerias.TABLE_NAME, null, values);
+            Log.d("addSerias", "Added CountryFilm with Row ID" + newCountryFilmRowId);
+        }
+
+        values.clear();
+        query = "SELECT * FROM " + GanresContract.Ganres.TABLE_NAME
+                + " WHERE " + GanresContract.Ganres.COLUMN_NAME + " = '" + vGanreSpinner + "'";
+        try (Cursor cursor = db.rawQuery(query, null)) {
+            currentId = cursor.getPosition();
+            values.put(GanreSeriasContract.GanreSerias.COLUMN_GANRE_ID, currentId);
+            values.put(GanreSeriasContract.GanreSerias.COLUMN_SERIAS_ID, (int) newSeriasRowId);
+            long newGanreFilmRowId = db.insert(GanreSeriasContract.GanreSerias.TABLE_NAME, null, values);
+            Log.d("addSerias", "Added GanreFilm with Row ID" + newGanreFilmRowId);
+        }
+
+        values.clear();
+        query = "SELECT * FROM " + ProducersContract.Producers.TABLE_NAME
+                + " WHERE " + ProducersContract.Producers.COLUMN_NAME + " = '" + vProducerSpinner.split(" ")[0] + "'"
+                + " AND surname = '" + vProducerSpinner.split(" ")[1] + "'";
+        try (Cursor cursor = db.rawQuery(query, null)) {
+            currentId = cursor.getPosition();
+            values.put(ProducerSeriasContract.ProducerSerias.COLUMN_PRODUCER_ID, currentId);
+            values.put(ProducerSeriasContract.ProducerSerias.COLUMN_SERIAS_ID, (int) newSeriasRowId);
+            long newProducerFilmRowId = db.insert(ProducerSeriasContract.ProducerSerias.TABLE_NAME, null, values);
+            Log.d("addSerias", "Added ProducerFilm with Row ID" + newProducerFilmRowId);
+        }
+
+        if (Integer.parseInt(vWantRadioGroup) == 1) {
+            values.clear();
+            values.put(WantToWatchSeriasContract.WantToWatchSerias.COLUMN_SERIAS_ID, (int) newSeriasRowId);
+            values.put(WantToWatchSeriasContract.WantToWatchSerias.COLUMN_ADD_DATE, Calendar.DATE);
+            long newWantToWatchRowId = db.insert(WantToWatchSeriasContract.WantToWatchSerias.TABLE_NAME, null, values);
+            Log.d("addSerias", "Added WantToWatch with Row ID" + newWantToWatchRowId);
+
+        } else if (Integer.parseInt(vWantRadioGroup) == 2) {
+            values.clear();
+            values.put(WatchedSeriasContract.WatchedSerias.COLUMN_SERIAS_ID, (int) newSeriasRowId);
+            values.put(WatchedSeriasContract.WatchedSerias.COLUMN_DATE, Calendar.DATE);
+            long newWatchedRowId = db.insert(WatchedSeriasContract.WatchedSerias.TABLE_NAME, null, values);
+            Log.d("addSerias", "Added Watched with Row ID" + newWatchedRowId);
         }
 
     }

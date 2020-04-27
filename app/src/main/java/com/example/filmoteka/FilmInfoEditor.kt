@@ -189,9 +189,9 @@ class FilmInfoEditor : AppCompatActivity() {
         val deleted = db.delete(Films.TABLE_NAME, "${Films._ID} = $filmId", null)
         Log.d("filmEditDeleteMovies", "Deleted $deleted rows", null)
 
-        CommonFunctions.addMovie(vNameEditText, vYearSpinner, vCountrySpinner, vAgeText, vGenreSpinner, vActorSpinner,
-                vProducerSpinner, vImbdEditText, vKinopoiskEditText, vWantRadioGroup, vDescriptionEditText, vLinkText,
-                FilmraryDbHelper.getInstance(this))
+//        CommonFunctions.addSerias(vNameEditText, vYearSpinner, vCountrySpinner, vAgeText, vGenreSpinner, vActorSpinner,
+//                vProducerSpinner, vImbdEditText, vKinopoiskEditText, vWantRadioGroup, vLinkText, vDescriptionEditText,
+//                FilmraryDbHelper.getInstance(this))
         intent.setClass(this, MainActivity::class.java)
         startActivity(intent)
         finish()

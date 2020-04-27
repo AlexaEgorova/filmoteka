@@ -14,51 +14,55 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="21dp"
             android:layout_marginTop="59dp" app:layout_constraintTop_toTopOf="parent"/>
-        <TextView
-            android:text="@string/premier_year"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/seriesYear"
-            app:layout_constraintTop_toBottomOf="@+id/seriesName" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="21dp"/>
 
         <TextView
-            android:text="@string/film_country"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/seriesCountry"
-            app:layout_constraintTop_toBottomOf="@+id/seriesYear" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="21dp"/>
+                android:text="@string/premier_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/seriesYear"
+                app:layout_constraintTop_toBottomOf="@+id/seriesName"
+                app:layout_constraintStart_toStartOf="@+id/seriesName"
+        />
         <TextView
-            android:text="@string/film_genre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/seriesGenre"
-            app:layout_constraintTop_toBottomOf="@+id/seriesCountry" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="21dp"/>
+                android:text="@string/film_country"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/seriesCountry"
+                app:layout_constraintStart_toStartOf="@+id/series_info_state"
+                app:layout_constraintTop_toBottomOf="@+id/series_info_state"/>
         <TextView
-            android:text="@string/film_producer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/seriesProducer"
-            app:layout_constraintTop_toBottomOf="@+id/seriesGenre" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="21dp"/>
+                android:text="@string/film_genre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/seriesGenre"
+                app:layout_constraintTop_toBottomOf="@+id/seriesCountry"
+                app:layout_constraintStart_toStartOf="@+id/seriesCountry"
+        />
         <TextView
-            android:text="@string/film_imdb_rating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/seriesIMDB"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="21dp"
-            app:layout_constraintTop_toBottomOf="@+id/seriesProducer"/>
+                android:text="@string/film_producer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/seriesProducer"
+                app:layout_constraintTop_toBottomOf="@+id/seriesGenre"
+                app:layout_constraintStart_toStartOf="@+id/seriesGenre"
+        />
         <TextView
-            android:text="@string/film_kinopoisk_rating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/seriesKinopoisk"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="21dp"
-            app:layout_constraintTop_toBottomOf="@+id/seriesIMDB"/>
+                android:text="@string/film_imdb_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/seriesIMDB"
+                app:layout_constraintStart_toStartOf="@+id/seriesProducer"
+                app:layout_constraintTop_toBottomOf="@+id/seriesProducer"/>
         <TextView
-            android:text="@string/film_description"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" android:id="@+id/seriesDescription"
-            app:layout_constraintTop_toBottomOf="@+id/seriesKinopoisk" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="21dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="21dp" app:layout_constraintHorizontal_bias="0.0"
-            />
+                android:text="@string/film_kinopoisk_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/seriesKinopoisk"
+                app:layout_constraintStart_toStartOf="@+id/seriesIMDB"
+                app:layout_constraintTop_toBottomOf="@+id/seriesIMDB"/>
+        <TextView
+                android:text="@string/film_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" android:id="@+id/seriesDescription"
+                app:layout_constraintTop_toBottomOf="@+id/series_info_episode_length"
+                app:layout_constraintStart_toStartOf="@+id/seriesKinopoisk"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="21dp" app:layout_constraintHorizontal_bias="0.0"
+        />
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -89,5 +93,29 @@
             app:layout_constraintVertical_bias="1.0" android:layout_marginStart="21dp"
             android:layout_marginEnd="21dp"
             android:layout_marginTop = "10dp"/>
+        <TextView
+                android:text="@string/series_info_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/series_info_state"
+                app:layout_constraintTop_toBottomOf="@+id/seriesYear"
+                app:layout_constraintStart_toStartOf="@+id/seriesYear"/>
+        <TextView
+                android:text="@string/info_seasonsNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/series_info_season_number"
+                app:layout_constraintStart_toStartOf="@+id/seriesKinopoisk"
+                app:layout_constraintTop_toBottomOf="@+id/seriesKinopoisk"/>
+        <TextView
+                android:text="@string/info_episodes_a_season"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/series_info_episodes_a_season"
+                app:layout_constraintTop_toBottomOf="@+id/series_info_season_number"
+                app:layout_constraintStart_toStartOf="@+id/series_info_season_number"/>
+        <TextView
+                android:text="@string/info_episode_length"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/series_info_episode_length"
+                app:layout_constraintTop_toBottomOf="@+id/series_info_episodes_a_season"
+                app:layout_constraintStart_toStartOf="@+id/series_info_episodes_a_season"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
