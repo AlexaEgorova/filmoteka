@@ -83,4 +83,6 @@
     <string name="producer_surname">Фамилия</string>
     <string name="producer_surname_hint">Фамилия продюсера</string>
     <string name="producer_add_hint">Добавить продюсера</string>
+    <string name="add_new_genre">Добавить новый жанр</string>
+    <string name="genre_name">Жанр</string>
 </resources>

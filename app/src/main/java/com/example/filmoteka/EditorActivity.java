@@ -44,6 +44,7 @@ public class EditorActivity extends AppCompatActivity {
     ArrayList<String> countries;
     ArrayList<String> actors;
     ArrayList<String> producers;
+    ArrayList<String> genres;
 
     /**
      * Год премьеры, минимальное значение 1895, максимальное - текущий год.
@@ -143,6 +144,11 @@ public class EditorActivity extends AppCompatActivity {
         startActivityForResult(intent, CODE_RETURN.PRODUCER.getValue());
     }
 
+    public void addGenre(View view) {
+        Intent intent = new Intent(EditorActivity.this, AddGenre.class);
+        startActivityForResult(intent, CODE_RETURN.GENRE.getValue());
+    }
+
     private int checkRadioButtons() {
         if (fDontRadioButton.isChecked())
             return 0;
@@ -187,7 +193,6 @@ public class EditorActivity extends AppCompatActivity {
         fYearSpinner.setSelection(0);
     }
 
-
     private void setupCountrySpinner() {
         SQLiteDatabase db = vDbHelper.getReadableDatabase();
         String text = "SELECT * FROM " + CountriesContract.Countries.TABLE_NAME;
@@ -205,11 +210,20 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void setupGanreSpinner() {
-        String[] genres = {"Боевик", "Вестерн", "Гангстерский фильм", "Детектив", "Драма", "Исторический фильм",
-                "Комедия", "Мелодрама", "Музыкальный фильм", "Нуар", "Политический фильм", "Приключенческий фильм",
-                "Сказка", "Трагедия", "Трагикомедия",};
-        fGanreSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, genres));
-        fGanreSpinner.setSelection(0);
+        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        String text = "SELECT * FROM " + GanresContract.Ganres.TABLE_NAME;
+        genres = new ArrayList<>();
+        genres.add(" - ");
+        try (Cursor cursor = db.rawQuery(text, null)) {
+            if (cursor.getCount() != 0) {
+                while (cursor.moveToNext()) {
+                    genres.add(cursor.getString(1));
+                }
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
+                                                              genres);
+            fGanreSpinner.setAdapter(adapter);
+        }
     }
 
     private void setupActorSpinner() {

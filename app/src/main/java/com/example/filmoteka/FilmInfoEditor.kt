@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import data.CountriesContract.Countries
 import data.FilmraryDbHelper
 import data.FilmsContract.Films
+import data.GanresContract
 import data.ProducersContract
 import kotlinx.android.synthetic.main.activity_film_info_editor.*
 import java.util.*
@@ -70,16 +71,25 @@ class FilmInfoEditor : AppCompatActivity() {
     }
 
     private fun setupGenreSpinner() {
-        val genres = arrayOf("Боевик", "Вестерн", "Гангстерский фильм", "Детектив", "Драма", "Исторический фильм",
-                "Комедия", "Мелодрама", "Музыкальный фильм", "Нуар", "Политический фильм", "Приключенческий фильм",
-                "Сказка", "Трагедия", "Трагикомедия")
-        ganre_spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, genres)
-        ganre_spinner.setSelection(0)
+        val db: SQLiteDatabase = FilmraryDbHelper.getInstance(this).readableDatabase
+        val text = "SELECT * FROM ${GanresContract.Ganres.TABLE_NAME}"
+        val genres = ArrayList<String>()
+        genres.add(" - ")
+        db.rawQuery(text, null).use { cursor ->
+            if (cursor.count != 0) {
+                while (cursor.moveToNext()) {
+                    genres.add(cursor.getString(1))
+                }
+            }
+            val adapter: ArrayAdapter<String> = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
+                    genres)
+            ganre_spinner.adapter = adapter
+        }
     }
 
     private fun setupActorSpinner() {
         val db: SQLiteDatabase = FilmraryDbHelper.getInstance(this).readableDatabase
-        val text = "SELECT * FROM " + Countries.TABLE_NAME
+        val text = "SELECT * FROM ${Countries.TABLE_NAME}"
         val actors = ArrayList<String>()
         actors.add(" - ")
         db.rawQuery(text, null).use { cursor ->
@@ -95,7 +105,7 @@ class FilmInfoEditor : AppCompatActivity() {
 
     private fun setupProducerSpinner() {
         val db: SQLiteDatabase = FilmraryDbHelper.getInstance(this).readableDatabase
-        val text = "SELECT * FROM " + ProducersContract.Producers.TABLE_NAME
+        val text = "SELECT * FROM ${ProducersContract.Producers.TABLE_NAME}"
         val producers = ArrayList<String>()
         producers.add(" - ")
         db.rawQuery(text, null).use { cursor ->

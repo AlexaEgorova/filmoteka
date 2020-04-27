@@ -150,7 +150,7 @@
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
                     android:text="+"
-                    android:onClick="onClick"/>
+                    android:onClick="addGenre"/>
 
         </LinearLayout>
 
