@@ -21,6 +21,8 @@ class FilmInfo : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_film_info)
+        header_text_view.clearComposingText();
+        appendText(header_text_view, readField(Films.COLUMN_NAME, intent).toUpperCase());
 
         appendText(filmName, readField(Films.COLUMN_NAME, intent))
         appendText(filmYear, readField(Films.COLUMN_YEAR, intent))
