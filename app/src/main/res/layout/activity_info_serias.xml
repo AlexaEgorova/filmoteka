@@ -1,58 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingEnd="21pt">
-    <TextView
-        android:text="@string/film_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:id="@+id/filmName"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="59dp" app:layout_constraintTop_toTopOf="parent"/>
-    <TextView
-        android:text="@string/film_year"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:id="@+id/filmYear"
-        app:layout_constraintTop_toBottomOf="@+id/filmName" app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="21dp"/>
-    <TextView
-        android:text="@string/film_country"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:id="@+id/filmCountry"
-        app:layout_constraintTop_toBottomOf="@+id/filmYear" app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="21dp"/>
-    <TextView
-        android:text="@string/film_genre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:id="@+id/filmGenre"
-        app:layout_constraintTop_toBottomOf="@+id/filmCountry" app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="21dp"/>
-    <TextView
-        android:text="@string/film_producer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:id="@+id/filmProducer"
-        app:layout_constraintTop_toBottomOf="@+id/filmGenre" app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="21dp"/>
-    <TextView
-        android:text="@string/film_imdb_rating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:id="@+id/filmIMDB"
-        app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="21dp"
-        app:layout_constraintTop_toBottomOf="@+id/filmProducer"/>
-    <TextView
-        android:text="@string/film_kinopoisk_rating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:id="@+id/filmKinopoisk"
-        app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="21dp"
-        app:layout_constraintTop_toBottomOf="@+id/filmIMDB"/>
-    <TextView
-        android:text="@string/film_description"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content" android:id="@+id/filmDescription"
-        app:layout_constraintTop_toBottomOf="@+id/filmKinopoisk" app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="21dp" app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="21dp" app:layout_constraintHorizontal_bias="0.0"
-        />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" android:paddingEnd="0pt">
+
+        <TextView
+            android:text="@string/series_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/seriesName"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="59dp" app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+            android:text="@string/premier_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/seriesYear"
+            app:layout_constraintTop_toBottomOf="@+id/seriesName" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="21dp"/>
+
+        <TextView
+            android:text="@string/film_country"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/seriesCountry"
+            app:layout_constraintTop_toBottomOf="@+id/seriesYear" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="21dp"/>
+        <TextView
+            android:text="@string/film_genre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/seriesGenre"
+            app:layout_constraintTop_toBottomOf="@+id/seriesCountry" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="21dp"/>
+        <TextView
+            android:text="@string/film_producer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/seriesProducer"
+            app:layout_constraintTop_toBottomOf="@+id/seriesGenre" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="21dp"/>
+        <TextView
+            android:text="@string/film_imdb_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/seriesIMDB"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="21dp"
+            app:layout_constraintTop_toBottomOf="@+id/seriesProducer"/>
+        <TextView
+            android:text="@string/film_kinopoisk_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/seriesKinopoisk"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="21dp"
+            app:layout_constraintTop_toBottomOf="@+id/seriesIMDB"/>
+        <TextView
+            android:text="@string/film_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" android:id="@+id/seriesDescription"
+            app:layout_constraintTop_toBottomOf="@+id/seriesKinopoisk" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="21dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="21dp" app:layout_constraintHorizontal_bias="0.0"
+            />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true" app:srcCompat="@android:drawable/ic_menu_delete"
+            android:layout_marginTop="10dp"
+            android:id="@+id/seriesDeleteButton"
+            android:onClick="onClick"
+            app:layout_constraintTop_toBottomOf="@+id/third_party_player_view"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="21dp"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true" app:srcCompat="@android:drawable/ic_menu_edit"
+            android:id="@+id/filmEditInfo"
+            android:onClick="onClickEdit"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/third_party_player_view"
+            app:layout_constraintEnd_toStartOf="@+id/seriesDeleteButton" android:layout_marginEnd="21dp"/>
+        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+            android:id="@+id/third_party_player_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/seriesDescription"
+            app:layout_constraintTop_toBottomOf="@+id/seriesDescription" app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintVertical_bias="1.0" android:layout_marginStart="21dp"
+            android:layout_marginEnd="21dp"
+            android:layout_marginTop = "10dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

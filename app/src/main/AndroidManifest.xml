@@ -10,12 +10,14 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity android:name=".FilmInfoEditor">
+        <activity android:name=".SeriasInfoEditor">
         </activity>
         <activity
                 android:name=".FilmInfo"
                 android:label="@string/title_activity_film_info"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".SeriasInfo"/>
         <activity android:name=".AddCountry"/>
         <activity
             android:name=".MainActivitySerias"
