@@ -196,7 +196,7 @@ public class EditorActivity extends AppCompatActivity {
         try (Cursor cursor = db.rawQuery(text, null)) {
             if (cursor.getCount() != 0) {
                 while (cursor.moveToNext()) {
-                    countries.add(cursor.getString(1) + " " + cursor.getString(2));
+                    countries.add(cursor.getString(1));
                 }
             }
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, countries);
