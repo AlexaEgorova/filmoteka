@@ -143,13 +143,13 @@
                     android:spinnerMode="dropdown"/>
 
             <Button
-                    android:id="@+id/add_country_button"
+                    android:id="@+id/edit_country_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
                     android:text="@string/plus"
-                    android:onClick="addCountry"/>
+                    android:onClick="addCountrySeriesInfo"/>
 
         </LinearLayout>
 
@@ -179,13 +179,13 @@
                     android:spinnerMode="dropdown"/>
 
             <Button
-                    android:id="@+id/add_ganre_button"
+                    android:id="@+id/edit_ganre_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
                     android:text="@string/plus"
-                    android:onClick="addGenre"/>
+                    android:onClick="addGenreSeriesInfo"/>
 
         </LinearLayout>
 
@@ -215,13 +215,13 @@
                     android:spinnerMode="dropdown"/>
 
             <Button
-                    android:id="@+id/add_actor_button"
+                    android:id="@+id/edit_actor_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
                     android:text="@string/plus"
-                    android:onClick="addActor"/>
+                    android:onClick="addActorSeriesInfo"/>
 
         </LinearLayout>
 
@@ -251,13 +251,13 @@
                     android:spinnerMode="dropdown"/>
 
             <Button
-                    android:id="@+id/add_producer_button"
+                    android:id="@+id/edit_producer_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
                     android:text="@string/plus"
-                    android:onClick="addProducer"/>
+                    android:onClick="addProducerSeriesInfo"/>
 
         </LinearLayout>
 

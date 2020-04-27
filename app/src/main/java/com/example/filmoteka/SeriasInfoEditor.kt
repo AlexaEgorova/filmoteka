@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import data.ActorsContract
 import data.CountriesContract.Countries
 import data.FilmraryDbHelper
 import data.GanresContract
@@ -61,22 +62,22 @@ class SeriasInfoEditor : AppCompatActivity() {
         description_edit_text.setText(intent.getStringExtra(Serias.COLUMN_DESCRIPTION))
     }
 
-    fun addCountry(view: View?) {
+    fun addCountrySeriesInfo(view: View?) {
         val intent = Intent(this, AddCountry::class.java)
         startActivityForResult(intent, CODE_RETURN.COUNTRY.value)
     }
 
-    fun addActor(view: View?) {
+    fun addActorSeriesInfo(view: View?) {
         val intent = Intent(this, AddActor::class.java)
         startActivityForResult(intent, CODE_RETURN.ACTOR.value)
     }
 
-    fun addProducer(view: View?) {
+    fun addProducerSeriesInfo(view: View?) {
         val intent = Intent(this, AddProducer::class.java)
         startActivityForResult(intent, CODE_RETURN.PRODUCER.value)
     }
 
-    fun addGenre(view: View?) {
+    fun addGenreSeriesInfo(view: View?) {
         val intent = Intent(this, AddGenre::class.java)
         startActivityForResult(intent, CODE_RETURN.GENRE.value)
     }
@@ -128,13 +129,13 @@ class SeriasInfoEditor : AppCompatActivity() {
 
     private fun setupActorSpinner() {
         val db: SQLiteDatabase = FilmraryDbHelper.getInstance(this).readableDatabase
-        val text = "SELECT * FROM ${Countries.TABLE_NAME}"
+        val text = "SELECT * FROM ${ActorsContract.Actors.TABLE_NAME}"
         val actors = ArrayList<String>()
         actors.add(" - ")
         db.rawQuery(text, null).use { cursor ->
             if (cursor.count != 0) {
                 while (cursor.moveToNext()) {
-                    actors.add(cursor.getString(1))
+                    actors.add(cursor.getString(1) + " " + cursor.getString(2))
                 }
             }
             val adapter: ArrayAdapter<String> = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, actors)
