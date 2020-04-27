@@ -1,40 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayoutLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <SeekBar
-        android:id="@+id/seekVol"
+<RelativeLayoutLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/seekSense"
-        android:layout_marginTop="42dp" />
+        android:layout_height="match_parent">
+    <SeekBar
+            android:id="@+id/seekVol"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/seekSense"
+            android:layout_marginTop="42dp"/>
 
     <TextView
-        android:id="@+id/textVol"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/seekSense"
-        android:layout_marginTop="20dp"
-        android:text="dialog_settings_vol"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:id="@+id/textVol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/seekSense"
+            android:layout_marginTop="20dp"
+            android:text="dialog_settings_vol"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <TextView
-        android:id="@+id/textSense"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="dialog_settings_sense"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:id="@+id/textSense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="dialog_settings_sense"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <SeekBar
-        android:id="@+id/seekSense"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/textSense" />
+            android:id="@+id/seekSense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/textSense"/>
 
 
 </RelativeLayoutLayout>

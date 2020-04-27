@@ -122,10 +122,10 @@ public class MainActivitySerias extends AppCompatActivity {
 
         if (fromEditor) {
             addSerias(name, start_year, seasons_num, ep_duration, ep_in_season_num, state,
-                    country, age, ganre, actor, producer,
-                    imdb, kinopoisk,
-                    want,
-                    description, link);
+                      country, age, ganre, actor, producer,
+                      imdb, kinopoisk,
+                      want,
+                      description, link);
             listItem.clear();
             viewMovies();
         }
@@ -137,22 +137,22 @@ public class MainActivitySerias extends AppCompatActivity {
         if (filmInfo == null || filmInfo.isEmpty()) {
             return;
         }
-        name = intent.getStringExtra("name");
-        start_year = intent.getStringExtra("start_year");
-        seasons_num = intent.getStringExtra("seasons_num");
-        ep_duration = intent.getStringExtra("ep_duration");
-        ep_in_season_num = intent.getStringExtra("ep_in_season_num");
-        state = intent.getStringExtra("state");
-        country = intent.getStringExtra("country");
-        age = intent.getStringExtra("age");
-        ganre = intent.getStringExtra("genre");
-        actor = intent.getStringExtra("actor");
-        producer = intent.getStringExtra("producer");
-        imdb = intent.getStringExtra("imdb");
-        kinopoisk = intent.getStringExtra("kinopoisk");
-        want = intent.getStringExtra("want");
-        link = intent.getStringExtra("link");
-        description = intent.getStringExtra("description");
+        name = intent.getStringExtra(Serias.COLUMN_NAME);
+        start_year = intent.getStringExtra(Serias.COLUMN_START_YEAR);
+        seasons_num = intent.getStringExtra(Serias.COLUMN_SEASONS_NUM);
+        ep_duration = intent.getStringExtra(Serias.COLUMN_EP_DURATION);
+        ep_in_season_num = intent.getStringExtra(Serias.COLUMN_EP_IN_SEASON_NUM);
+        state = intent.getStringExtra(Serias.COLUMN_STATE);
+        country = intent.getStringExtra(Serias.COLUMN_COUNTRY);
+        age = intent.getStringExtra(Serias.COLUMN_AGE);
+        ganre = intent.getStringExtra(Serias.COLUMN_GANRE);
+        actor = intent.getStringExtra(Serias.COLUMN_ACTOR);
+        producer = intent.getStringExtra(Serias.COLUMN_PRODUCER);
+        imdb = intent.getStringExtra(Serias.COLUMN_IMDB);
+        kinopoisk = intent.getStringExtra(Serias.COLUMN_KINOPOISK);
+        want = intent.getStringExtra(Serias.COLUMN_WANT);
+        link = intent.getStringExtra(Serias.COLUMN_LINK);
+        description = intent.getStringExtra(Serias.COLUMN_DESCRIPTION);
         fromEditor = intent.getBooleanExtra("fromEditor", fromEditor);
     }
 
@@ -189,8 +189,8 @@ public class MainActivitySerias extends AppCompatActivity {
                     }
                 }
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivitySerias.this,
-                        android.R.layout.simple_list_item_1,
-                        seriasList);
+                                                                  android.R.layout.simple_list_item_1,
+                                                                  seriasList);
                 moviesListView.setAdapter(adapter);
                 return false;
             }
@@ -209,9 +209,7 @@ public class MainActivitySerias extends AppCompatActivity {
         if (id == R.id.action_settings) {
             Intent intent = new Intent(MainActivitySerias.this, MainActivity.class);
             startActivity(intent);
-//            AlertDialog dialog = DialogScreen.getDialog(this);
-//            dialog.show();
-//            initSettings(dialog);
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -309,14 +307,14 @@ public class MainActivitySerias extends AppCompatActivity {
 
         if (Integer.parseInt(vWantRadioGroup) == 1) {
             values.clear();
-            values.put(WantToWatchSeriasContract.WantToWatchSerias.COLUMN_SERIAS_ID, (int)newSeriasRowId);
+            values.put(WantToWatchSeriasContract.WantToWatchSerias.COLUMN_SERIAS_ID, (int) newSeriasRowId);
             values.put(WantToWatchSeriasContract.WantToWatchSerias.COLUMN_ADD_DATE, Calendar.DATE);
             long newWantToWatchRowId = db.insert(WantToWatchSeriasContract.WantToWatchSerias.TABLE_NAME, null, values);
             Log.d("addSerias", "Added WantToWatch with Row ID" + newWantToWatchRowId);
 
-        } else if (Integer.parseInt(vWantRadioGroup) == 2){
+        } else if (Integer.parseInt(vWantRadioGroup) == 2) {
             values.clear();
-            values.put(WatchedSeriasContract.WatchedSerias.COLUMN_SERIAS_ID, (int)newSeriasRowId);
+            values.put(WatchedSeriasContract.WatchedSerias.COLUMN_SERIAS_ID, (int) newSeriasRowId);
             values.put(WatchedSeriasContract.WatchedSerias.COLUMN_DATE, Calendar.DATE);
             long newWatchedRowId = db.insert(WatchedSeriasContract.WatchedSerias.TABLE_NAME, null, values);
             Log.d("addSerias", "Added Watched with Row ID" + newWatchedRowId);

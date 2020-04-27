@@ -19,6 +19,7 @@ import java.util.Calendar;
 
 import data.CountriesContract;
 import data.FilmraryDbHelper;
+import data.SeriasContract.Serias;
 
 public class EditorActivitySerias extends AppCompatActivity {
 
@@ -136,7 +137,9 @@ public class EditorActivitySerias extends AppCompatActivity {
             String vLinkEditText = fLinkEditText.getText().toString();
             String vDescriptionEditText = fDescriptionEditText.getText().toString();
 
-            if (vNameEditText.isEmpty() || vImbdEditText.isEmpty() || vKinopoiskEditText.isEmpty()) {
+            if (vNameEditText.isEmpty() || vImbdEditText.isEmpty() || vKinopoiskEditText.isEmpty()
+            || vAgeEditText.isEmpty() || vStartYearSpinner.isEmpty() || vSeasonsNumEditText.isEmpty()
+            || vEpDurationEditText.isEmpty() || vEpInSeasonNumEditText.isEmpty()) {
                 Toast.makeText(EditorActivitySerias.this, "Some fields are empty!", Toast.LENGTH_LONG).show();
                 return;
             }
@@ -147,22 +150,22 @@ public class EditorActivitySerias extends AppCompatActivity {
 //            COLUMN_IMDB, COLUMN_KINOPOISK, COLUMN_WANT, COLUMN_LINK, COLUMN_DESCRIPTION};
 
             Intent intent = new Intent(EditorActivitySerias.this, MainActivitySerias.class);
-            intent.putExtra("name", vNameEditText);
-            intent.putExtra("start_year", vStartYearSpinner);
-            intent.putExtra("seasons_num", vSeasonsNumEditText);
-            intent.putExtra("ep_duration", vEpDurationEditText);
-            intent.putExtra("ep_in_season_num", vEpInSeasonNumEditText);
-            intent.putExtra("state", vStateSpinner);
-            intent.putExtra("country", vCountrySpinner);
-            intent.putExtra("age",  vAgeEditText);
-            intent.putExtra("genre", vGenreSpinner);
-            intent.putExtra("actor", vActorSpinner);
-            intent.putExtra("producer", vProducerSpinner);
-            intent.putExtra("imdb", vImbdEditText);
-            intent.putExtra("kinopoisk", vKinopoiskEditText);
-            intent.putExtra("want", vWantRadioGroup);
-            intent.putExtra("link", vLinkEditText);
-            intent.putExtra("description", vDescriptionEditText);
+            intent.putExtra(Serias.COLUMN_NAME, vNameEditText);
+            intent.putExtra(Serias.COLUMN_START_YEAR, vStartYearSpinner);
+            intent.putExtra(Serias.COLUMN_SEASONS_NUM, vSeasonsNumEditText);
+            intent.putExtra(Serias.COLUMN_EP_DURATION, vEpDurationEditText);
+            intent.putExtra(Serias.COLUMN_EP_IN_SEASON_NUM, vEpInSeasonNumEditText);
+            intent.putExtra(Serias.COLUMN_STATE, vStateSpinner);
+            intent.putExtra(Serias.COLUMN_COUNTRY, vCountrySpinner);
+            intent.putExtra(Serias.COLUMN_AGE,  vAgeEditText);
+            intent.putExtra(Serias.COLUMN_GANRE, vGenreSpinner);
+            intent.putExtra(Serias.COLUMN_ACTOR, vActorSpinner);
+            intent.putExtra(Serias.COLUMN_PRODUCER, vProducerSpinner);
+            intent.putExtra(Serias.COLUMN_IMDB, vImbdEditText);
+            intent.putExtra(Serias.COLUMN_KINOPOISK, vKinopoiskEditText);
+            intent.putExtra(Serias.COLUMN_WANT, vWantRadioGroup);
+            intent.putExtra(Serias.COLUMN_LINK, vLinkEditText);
+            intent.putExtra(Serias.COLUMN_DESCRIPTION, vDescriptionEditText);
             intent.putExtra("fromEditor", true);
             startActivity(intent);
         });
