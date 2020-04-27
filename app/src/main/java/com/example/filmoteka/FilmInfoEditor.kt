@@ -9,12 +9,14 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import data.ActorsContract
+import data.*
 import data.CountriesContract.Countries
-import data.FilmraryDbHelper
+import data.CountryFilmContract.CountryFilm
+import data.ActorFilmContract.ActorFilm
+import data.GanreFilmContract.GanreFilm
+import data.ProducerFilmContract.ProducerFilm
+
 import data.FilmsContract.Films
-import data.GanresContract
-import data.ProducersContract
 import kotlinx.android.synthetic.main.activity_film_info_editor.*
 import java.util.*
 
@@ -187,7 +189,11 @@ class FilmInfoEditor : AppCompatActivity() {
 
         val filmId = intent.getStringExtra(Films._ID)
         val db = FilmraryDbHelper.getInstance(this).writableDatabase
-        val deleted = db.delete(Films.TABLE_NAME, "${Films._ID} = $filmId", null)
+        var deleted = db.delete(Films.TABLE_NAME, "${Films._ID} = $filmId", null)
+        deleted += db.delete(CountryFilm.TABLE_NAME, "${CountryFilm.COLUMN_FILM_ID} = $filmId", null)
+        deleted += db.delete(ActorFilm.TABLE_NAME, "${ActorFilm.COLUMN_FILM_ID} = $filmId", null)
+        deleted += db.delete(ProducerFilm.TABLE_NAME, "${ProducerFilm.COLUMN_FILM_ID} = $filmId", null)
+        deleted += db.delete(GanreFilm.TABLE_NAME, "${GanreFilm.COLUMN_FILM_ID} = $filmId", null)
         Log.d("filmEditDeleteMovies", "Deleted $deleted rows", null)
 
         CommonFunctions.addMovie(vNameEditText, vYearSpinner, vCountrySpinner, vAgeText, vGenreSpinner, vActorSpinner,
