@@ -96,17 +96,17 @@ public class MainActivity extends AppCompatActivity {
                         listItem.clear();
                         viewTableData(ProducersContract.Producers.TABLE_NAME, 2);
                         tableSpinnerMode = PRODUCERS;
-                    }  else if (selection.equalsIgnoreCase("жанры")) {
+                    } else if (selection.equalsIgnoreCase("жанры")) {
                         listItem.clear();
                         viewTableData(GanresContract.Ganres.TABLE_NAME);
                         tableSpinnerMode = GENRES;
-                    }  else if (selection.equalsIgnoreCase("хочу посмотреть")) {
+                    } else if (selection.equalsIgnoreCase("хочу посмотреть")) {
                         listItem.clear();
-                        viewTableData(WantToWatchContract.WantToWatch.TABLE_NAME);
+                        viewTableDataWatch(WantToWatchContract.WantToWatch.TABLE_NAME);
                         tableSpinnerMode = WANT;
-                    }  else if (selection.equalsIgnoreCase("посмотрел")) {
+                    } else if (selection.equalsIgnoreCase("посмотрел")) {
                         listItem.clear();
-                        viewTableData(WatchedContract.Watched.TABLE_NAME);
+                        viewTableDataWatch(WatchedContract.Watched.TABLE_NAME);
                         tableSpinnerMode = WATCHED;
                     } else { //if (selection.equals("Страны"))
                         listItem.clear();
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
         tablesListView.setOnItemClickListener((parent, view, position, id) -> {
             String name = (String) tablesListView.getItemAtPosition(position);
-            switch(tableSpinnerMode) {
+            switch (tableSpinnerMode) {
                 case FILMS: {
                     Intent intent = new Intent(MainActivity.this, FilmInfo.class);
                     String film = (String) tablesListView.getItemAtPosition(position);
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 }
                 case COUNTRIES: {
-                    boolean done = deleteCountry((int)id);
+                    boolean done = deleteCountry((int) id);
                     listItem.clear();
                     viewTableData(CountriesContract.Countries.TABLE_NAME);
                     break;
@@ -302,6 +302,48 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void viewTableDataWatch(String tableName) {
+        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        String query = "SELECT * FROM " + tableName;
+        ArrayList<String> ids = new ArrayList<>();
+        try (Cursor cursor = db.rawQuery(query, null)) {
+
+            if (cursor.getCount() == 0) {
+                Toast.makeText(this, "No data in db", Toast.LENGTH_SHORT).show();
+            } else {
+                while (cursor.moveToNext()) {
+                    ids.add(cursor.getString(COLUMN_NAME)); // 1 for name, 0 for index
+                }
+            }
+        }
+        for (String id : ids) {
+            ArrayList<String> movies = searchMovie(Integer.parseInt(id));
+            if (!movies.isEmpty()) {
+                listItem.add(movies.get(0));
+            }
+        }
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItem);
+        tablesListView.setAdapter(adapter);
+    }
+
+    public ArrayList<String> searchMovie(int id) {
+        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        String query = "SELECT * FROM " + FilmsContract.Films.TABLE_NAME
+                + " WHERE " + Films._ID + " = " + id;
+        ArrayList<String> list = new ArrayList<>();
+        try (Cursor cursor = db.rawQuery(query, null)) {
+
+            if (cursor.getCount() == 0) {
+                Toast.makeText(this, "No such data in db", Toast.LENGTH_SHORT).show();
+            } else {
+                while (cursor.moveToNext()) {
+                    list.add(cursor.getString(1)); // 1 for name, 0 for index
+                }
+            }
+        }
+        return list;
+    }
+
     // todo: variety of indexes
     // find movie by some id
     public void searchMovies(String text) {
@@ -385,8 +427,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         int deleted = db.delete(CountriesContract.Countries.TABLE_NAME,
-                CountriesContract.Countries._ID + " = '" + Integer.toString(cur_id) + "'",
-                null);
+                                CountriesContract.Countries._ID + " = '" + Integer.toString(cur_id) + "'",
+                                null);
         Toast.makeText(this, "Deleted row " + Integer.toString(deleted) + "!", Toast.LENGTH_SHORT).show();
         return true;
     }
