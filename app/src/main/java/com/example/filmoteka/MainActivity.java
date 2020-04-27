@@ -31,6 +31,16 @@ public class MainActivity extends AppCompatActivity {
     final int COLUMN_NAME = 1;
     public FilmraryDbHelper vDbHelper;
 
+    final int FILMS = 0;
+    final int COUNTRIES = 1;
+    final int GENRES = 2;
+    final int ACTORS = 3;
+    final int PRODUCERS = 4;
+    final int WANT = 5;
+    final int WATCHED = 6;
+
+    int tableSpinnerMode = FILMS;
+
     String name;
     String year;
     String country;
@@ -77,18 +87,23 @@ public class MainActivity extends AppCompatActivity {
                     if (selection.equals("Фильмы")) {
                         listItem.clear();
                         viewTableData(Films.TABLE_NAME);
+                        tableSpinnerMode = FILMS;
                     } else if (selection.equalsIgnoreCase("актёры")) {
                         listItem.clear();
                         viewTableData(ActorsContract.Actors.TABLE_NAME, 2);
+                        tableSpinnerMode = ACTORS;
                     } else if (selection.equalsIgnoreCase("продюсеры")) {
                         listItem.clear();
                         viewTableData(ProducersContract.Producers.TABLE_NAME, 2);
+                        tableSpinnerMode = PRODUCERS;
                     }  else if (selection.equalsIgnoreCase("жанры")) {
                         listItem.clear();
                         viewTableData(GanresContract.Ganres.TABLE_NAME);
+                        tableSpinnerMode = GENRES;
                     } else { //if (selection.equals("Страны"))
                         listItem.clear();
                         viewTableData(CountriesContract.Countries.TABLE_NAME);
+                        tableSpinnerMode = COUNTRIES;
                     }
                 }
             }
@@ -103,13 +118,30 @@ public class MainActivity extends AppCompatActivity {
         //viewTableData();
 
         tablesListView.setOnItemClickListener((parent, view, position, id) -> {
-            Intent intent = new Intent(MainActivity.this, FilmInfo.class);
-            String film = (String) tablesListView.getItemAtPosition(position);
-            String[] filmString = searchMovieByName(film);
-            for (int i = 0; i < Films.COLUMNS.length; ++i) {
-                intent.putExtra(Films.COLUMNS[i], filmString[i]);
+            String name = (String) tablesListView.getItemAtPosition(position);
+            switch(tableSpinnerMode) {
+                case FILMS: {
+                    Intent intent = new Intent(MainActivity.this, FilmInfo.class);
+                    String film = (String) tablesListView.getItemAtPosition(position);
+                    String[] filmString = searchMovieByName(film);
+                    for (int i = 0; i < Films.COLUMNS.length; ++i) {
+                        intent.putExtra(Films.COLUMNS[i], filmString[i]);
+                    }
+                    startActivity(intent);
+                    break;
+                }
+                case COUNTRIES: {
+                    boolean done = deleteCountry((int)id);
+                    listItem.clear();
+                    viewTableData(CountriesContract.Countries.TABLE_NAME);
+                    break;
+                }
+                default:
+                    Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
+//                case ACTORS: {
+//                    deleteByName(ActorsContract.Actors.TABLE_NAME, name);
+//                }
             }
-            startActivity(intent);
         });
 
         Intent thisIntent = getIntent();
@@ -131,7 +163,6 @@ public class MainActivity extends AppCompatActivity {
     private void setupTablesSpinner() {
         //todo: add genres
         //todo: add producers
-        //todo: add actors
         //todo: add want_to_watch
         //todo: add watched
         String[] tables = {"Фильмы", "Страны", "Актёры", "Продюсеры", "Жанры"};
@@ -307,5 +338,48 @@ public class MainActivity extends AppCompatActivity {
     public void addMovie(View view) {
         Intent intent = new Intent(MainActivity.this, EditorActivity.class);
         startActivity(intent);
+    }
+
+//    public boolean deleteActor(String name) {
+//        SQLiteDatabase db = vDbHelper.getWritableDatabase();
+//        String queryActors = "SELECT * FROM " + ActorsContract.Actors.TABLE_NAME + "WHERE";
+//        String queryActorFilm = "SELECT * FROM " + ActorFilmContract.ActorFilm.TABLE_NAME;
+//        String queryActorSeries = "SELECT * FROM " + ActorSeriasContract.ActorSerias.TABLE_NAME;
+//        int currentid;
+//        // get id
+//        try (Cursor cursor = db.rawQuery(queryActors, null)) {
+//            if (cursor.getCount() != 0) {
+//                while (cursor.moveToNext()) {
+//                    countries.add(cursor.getString(1));
+//                }
+//            }
+//        }
+//    }
+
+    public boolean deleteCountry(int cur_id) {
+        SQLiteDatabase db = vDbHelper.getWritableDatabase();
+        String queryCountryFilm = "SELECT * FROM " + CountryFilmContract.CountryFilm.TABLE_NAME
+                + " WHERE " + CountryFilmContract.CountryFilm.COLUMN_COUNTRY_ID
+                + " = '" + Integer.toString(cur_id) + "'";
+        try (Cursor cursor = db.rawQuery(queryCountryFilm, null)) {
+            if (cursor.getCount() != 0) {
+                Toast.makeText(this, "This country is needed for films!", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+        String queryCountrySeries = "SELECT * FROM " + CountrySeriasContract.CountrySerias.TABLE_NAME
+                + " WHERE " + CountrySeriasContract.CountrySerias.COLUMN_COUNTRY_ID
+                + " = '" + Integer.toString(cur_id) + "'";
+        try (Cursor cursor = db.rawQuery(queryCountrySeries, null)) {
+            if (cursor.getCount() != 0) {
+                Toast.makeText(this, "This country is needed for series!", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+        int deleted = db.delete(CountriesContract.Countries.TABLE_NAME,
+                CountriesContract.Countries._ID + " = '" + Integer.toString(cur_id) + "'",
+                null);
+        Toast.makeText(this, "Deleted row " + Integer.toString(deleted) + "!", Toast.LENGTH_SHORT).show();
+        return true;
     }
 }

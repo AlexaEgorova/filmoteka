@@ -39,11 +39,8 @@ public class AddCountry extends AppCompatActivity{
                 return;
             }
 
-            // а чё делать, если фильм не добавлен? пока давай оставаться на странице..
-            //todo: какой фильм?
             boolean added = addCountry(vAddCountryEditText);
             if (added) {
-                //todo: видала, как придумал?)
                 setResult(Activity.RESULT_OK);
                 finish();
             }
