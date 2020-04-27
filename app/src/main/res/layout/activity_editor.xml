@@ -34,24 +34,16 @@
                 android:layout_marginRight="10dp"
                 android:orientation="horizontal">
 
-            <!--        <TextView-->
-            <!--            android:id="@+id/name_text_view"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="match_parent"-->
-            <!--            android:layout_gravity="center"-->
-            <!--            android:paddingTop="11dp"-->
-            <!--            android:text="Название:"-->
-            <!--            android:textSize="16sp" />-->
-
             <EditText
-                    android:id="@+id/name_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:hint="Название фильма"
-                    android:focusable="true"
-                    android:paddingLeft="10dp"
-                    android:background="@android:color/white"
-                    android:textSize="14sp"/>
+                android:id="@+id/name_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="@string/filmname"
+                android:focusable="true"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:background="@android:color/white"
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -70,7 +62,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:paddingTop="11dp"
-                    android:text="Год:"
+                    android:text="@string/year"
                     android:textSize="16sp"/>
 
             <Spinner
@@ -97,7 +89,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:paddingTop="11dp"
-                    android:text="Страна:"
+                    android:text="@string/country"
                     android:textSize="16sp"/>
 
             <Spinner
@@ -109,11 +101,11 @@
 
             <Button
                     android:id="@+id/add_country_button"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
-                    android:text="+"
+                    android:text="@string/plus"
                     android:onClick="onClick"/>
 
         </LinearLayout>
@@ -133,7 +125,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:paddingTop="11dp"
-                    android:text="Жанр:"
+                    android:text="@string/genre"
                     android:textSize="16sp"/>
 
             <Spinner
@@ -145,11 +137,11 @@
 
             <Button
                     android:id="@+id/add_ganre_button"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
-                    android:text="+"
+                    android:text="@string/plus"
                     android:onClick="addGenre"/>
 
         </LinearLayout>
@@ -169,7 +161,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:paddingTop="11dp"
-                    android:text="Актер:"
+                    android:text="@string/actor"
                     android:textSize="16sp"/>
 
             <Spinner
@@ -181,11 +173,11 @@
 
             <Button
                     android:id="@+id/add_actor_button"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
-                    android:text="+"
+                    android:text="@string/plus"
                     android:onClick="addActor"/>
 
         </LinearLayout>
@@ -205,7 +197,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:paddingTop="11dp"
-                    android:text="Режиссёр:"
+                    android:text="@string/producer"
                     android:textSize="16sp"/>
 
             <Spinner
@@ -217,11 +209,11 @@
 
             <Button
                     android:id="@+id/add_producer_button"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
-                    android:text="+"
+                    android:text="@string/plus"
                     android:onClick="addProducer"/>
 
         </LinearLayout>
@@ -245,14 +237,15 @@
                         android:id="@+id/imdb_edit_text"
                         android:layout_width="80dp"
                         android:layout_height="40dp"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@android:color/white"
                         android:focusable="true"
                         android:gravity="center"
-                        android:hint="Рейтинг IMDb"
+                        android:hint="@string/imdb"
                         android:textAlignment="center"
                         android:layout_marginTop="10dp"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp"
+                    android:inputType="numberDecimal"/>
 
                 <EditText
                         android:id="@+id/kinopoisk_edit_text"
@@ -261,16 +254,17 @@
                         android:background="@android:color/white"
                         android:focusable="true"
                         android:gravity="center"
-                        android:hint="Рейтинг КиноПоиск"
+                        android:hint="@string/kinopoisk"
                         android:textAlignment="center"
                         android:layout_marginTop="10dp"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp"
+                    android:inputType="numberDecimal"/>
             </LinearLayout>
 
             <LinearLayout
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:orientation="vertical">
 
 
@@ -282,17 +276,18 @@
                         android:background="@android:color/white"
                         android:focusable="true"
                         android:gravity="center"
-                        android:hint="Возраст просмотра"
+                        android:hint="@string/age"
                         android:textAlignment="center"
                         android:layout_marginTop="30dp"
                         android:layout_marginLeft="10dp"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp"
+                    android:inputType="number"/>
 
             </LinearLayout>
 
             <RadioGroup
                     android:id="@+id/wants_radio"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -302,21 +297,21 @@
                         android:layout_height="wrap_content"
                         android:button="@drawable/radiobutton_selector"
                         android:checked="true"
-                        android:text="Не добавлять в мою коллекцию"/>
+                        android:text="@string/dont_add_to_my_collection"/>
 
                 <RadioButton
                         android:id="@+id/radio_want_to_watch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:button="@drawable/radiobutton_selector"
-                        android:text="Хочу посмотреть"/>
+                        android:text="@string/want_to_watch"/>
 
                 <RadioButton
                         android:id="@+id/radio_watched"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:button="@drawable/radiobutton_selector"
-                        android:text="Посмотрено"/>
+                        android:text="@string/watched"/>
 
             </RadioGroup>
 
@@ -332,14 +327,15 @@
                 android:orientation="horizontal">
 
             <EditText
-                    android:id="@+id/link_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:hint="Ссылка на трейлер"
-                    android:focusable="true"
-                    android:background="@android:color/white"
-                    android:paddingLeft="10dp"
-                    android:textSize="14sp"/>
+                android:id="@+id/link_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="@string/trailer_link"
+                android:focusable="true"
+                android:background="@android:color/white"
+                android:paddingStart="10dp"
+                android:paddingEnd="0dp"
+                android:textSize="14sp"/>
 
         </LinearLayout>
 
@@ -353,14 +349,15 @@
                 android:orientation="horizontal">
 
             <EditText
-                    android:id="@+id/description_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:hint="Краткое описание фильма"
-                    android:focusable="true"
-                    android:background="@android:color/white"
-                    android:paddingLeft="10dp"
-                    android:textSize="14sp"/>
+                android:id="@+id/description_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="@string/short_film_descriprion"
+                android:focusable="true"
+                android:background="@android:color/white"
+                android:paddingStart="10dp"
+                android:paddingEnd="0dp"
+                android:textSize="14sp"/>
 
         </LinearLayout>
 
