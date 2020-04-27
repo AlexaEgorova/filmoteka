@@ -1,485 +1,483 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#7FCDD1"
-    android:fillViewport="false">
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#7FCDD1"
+            android:fillViewport="false">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#7FCDD1"
-        android:orientation="vertical"
-        tools:context=".EditorActivity">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#7FCDD1"
+            android:orientation="vertical"
+            tools:context=".SeriasInfoEditor">
 
         <TextView
-            android:id="@+id/header_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingTop="20dp"
-            android:paddingRight="10dp"
-            android:shadowColor="#0F0F0F"
-            android:text="@string/info_editor_header"
-            android:textSize="24sp"
-            app:fontFamily="sans-serif-black"/>
+                android:id="@+id/header_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingTop="20dp"
+                android:paddingRight="10dp"
+                android:shadowColor="#0F0F0F"
+                android:text="@string/info_editor_header"
+                android:textSize="24sp"
+                app:fontFamily="sans-serif-black"/>
 
         <LinearLayout
-            android:id="@+id/name_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
+                android:id="@+id/name_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/name_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@android:color/white"
-                android:focusable="true"
-                android:hint="@string/nameOfSeries"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:textSize="14sp"
-                android:inputType="text"/>
+                    android:id="@+id/name_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@android:color/white"
+                    android:focusable="true"
+                    android:hint="@string/nameOfSeries"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:textSize="14sp"
+                    android:inputType="text"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/year_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
+                android:id="@+id/year_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/year_text_view"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:paddingTop="11dp"
-                android:text="@string/year"
-                android:textSize="16sp"/>
+                    android:id="@+id/year_text_view"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:paddingTop="11dp"
+                    android:text="@string/year"
+                    android:textSize="16sp"/>
 
             <Spinner
-                android:id="@+id/year_spinner"
-                android:layout_width="140dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/white"
-                android:spinnerMode="dropdown" />
+                    android:id="@+id/year_spinner"
+                    android:layout_width="140dp"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:spinnerMode="dropdown"/>
 
             <EditText
-                android:id="@+id/age_edit_text"
+                    android:id="@+id/age_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:background="@android:color/white"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:hint="@string/ageRate"
+                    android:textAlignment="center"
+                    android:textSize="14sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/state_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:background="@android:color/white"
-                android:focusable="true"
-                android:gravity="center"
-                android:hint="@string/ageRate"
-                android:textAlignment="center"
-                android:textSize="14sp"
-                android:inputType="number" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/state_container"
-            android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
+                android:layout_height="38dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/state_text_view"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:paddingTop="11dp"
-                android:text="@string/status"
-                android:textSize="16sp"/>
+                    android:id="@+id/state_text_view"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:paddingTop="11dp"
+                    android:text="@string/status"
+                    android:textSize="16sp"/>
 
             <Spinner
-                android:id="@+id/state_spinner"
-                android:layout_width="290dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/white"
-                android:spinnerMode="dropdown" />
+                    android:id="@+id/state_spinner"
+                    android:layout_width="290dp"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:spinnerMode="dropdown"/>
 
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/country_container"
-            android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
+                android:id="@+id/country_container"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/country_text_view"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:paddingTop="11dp"
-                android:text="@string/country"
-                android:textSize="16sp"/>
+                    android:id="@+id/country_text_view"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:paddingTop="11dp"
+                    android:text="@string/country"
+                    android:textSize="16sp"/>
 
             <Spinner
-                android:id="@+id/country_spinner"
-                android:layout_width="260dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/white"
-                android:spinnerMode="dropdown"/>
+                    android:id="@+id/country_spinner"
+                    android:layout_width="260dp"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:spinnerMode="dropdown"/>
 
             <Button
-                android:id="@+id/add_country_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:color/background_light"
-                android:text="@string/plus"/>
+                    android:id="@+id/add_country_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/background_light"
+                    android:text="@string/plus"
+                    android:onClick="addCountry"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ganre_container"
-            android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
+                android:id="@+id/ganre_container"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/ganre_text_view"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:paddingTop="11dp"
-                android:text="@string/genre"
-                android:textSize="16sp"/>
+                    android:id="@+id/ganre_text_view"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:paddingTop="11dp"
+                    android:text="@string/genre"
+                    android:textSize="16sp"/>
 
             <Spinner
-                android:id="@+id/ganre_spinner"
-                android:layout_width="260dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/white"
-                android:spinnerMode="dropdown"/>
+                    android:id="@+id/ganre_spinner"
+                    android:layout_width="260dp"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:spinnerMode="dropdown"/>
 
             <Button
-                android:id="@+id/add_ganre_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:color/background_light"
-                android:text="@string/plus"/>
+                    android:id="@+id/add_ganre_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/background_light"
+                    android:text="@string/plus"
+                    android:onClick="addGenre"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/actor_container"
-            android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
+                android:id="@+id/actor_container"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/actor_text_view"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:paddingTop="11dp"
-                android:text="@string/actor"
-                android:textSize="16sp"/>
+                    android:id="@+id/actor_text_view"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:paddingTop="11dp"
+                    android:text="@string/actor"
+                    android:textSize="16sp"/>
 
             <Spinner
-                android:id="@+id/actor_spinner"
-                android:layout_width="260dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/white"
-                android:spinnerMode="dropdown"/>
+                    android:id="@+id/actor_spinner"
+                    android:layout_width="260dp"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:spinnerMode="dropdown"/>
 
             <Button
-                android:id="@+id/add_actor_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:color/background_light"
-                android:text="@string/plus"/>
+                    android:id="@+id/add_actor_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/background_light"
+                    android:text="@string/plus"
+                    android:onClick="addActor"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/producer_container"
-            android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
+                android:id="@+id/producer_container"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/producer_text_view"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:paddingTop="11dp"
-                android:text="@string/producer"
-                android:textSize="16sp"/>
+                    android:id="@+id/producer_text_view"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:paddingTop="11dp"
+                    android:text="@string/producer"
+                    android:textSize="16sp"/>
 
             <Spinner
-                android:id="@+id/producer_spinner"
-                android:layout_width="260dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/white"
-                android:spinnerMode="dropdown"/>
+                    android:id="@+id/producer_spinner"
+                    android:layout_width="260dp"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:spinnerMode="dropdown"/>
 
             <Button
-                android:id="@+id/add_producer_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:color/background_light"
-                android:text="@string/plus"/>
+                    android:id="@+id/add_producer_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/background_light"
+                    android:text="@string/plus"
+                    android:onClick="addProducer"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/rate_container"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
+                android:id="@+id/rate_container"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="80dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
 
                 <EditText
-                    android:id="@+id/imdb_edit_text"
-                    android:layout_width="80dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@android:color/white"
-                    android:focusable="true"
-                    android:gravity="center"
-                    android:hint="@string/imdb"
-                    android:textAlignment="center"
-                    android:textSize="14sp"
-                    android:inputType="number"/>
+                        android:id="@+id/imdb_edit_text"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@android:color/white"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:hint="@string/imdb"
+                        android:textAlignment="center"
+                        android:textSize="14sp"/>
 
                 <EditText
-                    android:id="@+id/kinopoisk_edit_text"
-                    android:layout_width="80dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@android:color/white"
-                    android:focusable="true"
-                    android:gravity="center"
-                    android:hint="@string/kinopoisk"
-                    android:textAlignment="center"
-                    android:textSize="14sp"
-                    android:inputType="number"/>
+                        android:id="@+id/kinopoisk_edit_text"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@android:color/white"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:hint="@string/kinopoisk"
+                        android:textAlignment="center"
+                        android:textSize="14sp"/>
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:orientation="vertical">
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/seasons_num_text_view"
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingStart="5dp"
-                        android:paddingEnd="5dp"
-                        android:text="@string/seasonsNum"
-                        android:textSize="12sp" />
+                            android:id="@+id/seasons_num_text_view"
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingStart="5dp"
+                            android:paddingEnd="5dp"
+                            android:text="@string/seasonsNum"
+                            android:textSize="12sp"/>
 
                     <EditText
-                        android:id="@+id/seasons_num_edit_text"
-                        android:layout_width="5dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:hint="@string/one"
-                        android:inputType="number"
-                        android:textSize="12sp" />
+                            android:id="@+id/seasons_num_edit_text"
+                            android:layout_width="5dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:hint="@string/one"
+                            android:textSize="12sp"/>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/ep_in_season_text_view"
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingStart="5dp"
-                        android:paddingEnd="0dp"
-                        android:text="@string/episodes_in_season"
-                        android:textSize="12sp" />
+                            android:id="@+id/ep_in_season_text_view"
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingStart="5dp"
+                            android:paddingEnd="0dp"
+                            android:text="@string/episodes_in_season"
+                            android:textSize="12sp"/>
 
                     <EditText
-                        android:id="@+id/ep_in_season_edit_text"
-                        android:layout_width="5dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:hint="1"
-                        android:inputType="number"
-                        android:textSize="12sp" />
+                            android:id="@+id/ep_in_season_edit_text"
+                            android:layout_width="5dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:hint="1"
+                            android:textSize="12sp"/>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/ep_duration_text_view"
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingStart="5dp"
-                        android:paddingEnd="0dp"
-                        android:text="@string/episode_duration"
-                        android:textSize="12sp" />
+                            android:id="@+id/ep_duration_text_view"
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingStart="5dp"
+                            android:paddingEnd="0dp"
+                            android:text="@string/episode_duration"
+                            android:textSize="12sp"/>
 
                     <EditText
-                        android:id="@+id/ep_duration_edit_text"
-                        android:layout_width="5dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:hint="@string/_30"
-                        android:inputType="number"
-                        android:textSize="12sp" />
+                            android:id="@+id/ep_duration_edit_text"
+                            android:layout_width="5dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:hint="@string/_30"
+                            android:textSize="12sp"/>
                 </LinearLayout>
             </LinearLayout>
 
             <RadioGroup
-                android:id="@+id/wants_radio"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp">
+                    android:id="@+id/wants_radio"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp">
 
                 <RadioButton
-                    android:id="@+id/radio_do_not_add"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/radiobutton_selector"
-                    android:checked="true"
-                    android:text="@string/dont_add_to_my_collection"
-                    android:textSize="12sp" />
+                        android:id="@+id/radio_do_not_add"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@drawable/radiobutton_selector"
+                        android:checked="true"
+                        android:text="@string/dont_add_to_my_collection"
+                        android:textSize="12sp"/>
 
                 <RadioButton
-                    android:id="@+id/radio_want_to_watch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/radiobutton_selector"
-                    android:text="@string/want_to_watch"
-                    android:textSize="12sp" />
+                        android:id="@+id/radio_want_to_watch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@drawable/radiobutton_selector"
+                        android:text="@string/want_to_watch"
+                        android:textSize="12sp"/>
 
                 <RadioButton
-                    android:id="@+id/radio_watched"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/radiobutton_selector"
-                    android:text="@string/watched"
-                    android:textSize="12sp" />
+                        android:id="@+id/radio_watched"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@drawable/radiobutton_selector"
+                        android:text="@string/watched"
+                        android:textSize="12sp"/>
 
             </RadioGroup>
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/link_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
+                android:id="@+id/link_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/link_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@android:color/white"
-                android:focusable="true"
-                android:hint="@string/trailer_link"
-                android:paddingStart="10dp"
-                android:paddingEnd="0dp"
-                android:textSize="14sp" />
+                    android:id="@+id/link_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@android:color/white"
+                    android:focusable="true"
+                    android:hint="@string/trailer_link"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="0dp"
+                    android:textSize="14sp"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/descriprion_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
+                android:id="@+id/descriprion_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/description_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:inputType="text"
-                android:hint="@string/short_film_description"
-                android:focusable="true"
-                android:background="@android:color/white"
-                android:paddingStart="10dp"
-                android:paddingEnd="0dp"
-                android:textSize="14sp"/>
+                    android:id="@+id/description_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:inputType="text"
+                    android:hint="@string/short_film_description"
+                    android:focusable="true"
+                    android:background="@android:color/white"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="0dp"
+                    android:textSize="14sp"/>
 
         </LinearLayout>
 
 
         <Button
-            android:id="@+id/add_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="50dp"
-            android:background="@android:color/holo_blue_dark"
-            android:layout_marginRight="100dp"
-            android:hint="@string/info_editor_accept_hint"
-            android:text="@string/info_editor_accept"
-            android:onClick="onClick"/>
+                android:id="@+id/add_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="50dp"
+                android:background="@android:color/holo_blue_dark"
+                android:layout_marginRight="100dp"
+                android:hint="@string/info_editor_accept_hint"
+                android:text="@string/info_editor_accept"
+                android:onClick="onClick"/>
 
     </LinearLayout>
 </ScrollView>

@@ -1,5 +1,7 @@
 package com.example.filmoteka
 
+import android.app.Activity
+import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.util.Log
@@ -9,7 +11,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import data.CountriesContract.Countries
 import data.FilmraryDbHelper
+import data.GanresContract
+import data.ProducersContract
 import data.SeriasContract.Serias
+import kotlinx.android.synthetic.main.activity_info_serias.*
 import kotlinx.android.synthetic.main.activity_serias_info_editor.*
 import java.util.*
 
@@ -29,6 +34,11 @@ class SeriasInfoEditor : AppCompatActivity() {
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
         year_spinner.setSelection(intent.getIntExtra(Serias.COLUMN_START_YEAR, currentYear) - currentYear)
 
+        seasons_num_edit_text.setText(intent.getStringExtra(Serias.COLUMN_SEASONS_NUM))
+        series_info_episodes_a_season.text = intent.getStringExtra(Serias.COLUMN_EP_IN_SEASON_NUM)
+        series_info_episode_length.text = intent.getStringExtra(Serias.COLUMN_EP_DURATION)
+
+        setupStateSpinner()
         setupGenreSpinner()
         setupActorSpinner()
         setupProducerSpinner()
@@ -52,6 +62,38 @@ class SeriasInfoEditor : AppCompatActivity() {
         description_edit_text.setText(intent.getStringExtra(Serias.COLUMN_DESCRIPTION))
     }
 
+    fun addCountry(view: View?) {
+        val intent = Intent(this, AddCountry::class.java)
+        startActivityForResult(intent, CODE_RETURN.COUNTRY.value)
+    }
+
+    fun addActor(view: View?) {
+        val intent = Intent(this, AddActor::class.java)
+        startActivityForResult(intent, CODE_RETURN.ACTOR.value)
+    }
+
+    fun addProducer(view: View?) {
+        val intent = Intent(this, AddProducer::class.java)
+        startActivityForResult(intent, CODE_RETURN.PRODUCER.value)
+    }
+
+    fun addGenre(view: View?) {
+        val intent = Intent(this, AddGenre::class.java)
+        startActivityForResult(intent, CODE_RETURN.GENRE.value)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (CODE_RETURN.values()[requestCode - 1]) {
+                CODE_RETURN.COUNTRY -> setupCountrySpinner()
+                CODE_RETURN.GENRE -> setupGenreSpinner()
+                CODE_RETURN.PRODUCER -> setupProducerSpinner()
+                CODE_RETURN.ACTOR -> setupActorSpinner()
+            }
+        }
+    }
+
     private fun setupCountrySpinner() {
         val db: SQLiteDatabase = FilmraryDbHelper.getInstance(this).readableDatabase
         val text = "SELECT * FROM ${Countries.TABLE_NAME}"
@@ -69,25 +111,52 @@ class SeriasInfoEditor : AppCompatActivity() {
     }
 
     private fun setupGenreSpinner() {
-        val genres = arrayOf("Боевик", "Вестерн", "Гангстерский фильм", "Детектив", "Драма", "Исторический фильм",
-                "Комедия", "Мелодрама", "Музыкальный фильм", "Нуар", "Политический фильм", "Приключенческий фильм",
-                "Сказка", "Трагедия", "Трагикомедия")
-        ganre_spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, genres)
-        ganre_spinner.setSelection(0)
+        val db: SQLiteDatabase = FilmraryDbHelper.getInstance(this).readableDatabase
+        val text = "SELECT * FROM ${GanresContract.Ganres.TABLE_NAME}"
+        val genres = ArrayList<String>()
+        genres.add(" - ")
+        db.rawQuery(text, null).use { cursor ->
+            if (cursor.count != 0) {
+                while (cursor.moveToNext()) {
+                    genres.add(cursor.getString(1))
+                }
+            }
+            val adapter: ArrayAdapter<String> = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
+                    genres)
+            ganre_spinner.adapter = adapter
+        }
     }
 
     private fun setupActorSpinner() {
-        val actors = arrayOf("Брэд Питт", "Алексей Панин", "Хайден Кристенсен", "Анджелина Джоли",
-                "Джет Ли", "Александр Ревва")
-        actor_spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, actors)
-        actor_spinner.setSelection(0)
+        val db: SQLiteDatabase = FilmraryDbHelper.getInstance(this).readableDatabase
+        val text = "SELECT * FROM ${Countries.TABLE_NAME}"
+        val actors = ArrayList<String>()
+        actors.add(" - ")
+        db.rawQuery(text, null).use { cursor ->
+            if (cursor.count != 0) {
+                while (cursor.moveToNext()) {
+                    actors.add(cursor.getString(1))
+                }
+            }
+            val adapter: ArrayAdapter<String> = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, actors)
+            actor_spinner.adapter = adapter
+        }
     }
 
     private fun setupProducerSpinner() {
-        val producer = arrayOf("Джеймс Кэмерон", "Джордж Лукас", "Тим Бёртон", "Акира Куросава", "Тимур Бекмамбетов",
-                "Сарик Андреасян", "Люк Бессон")
-        producer_spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, producer)
-        producer_spinner.setSelection(0)
+        val db: SQLiteDatabase = FilmraryDbHelper.getInstance(this).readableDatabase
+        val text = "SELECT * FROM ${ProducersContract.Producers.TABLE_NAME}"
+        val producers = ArrayList<String>()
+        producers.add(" - ")
+        db.rawQuery(text, null).use { cursor ->
+            if (cursor.count != 0) {
+                while (cursor.moveToNext()) {
+                    producers.add(cursor.getString(1) + " " + cursor.getString(2))
+                }
+            }
+            val adapter: ArrayAdapter<String> = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, producers)
+            producer_spinner.setAdapter(adapter)
+        }
     }
 
     private fun setupYearSpinner() {
@@ -102,36 +171,69 @@ class SeriasInfoEditor : AppCompatActivity() {
         year_spinner.setSelection(0)
     }
 
-    fun onClick(view: View) {
-        val vNameEditText = name_edit_text.text.toString()
-        val vYearSpinner = year_spinner.selectedItem.toString()
-        val vCountrySpinner = country_spinner.selectedItem.toString()
-        val vAgeText = age_edit_text.text.toString()
-        val vGenreSpinner = ganre_spinner.selectedItem.toString()
-        val vActorSpinner = actor_spinner.selectedItem.toString()
-        val vProducerSpinner = producer_spinner.selectedItem.toString()
-        val vImbdEditText = imdb_edit_text.text.toString()
-        val vKinopoiskEditText = kinopoisk_edit_text.text.toString()
-        val vWantRadioGroup = checkRadioButtons().toString()
-        val vDescriptionEditText = description_edit_text.text.toString()
-        val vLinkText = link_edit_text.text.toString()
+    private fun setupStateSpinner() {
+        val state = arrayOf(" - ", "В процессе", "Завершен", "Заморожен")
+        state_spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, state)
+        state_spinner.setSelection(0)
+    }
 
-        if (vNameEditText.isEmpty() || vImbdEditText.isEmpty() || vKinopoiskEditText.isEmpty()) {
+    fun onClick(view: View) {
+        val vNameEditText: String = name_edit_text.text.toString()
+        val vStartYearSpinner: String = year_spinner.selectedItem.toString()
+        val vSeasonsNumEditText: String = seasons_num_edit_text.text.toString()
+        val vEpDurationEditText: String = ep_duration_edit_text.text.toString()
+        val vEpInSeasonNumEditText: String = ep_in_season_edit_text.text.toString()
+        val vStateSpinner: String = state_spinner.selectedItem.toString()
+        val vCountrySpinner: String = country_spinner.selectedItem.toString()
+        val vAgeEditText: String = age_edit_text.text.toString()
+        val vGenreSpinner: String = ganre_spinner.selectedItem.toString()
+        val vActorSpinner: String = actor_spinner.selectedItem.toString()
+        val vProducerSpinner: String = producer_spinner.selectedItem.toString()
+        val vImdbEditText: String = imdb_edit_text.text.toString()
+        val vKinopoiskEditText: String = kinopoisk_edit_text.text.toString()
+        val vWant = checkRadioButtons()
+        val vWantRadioGroup = vWant.toString()
+        val vLinkEditText: String = link_edit_text.text.toString()
+        val vDescriptionEditText: String = description_edit_text.text.toString()
+
+        if (vNameEditText.isEmpty() || vImdbEditText.isEmpty() || vKinopoiskEditText.isEmpty()
+                || vAgeEditText.isEmpty() || vStartYearSpinner.isEmpty() || vSeasonsNumEditText.isEmpty()
+                || vEpDurationEditText.isEmpty() || vEpInSeasonNumEditText.isEmpty()) {
             Toast.makeText(this, "Some fields are empty!", Toast.LENGTH_LONG).show()
             return
         }
+
+        val intent = Intent(this, MainActivitySerias::class.java)
+        intent.putExtra(Serias.COLUMN_NAME, vNameEditText)
+        intent.putExtra(Serias.COLUMN_START_YEAR, vStartYearSpinner)
+        intent.putExtra(Serias.COLUMN_SEASONS_NUM, vSeasonsNumEditText)
+        intent.putExtra(Serias.COLUMN_EP_DURATION, vEpDurationEditText)
+        intent.putExtra(Serias.COLUMN_EP_IN_SEASON_NUM, vEpInSeasonNumEditText)
+        intent.putExtra(Serias.COLUMN_STATE, vStateSpinner)
+        intent.putExtra(Serias.COLUMN_COUNTRY, vCountrySpinner)
+        intent.putExtra(Serias.COLUMN_AGE, vAgeEditText)
+        intent.putExtra(Serias.COLUMN_GANRE, vGenreSpinner)
+        intent.putExtra(Serias.COLUMN_ACTOR, vActorSpinner)
+        intent.putExtra(Serias.COLUMN_PRODUCER, vProducerSpinner)
+        intent.putExtra(Serias.COLUMN_IMDB, vImdbEditText)
+        intent.putExtra(Serias.COLUMN_KINOPOISK, vKinopoiskEditText)
+        intent.putExtra(Serias.COLUMN_WANT, vWantRadioGroup)
+        intent.putExtra(Serias.COLUMN_LINK, vLinkEditText)
+        intent.putExtra(Serias.COLUMN_DESCRIPTION, vDescriptionEditText)
+        intent.putExtra("fromEditor", true)
 
         val filmId = intent.getStringExtra(Serias._ID)
         val db = FilmraryDbHelper.getInstance(this).writableDatabase
         val deleted = db.delete(Serias.TABLE_NAME, "${Serias._ID} = $filmId", null)
         Log.d("filmEditDeleteMovies", "Deleted $deleted rows", null)
 
-        CommonFunctions.addMovie(vNameEditText, vYearSpinner, vCountrySpinner, vAgeText, vGenreSpinner, vActorSpinner,
-                vProducerSpinner, vImbdEditText, vKinopoiskEditText, vWantRadioGroup, vDescriptionEditText, vLinkText,
-                FilmraryDbHelper.getInstance(this))
+        CommonFunctions.addSerias(vNameEditText, vStartYearSpinner, vSeasonsNumEditText, vEpDurationEditText,
+                vEpInSeasonNumEditText, vStateSpinner, vCountrySpinner, vAgeEditText, vGenreSpinner, vActorSpinner,
+                vProducerSpinner, vImdbEditText, vKinopoiskEditText, vWantRadioGroup, vLinkEditText,
+                vDescriptionEditText, FilmraryDbHelper.getInstance(this))
         intent.setClass(this, MainActivity::class.java)
         startActivity(intent)
-        this.finish()
+        finish()
     }
 
     private fun checkRadioButtons(): Int {
