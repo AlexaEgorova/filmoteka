@@ -425,7 +425,7 @@ public class MainActivity extends AppCompatActivity {
 
         String queryCountryFilm = "SELECT * FROM " + CountryFilmContract.CountryFilm.TABLE_NAME
                 + " WHERE " + CountryFilmContract.CountryFilm.COLUMN_COUNTRY_ID
-                + " = '" + Integer.toString(found_id) + "'";
+                + " = '" + found_id + "'";
         try (Cursor cursor = db.rawQuery(queryCountryFilm, null)) {
             if (cursor.getCount() != 0) {
                 Toast.makeText(this, "This country is needed for films!", Toast.LENGTH_SHORT).show();
@@ -434,7 +434,7 @@ public class MainActivity extends AppCompatActivity {
         }
         String queryCountrySeries = "SELECT * FROM " + CountrySeriasContract.CountrySerias.TABLE_NAME
                 + " WHERE " + CountrySeriasContract.CountrySerias.COLUMN_COUNTRY_ID
-                + " = '" + Integer.toString(found_id) + "'";
+                + " = '" + found_id + "'";
         try (Cursor cursor = db.rawQuery(queryCountrySeries, null)) {
             if (cursor.getCount() != 0) {
                 Toast.makeText(this, "This country is needed for series!", Toast.LENGTH_SHORT).show();
@@ -442,11 +442,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         int deleted = db.delete(CountriesContract.Countries.TABLE_NAME,
-                CountriesContract.Countries._ID + " = '" + Integer.toString(found_id) + "'",
+                CountriesContract.Countries._ID + " = '" + found_id + "'",
                 null);
         if (deleted == 0)
             return false;
-        Toast.makeText(this, "Deleted row " + Integer.toString(deleted) + "!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Deleted row " + deleted + "!", Toast.LENGTH_SHORT).show();
         return true;
     }
 }

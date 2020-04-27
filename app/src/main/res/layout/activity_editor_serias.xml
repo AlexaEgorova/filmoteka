@@ -149,7 +149,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/background_light"
-                android:text="@string/plus"/>
+                android:text="@string/plus"
+                android:onClick="addCountry"/>
 
         </LinearLayout>
 
@@ -184,7 +185,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/background_light"
-                android:text="@string/plus"/>
+                android:text="@string/plus"
+                android:onClick="addGenre"/>
 
         </LinearLayout>
 
@@ -219,7 +221,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/background_light"
-                android:text="@string/plus"/>
+                android:text="@string/plus"
+                android:onClick="addActor"/>
 
         </LinearLayout>
 
@@ -254,7 +257,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/background_light"
-                android:text="@string/plus"/>
+                android:text="@string/plus"
+                android:onClick="addProducer"/>
 
         </LinearLayout>
 

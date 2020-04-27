@@ -1,6 +1,7 @@
 package com.example.filmoteka;
 
 import android.app.Activity;
+import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -171,6 +172,26 @@ public class EditorActivitySerias extends AppCompatActivity {
             intent.putExtra("fromEditor", true);
             startActivity(intent);
         });
+    }
+
+    public void addCountry(View view) {
+        Intent intent = new Intent(this, AddCountry.class);
+        startActivityForResult(intent, CODE_RETURN.COUNTRY.getValue());
+    }
+
+    public void addActor(View view) {
+        Intent intent = new Intent(this, AddActor.class);
+        startActivityForResult(intent, CODE_RETURN.ACTOR.getValue());
+    }
+
+    public void addProducer(View view) {
+        Intent intent = new Intent(this, AddProducer.class);
+        startActivityForResult(intent, CODE_RETURN.PRODUCER.getValue());
+    }
+
+    public void addGenre(View view) {
+        Intent intent = new Intent(this, AddGenre.class);
+        startActivityForResult(intent, CODE_RETURN.GENRE.getValue());
     }
 
     @Override

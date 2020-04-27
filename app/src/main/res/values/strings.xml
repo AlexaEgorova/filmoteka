@@ -77,12 +77,12 @@
     <string name="actor_name_hint">Имя актёра</string>
     <string name="actor_surname_hint">Фамилия актёра</string>
     <string name="actor_add_hint">Подтвердить добавление актёра</string>
-    <string name="producer_header">Добавление нового продюсера</string>
+    <string name="producer_header">Добавление нового режисёра</string>
     <string name="producer_name">Имя:</string>
-    <string name="producer_name_hint">Имя продюсера</string>
+    <string name="producer_name_hint">Имя режисёра</string>
     <string name="producer_surname">Фамилия</string>
-    <string name="producer_surname_hint">Фамилия продюсера</string>
-    <string name="producer_add_hint">Добавить продюсера</string>
+    <string name="producer_surname_hint">Фамилия режисёра</string>
+    <string name="producer_add_hint">Добавить режисёра</string>
     <string name="add_new_genre">Добавить новый жанр</string>
     <string name="genre_name">Жанр</string>
     <string name="editSeries">Изменить сериал</string>
