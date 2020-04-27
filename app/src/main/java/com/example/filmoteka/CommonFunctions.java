@@ -185,12 +185,15 @@ public class CommonFunctions {
     private static void cascadeAdd(SQLiteDatabase db, String query, String firstId, String secondId, int newFilmsRowId,
                                    String TABLE_NAME, String logMessageTableName) {
         try (Cursor cursor = db.rawQuery(query, null)) {
-            ContentValues values = new ContentValues();
-            int currentId = cursor.getPosition();
-            values.put(firstId, currentId);
-            values.put(secondId, newFilmsRowId);
-            long newRowId = db.insert(TABLE_NAME, null, values);
-            Log.d("addMovie", String.format("Added %s with Row ID%d", logMessageTableName, newRowId));
+            if (cursor.getCount() != 0) {
+                ContentValues values = new ContentValues();
+                cursor.moveToNext();
+                int currentId = cursor.getInt(0);
+                values.put(firstId, currentId);
+                values.put(secondId, newFilmsRowId);
+                long newRowId = db.insert(TABLE_NAME, null, values);
+                Log.d("addMovie", String.format("Added %s with Row ID%d", logMessageTableName, newRowId));
+            }
         }
     }
 }
