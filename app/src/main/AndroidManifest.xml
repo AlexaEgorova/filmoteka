@@ -12,6 +12,7 @@
         <activity android:name=".AddActor">
         </activity>
         <activity android:name=".FilmInfoEditor">
+        </activity>
         <activity android:name=".SeriasInfoEditor">
         </activity>
         <activity
@@ -24,7 +25,7 @@
         <activity
             android:name=".MainActivitySerias"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".EditorActivity"/>
         <activity android:name=".EditorActivitySerias"/>
         <activity
