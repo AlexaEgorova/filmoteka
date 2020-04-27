@@ -1,5 +1,7 @@
 package com.example.filmoteka
 
+import android.app.Activity
+import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.util.Log
@@ -52,6 +54,38 @@ class FilmInfoEditor : AppCompatActivity() {
 
         link_edit_text.setText(intent.getStringExtra(Films.COLUMN_LINK))
         description_edit_text.setText(intent.getStringExtra(Films.COLUMN_DESCRIPTION))
+    }
+
+    fun addCountry(view: View?) {
+        val intent = Intent(this, AddCountry::class.java)
+        startActivityForResult(intent, CODE_RETURN.COUNTRY.value)
+    }
+
+    fun addActor(view: View?) {
+        val intent = Intent(this, AddActor::class.java)
+        startActivityForResult(intent, CODE_RETURN.ACTOR.value)
+    }
+
+    fun addProducer(view: View?) {
+        val intent = Intent(this, AddProducer::class.java)
+        startActivityForResult(intent, CODE_RETURN.PRODUCER.value)
+    }
+
+    fun addGenre(view: View?) {
+        val intent = Intent(this, AddGenre::class.java)
+        startActivityForResult(intent, CODE_RETURN.GENRE.value)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (CODE_RETURN.values()[requestCode - 1]) {
+                CODE_RETURN.COUNTRY -> setupCountrySpinner()
+                CODE_RETURN.GENRE -> setupGenreSpinner()
+                CODE_RETURN.PRODUCER -> setupProducerSpinner()
+                CODE_RETURN.ACTOR -> setupActorSpinner()
+            }
+        }
     }
 
     private fun setupCountrySpinner() {
@@ -160,7 +194,7 @@ class FilmInfoEditor : AppCompatActivity() {
                 FilmraryDbHelper.getInstance(this))
         intent.setClass(this, MainActivity::class.java)
         startActivity(intent)
-        this.finish()
+        finish()
     }
 
     private fun checkRadioButtons(): Int {

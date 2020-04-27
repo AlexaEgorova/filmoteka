@@ -58,7 +58,7 @@ class FilmInfo : AppCompatActivity() {
         Log.d("filmInfoDeleteMovies", "Deleted $deleted rows", null)
         intent.setClass(this, MainActivity::class.java)
         startActivity(intent)
-        this.finish()
+        finish()
     }
 
     fun onClickEdit(view: View) {
