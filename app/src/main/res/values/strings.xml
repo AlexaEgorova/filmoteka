@@ -59,4 +59,12 @@
     <string name="film_edit_plus">+</string>
     <string name="films_collection">КОЛЛЕКЦИЯ ФИЛЬМОВ</string>
     <string name="series">СЕРИАЛЫ</string>
+
+    <string name="actor_header">Добавить нового актёра</string>
+    <string name="actor_name">Имя:</string>
+    <string name="actor_surname">Фамилия:</string>
+    <string name="pick_date">Выбрать день рождения</string>
+    <string name="actor_name_hint">Имя актёра</string>
+    <string name="actor_surname_hint">Фамилия актёра</string>
+    <string name="actor_add_hint">Подтвердить добавление актёра</string>
 </resources>
