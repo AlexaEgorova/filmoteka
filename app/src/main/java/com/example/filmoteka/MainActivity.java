@@ -100,6 +100,14 @@ public class MainActivity extends AppCompatActivity {
                         listItem.clear();
                         viewTableData(GanresContract.Ganres.TABLE_NAME);
                         tableSpinnerMode = GENRES;
+                    }  else if (selection.equalsIgnoreCase("хочу посмотреть")) {
+                        listItem.clear();
+                        viewTableData(WantToWatchContract.WantToWatch.TABLE_NAME);
+                        tableSpinnerMode = WANT;
+                    }  else if (selection.equalsIgnoreCase("посмотрел")) {
+                        listItem.clear();
+                        viewTableData(WatchedContract.Watched.TABLE_NAME);
+                        tableSpinnerMode = WATCHED;
                     } else { //if (selection.equals("Страны"))
                         listItem.clear();
                         viewTableData(CountriesContract.Countries.TABLE_NAME);
@@ -165,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
         //todo: add producers
         //todo: add want_to_watch
         //todo: add watched
-        String[] tables = {"Фильмы", "Страны", "Актёры", "Продюсеры", "Жанры"};
+        String[] tables = {"Фильмы", "Страны", "Актёры", "Продюсеры", "Жанры", "Хочу посмотреть", "Посмотрел"};
         fTablesSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, tables));
         fTablesSpinner.setSelection(0);
     }
