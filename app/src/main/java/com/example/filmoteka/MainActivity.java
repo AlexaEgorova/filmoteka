@@ -22,11 +22,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import data.ActorsContract;
-import data.CountriesContract;
-import data.FilmsContract;
+import data.*;
 import data.FilmsContract.Films;
-import data.FilmraryDbHelper;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -83,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
                     } else if (selection.equalsIgnoreCase("актёры")) {
                         listItem.clear();
                         viewTableData(ActorsContract.Actors.TABLE_NAME, 2);
+                    } else if (selection.equalsIgnoreCase("продюсеры")) {
+                        listItem.clear();
+                        viewTableData(ProducersContract.Producers.TABLE_NAME, 2);
                     } else { //if (selection.equals("Страны"))
                         listItem.clear();
                         viewTableData(CountriesContract.Countries.TABLE_NAME);
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         //todo: add actors
         //todo: add want_to_watch
         //todo: add watched
-        String[] tables = {"Фильмы", "Страны", "Актёры"};
+        String[] tables = {"Фильмы", "Страны", "Актёры", "Продюсеры"};
         fTablesSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, tables));
         fTablesSpinner.setSelection(0);
     }

@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import data.CountriesContract.Countries
 import data.FilmraryDbHelper
 import data.FilmsContract.Films
+import data.ProducersContract
 import kotlinx.android.synthetic.main.activity_film_info_editor.*
 import java.util.*
 
@@ -93,10 +94,19 @@ class FilmInfoEditor : AppCompatActivity() {
     }
 
     private fun setupProducerSpinner() {
-        val producer = arrayOf("Джеймс Кэмерон", "Джордж Лукас", "Тим Бёртон", "Акира Куросава", "Тимур Бекмамбетов",
-                "Сарик Андреасян", "Люк Бессон")
-        producer_spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, producer)
-        producer_spinner.setSelection(0)
+        val db: SQLiteDatabase = FilmraryDbHelper.getInstance(this).readableDatabase
+        val text = "SELECT * FROM " + ProducersContract.Producers.TABLE_NAME
+        val producers = ArrayList<String>()
+        producers.add(" - ")
+        db.rawQuery(text, null).use { cursor ->
+            if (cursor.count != 0) {
+                while (cursor.moveToNext()) {
+                    producers.add(cursor.getString(1) + " " + cursor.getString(2))
+                }
+            }
+            val adapter: ArrayAdapter<String> = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, producers)
+            producer_spinner.setAdapter(adapter)
+        }
     }
 
     private fun setupYearSpinner() {

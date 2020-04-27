@@ -15,10 +15,7 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import data.ActorsContract;
-import data.CountriesContract;
-import data.FilmraryDbHelper;
-import data.FilmsContract;
+import data.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,6 +43,7 @@ public class EditorActivity extends AppCompatActivity {
     public FilmraryDbHelper vDbHelper;
     ArrayList<String> countries;
     ArrayList<String> actors;
+    ArrayList<String> producers;
 
     /**
      * Год премьеры, минимальное значение 1895, максимальное - текущий год.
@@ -140,6 +138,11 @@ public class EditorActivity extends AppCompatActivity {
         startActivityForResult(intent, CODE_RETURN.ACTOR.getValue());
     }
 
+    public void addProducer(View view) {
+        Intent intent = new Intent(EditorActivity.this, AddProducer.class);
+        startActivityForResult(intent, CODE_RETURN.PRODUCER.getValue());
+    }
+
     private int checkRadioButtons() {
         if (fDontRadioButton.isChecked())
             return 0;
@@ -193,7 +196,7 @@ public class EditorActivity extends AppCompatActivity {
         try (Cursor cursor = db.rawQuery(text, null)) {
             if (cursor.getCount() != 0) {
                 while (cursor.moveToNext()) {
-                    countries.add(cursor.getString(1));
+                    countries.add(cursor.getString(1) + " " + cursor.getString(2));
                 }
             }
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, countries);
@@ -217,19 +220,29 @@ public class EditorActivity extends AppCompatActivity {
         try (Cursor cursor = db.rawQuery(text, null)) {
             if (cursor.getCount() != 0) {
                 while (cursor.moveToNext()) {
-                    actors.add(cursor.getString(1));
+                    actors.add(cursor.getString(1) + " " + cursor.getString(2));
                 }
             }
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, actors);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
+                                                              actors);
             fActorSpinner.setAdapter(adapter);
         }
     }
 
     private void setupProducerSpinner() {
-        String[] producer = {"Джеймс Кэмерон", "Джордж Лукас", "Тим Бёртон", "Акира Куросава", "Тимур Бекмамбетов",
-                "Сарик Андреасян", "Люк Бессон"};
-        fProducerSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, producer));
-        fProducerSpinner.setSelection(0);
+        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        String text = "SELECT * FROM " + ProducersContract.Producers.TABLE_NAME;
+        producers = new ArrayList<>();
+        producers.add(" - ");
+        try (Cursor cursor = db.rawQuery(text, null)) {
+            if (cursor.getCount() != 0) {
+                while (cursor.moveToNext()) {
+                    producers.add(cursor.getString(1) + " " + cursor.getString(2));
+                }
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, producers);
+            fProducerSpinner.setAdapter(adapter);
+        }
     }
 
     private String selectAllFromTableWhere(String TABLE_NAME, String COLUMN_NAME, String equalTo) {
