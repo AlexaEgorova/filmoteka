@@ -15,6 +15,7 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import data.ActorsContract;
 import data.CountriesContract;
 import data.FilmraryDbHelper;
 import data.FilmsContract;
@@ -44,6 +45,7 @@ public class EditorActivity extends AppCompatActivity {
 
     public FilmraryDbHelper vDbHelper;
     ArrayList<String> countries;
+    ArrayList<String> actors;
 
     /**
      * Год премьеры, минимальное значение 1895, максимальное - текущий год.
@@ -133,6 +135,11 @@ public class EditorActivity extends AppCompatActivity {
         Toast.makeText(EditorActivity.this, "" + text, Toast.LENGTH_LONG).show();
     }
 
+    public void addActor(View view) {
+        Intent intent = new Intent(EditorActivity.this, AddActor.class);
+        startActivityForResult(intent, CODE_RETURN.ACTOR.getValue());
+    }
+
     private int checkRadioButtons() {
         if (fDontRadioButton.isChecked())
             return 0;
@@ -203,10 +210,19 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void setupActorSpinner() {
-        String[] actors = {"Брэд Питт", "Алексей Панин", "Хайден Кристенсен", "Анджелина Джоли",
-                "Джет Ли", "Александр Ревва"};
-        fActorSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, actors));
-        fActorSpinner.setSelection(0);
+        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        String text = "SELECT * FROM " + ActorsContract.Actors.TABLE_NAME;
+        actors = new ArrayList<>();
+        actors.add(" - ");
+        try (Cursor cursor = db.rawQuery(text, null)) {
+            if (cursor.getCount() != 0) {
+                while (cursor.moveToNext()) {
+                    actors.add(cursor.getString(1));
+                }
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, actors);
+            fActorSpinner.setAdapter(adapter);
+        }
     }
 
     private void setupProducerSpinner() {

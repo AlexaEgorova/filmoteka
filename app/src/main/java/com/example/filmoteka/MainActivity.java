@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import data.ActorsContract;
 import data.CountriesContract;
 import data.FilmsContract;
 import data.FilmsContract.Films;
@@ -74,11 +75,14 @@ public class MainActivity extends AppCompatActivity {
         fTablesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String selection = (String)parentView.getItemAtPosition(position);
-                if(!TextUtils.isEmpty(selection)) {
+                String selection = (String) parentView.getItemAtPosition(position);
+                if (!TextUtils.isEmpty(selection)) {
                     if (selection.equals("Фильмы")) {
                         listItem.clear();
                         viewTableData(Films.TABLE_NAME);
+                    } else if (selection.equalsIgnoreCase("актёры")) {
+                        listItem.clear();
+                        viewTableData(ActorsContract.Actors.TABLE_NAME, 2);
                     } else { //if (selection.equals("Страны"))
                         listItem.clear();
                         viewTableData(CountriesContract.Countries.TABLE_NAME);
@@ -127,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         //todo: add actors
         //todo: add want_to_watch
         //todo: add watched
-        String[] tables = {"Фильмы", "Страны"};
+        String[] tables = {"Фильмы", "Страны", "Актёры"};
         fTablesSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, tables));
         fTablesSpinner.setSelection(0);
     }
@@ -206,7 +210,6 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             Intent intent = new Intent(MainActivity.this, MainActivitySerias.class);
             startActivity(intent);
-
         }
 
         return super.onOptionsItemSelected(item);
@@ -214,6 +217,29 @@ public class MainActivity extends AppCompatActivity {
 
 
     // add data
+    public void viewTableData(String tableName, int numberOfColumns) {
+        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        String query = "SELECT * FROM " + tableName;
+        try (Cursor cursor = db.rawQuery(query, null)) {
+
+            if (cursor.getCount() == 0) {
+                Toast.makeText(this, "No data in db", Toast.LENGTH_SHORT).show();
+            } else {
+                while (cursor.moveToNext()) {
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 1; i <= numberOfColumns; ++i) {
+                        sb.append(cursor.getString(i));
+                        if (i != numberOfColumns) {
+                            sb.append(" ");
+                        }
+                    }
+                    listItem.add(sb.toString());
+                }
+                adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItem);
+                tablesListView.setAdapter(adapter);
+            }
+        }
+    }
 
     // show data in ListView
     public void viewTableData(String tableName) {

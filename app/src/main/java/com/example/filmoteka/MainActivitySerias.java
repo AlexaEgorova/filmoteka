@@ -99,11 +99,7 @@ public class MainActivitySerias extends AppCompatActivity {
 
         // waits for click on list element
         // now if it is clicked - it deletes  (no eto ne tochno)
-        // todo: on click open new intent(window) with all info about chosen series
         moviesListView.setOnItemClickListener((parent, view, position, id) -> {
-//                // todo: check why doesnt't clear up immediately
-//                listItem.clear();
-//                viewTableData();
             Intent intent = new Intent(MainActivitySerias.this, SeriasInfo.class);
             String serias = (String) moviesListView.getItemAtPosition(position);
             String[] seriasString = searchSeriasByName(serias);

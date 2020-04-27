@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:fillViewport="false">
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".AddActor">
+
+        <TextView
+                android:id="@+id/header_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingTop="20dp"
+                android:paddingRight="10dp"
+                android:shadowColor="#0F0F0F"
+                android:text="@string/actor_header"
+                android:textSize="24sp"
+                app:fontFamily="sans-serif-black" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="21dp" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="21dp" app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+                android:id="@+id/actor_name_text_view"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:paddingTop="11dp"
+                android:text="@string/actor_name"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/header_text_view"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="21dp"/>
+
+        <EditText
+                android:id="@+id/actor_name_edit_text"
+                android:layout_width="268dp"
+                android:layout_height="31dp"
+                android:background="@android:color/white"
+                android:focusable="true"
+                android:gravity="center"
+                android:hint="@string/actor_name_hint"
+                android:textAlignment="center"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/actor_name_text_view"
+                app:layout_constraintTop_toTopOf="@+id/actor_name_text_view" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="21dp" app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintBottom_toBottomOf="@+id/actor_name_text_view"
+                app:layout_constraintVertical_bias="0.0"/>
+        <TextView
+                android:id="@+id/actor_surname_text_view"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:paddingTop="11dp"
+                android:text="@string/actor_surname"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/actor_name_text_view"
+                app:layout_constraintStart_toStartOf="@+id/actor_name_text_view"/>
+
+        <EditText
+                android:id="@+id/actor_surname_edit_text"
+                android:layout_width="269dp"
+                android:layout_height="33dp"
+                android:background="@android:color/white"
+                android:focusable="true"
+                android:gravity="center"
+                android:hint="@string/actor_surname_hint"
+                android:textAlignment="center"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/actor_name_text_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="21dp"
+                app:layout_constraintBottom_toBottomOf="@+id/actor_surname_text_view"
+                app:layout_constraintTop_toBottomOf="@+id/actor_name_edit_text"/>
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pick_date"
+                app:layout_constraintTop_toBottomOf="@+id/actor_surname_text_view"
+                android:onClick="showDatePickerDialog"
+                app:layout_constraintStart_toStartOf="@+id/actor_surname_text_view"
+                app:layout_constraintEnd_toEndOf="@+id/actor_surname_edit_text"
+                android:id="@+id/actor_birthday"/>
+
+        <Button
+                android:id="@+id/add_actor_button"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:hint="@string/actor_add_hint"
+                android:text="@string/add"
+                app:layout_constraintTop_toBottomOf="@+id/actor_birthday"
+                android:onClick="addActor"
+                app:layout_constraintEnd_toEndOf="@+id/actor_birthday"
+                app:layout_constraintStart_toStartOf="@+id/actor_birthday"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

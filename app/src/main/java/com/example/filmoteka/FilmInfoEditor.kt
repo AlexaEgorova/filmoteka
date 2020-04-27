@@ -77,10 +77,19 @@ class FilmInfoEditor : AppCompatActivity() {
     }
 
     private fun setupActorSpinner() {
-        val actors = arrayOf("Брэд Питт", "Алексей Панин", "Хайден Кристенсен", "Анджелина Джоли",
-                "Джет Ли", "Александр Ревва")
-        actor_spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, actors)
-        actor_spinner.setSelection(0)
+        val db: SQLiteDatabase = FilmraryDbHelper.getInstance(this).readableDatabase
+        val text = "SELECT * FROM " + Countries.TABLE_NAME
+        val actors = ArrayList<String>()
+        actors.add(" - ")
+        db.rawQuery(text, null).use { cursor ->
+            if (cursor.count != 0) {
+                while (cursor.moveToNext()) {
+                    actors.add(cursor.getString(1))
+                }
+            }
+            val adapter: ArrayAdapter<String> = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, actors)
+            actor_spinner.adapter = adapter
+        }
     }
 
     private fun setupProducerSpinner() {
