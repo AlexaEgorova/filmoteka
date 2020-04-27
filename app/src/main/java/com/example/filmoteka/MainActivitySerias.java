@@ -83,7 +83,6 @@ public class MainActivitySerias extends AppCompatActivity {
         viewMovies();
 
         // waits for click on list element
-        // now if it is clicked - it deletes  (no eto ne tochno)
         moviesListView.setOnItemClickListener((parent, view, position, id) -> {
             Intent intent = new Intent(MainActivitySerias.this, SeriasInfo.class);
             String serias = (String) moviesListView.getItemAtPosition(position);

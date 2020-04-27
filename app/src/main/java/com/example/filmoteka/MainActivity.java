@@ -96,17 +96,17 @@ public class MainActivity extends AppCompatActivity {
                         listItem.clear();
                         viewTableData(ProducersContract.Producers.TABLE_NAME, 2);
                         tableSpinnerMode = PRODUCERS;
-                    } else if (selection.equalsIgnoreCase("жанры")) {
+                    }  else if (selection.equalsIgnoreCase("жанры")) {
                         listItem.clear();
                         viewTableData(GanresContract.Ganres.TABLE_NAME);
                         tableSpinnerMode = GENRES;
-                    } else if (selection.equalsIgnoreCase("хочу посмотреть")) {
+                    }  else if (selection.equalsIgnoreCase("хочу посмотреть")) {
                         listItem.clear();
-                        viewTableDataWatch(WantToWatchContract.WantToWatch.TABLE_NAME);
+                        viewTableData(WantToWatchContract.WantToWatch.TABLE_NAME);
                         tableSpinnerMode = WANT;
-                    } else if (selection.equalsIgnoreCase("посмотрел")) {
+                    }  else if (selection.equalsIgnoreCase("посмотрел")) {
                         listItem.clear();
-                        viewTableDataWatch(WatchedContract.Watched.TABLE_NAME);
+                        viewTableData(WatchedContract.Watched.TABLE_NAME);
                         tableSpinnerMode = WATCHED;
                     } else { //if (selection.equals("Страны"))
                         listItem.clear();
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
         tablesListView.setOnItemClickListener((parent, view, position, id) -> {
             String name = (String) tablesListView.getItemAtPosition(position);
-            switch (tableSpinnerMode) {
+            switch(tableSpinnerMode) {
                 case FILMS: {
                     Intent intent = new Intent(MainActivity.this, FilmInfo.class);
                     String film = (String) tablesListView.getItemAtPosition(position);
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 }
                 case COUNTRIES: {
-                    boolean done = deleteCountry((int) id);
+                    boolean done = deleteCountry(name);
                     listItem.clear();
                     viewTableData(CountriesContract.Countries.TABLE_NAME);
                     break;
@@ -406,11 +406,26 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //    }
 
-    public boolean deleteCountry(int cur_id) {
+    public boolean deleteCountry(String name) {
         SQLiteDatabase db = vDbHelper.getWritableDatabase();
+        int found_id = 0;
+
+        String idQuery = "SELECT * FROM " + CountriesContract.Countries.TABLE_NAME
+                + " WHERE " + CountriesContract.Countries.COLUMN_NAME + " = '"
+                + name + "'";
+        try (Cursor cursor = db.rawQuery(idQuery, null)) {
+            int idColumnIndex = cursor.getColumnIndex(CountriesContract.Countries._ID);
+            if (cursor.getCount() != 0) {
+                while (cursor.moveToNext())
+                    found_id = cursor.getInt(idColumnIndex);
+            }
+            else
+                Toast.makeText(this, "No such!", Toast.LENGTH_SHORT).show();
+        }
+
         String queryCountryFilm = "SELECT * FROM " + CountryFilmContract.CountryFilm.TABLE_NAME
                 + " WHERE " + CountryFilmContract.CountryFilm.COLUMN_COUNTRY_ID
-                + " = '" + Integer.toString(cur_id) + "'";
+                + " = '" + Integer.toString(found_id) + "'";
         try (Cursor cursor = db.rawQuery(queryCountryFilm, null)) {
             if (cursor.getCount() != 0) {
                 Toast.makeText(this, "This country is needed for films!", Toast.LENGTH_SHORT).show();
@@ -419,7 +434,7 @@ public class MainActivity extends AppCompatActivity {
         }
         String queryCountrySeries = "SELECT * FROM " + CountrySeriasContract.CountrySerias.TABLE_NAME
                 + " WHERE " + CountrySeriasContract.CountrySerias.COLUMN_COUNTRY_ID
-                + " = '" + Integer.toString(cur_id) + "'";
+                + " = '" + Integer.toString(found_id) + "'";
         try (Cursor cursor = db.rawQuery(queryCountrySeries, null)) {
             if (cursor.getCount() != 0) {
                 Toast.makeText(this, "This country is needed for series!", Toast.LENGTH_SHORT).show();
@@ -427,8 +442,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         int deleted = db.delete(CountriesContract.Countries.TABLE_NAME,
-                                CountriesContract.Countries._ID + " = '" + Integer.toString(cur_id) + "'",
-                                null);
+                CountriesContract.Countries._ID + " = '" + Integer.toString(found_id) + "'",
+                null);
+        if (deleted == 0)
+            return false;
         Toast.makeText(this, "Deleted row " + Integer.toString(deleted) + "!", Toast.LENGTH_SHORT).show();
         return true;
     }
