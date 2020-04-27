@@ -1,14 +1,12 @@
 package com.example.filmoteka;
 
+import android.app.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -98,8 +96,7 @@ public class EditorActivitySerias extends AppCompatActivity {
         Button addCountryButton = findViewById(R.id.add_country_button);
         addCountryButton.setOnClickListener(view -> {
             Intent intent = new Intent(EditorActivitySerias.this, AddCountry.class);
-            intent.putExtra("name", "editorSerias");
-            startActivity(intent);
+            startActivityForResult(intent, CODE_RETURN.COUNTRY.getValue());
         });
 
         Button addGanreButton = findViewById(R.id.add_ganre_button);
@@ -169,6 +166,28 @@ public class EditorActivitySerias extends AppCompatActivity {
             intent.putExtra("fromEditor", true);
             startActivity(intent);
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+            switch (CODE_RETURN.values()[requestCode - 1]) {
+                case COUNTRY:
+                    setupCountrySpinner();
+                    break;
+                case GENRE:
+                    setupGanreSpinner();
+                    break;
+                case PRODUCER:
+                    setupProducerSpinner();
+                    break;
+                case ACTOR:
+                    setupActorSpinner();
+                    break;
+            }
+        }
     }
 
     private int checkRadioButtons() {

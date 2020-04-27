@@ -1,14 +1,13 @@
 package com.example.filmoteka;
 
+import android.app.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +21,25 @@ import data.FilmsContract;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+
+enum CODE_RETURN {
+    COUNTRY(1),
+    GENRE(2),
+    PRODUCER(3),
+    ACTOR(4),
+    WANT_TO_WATCH(5),
+    WATCHED(6);
+
+    private final int value;
+
+    CODE_RETURN(int value) {
+        this.value = value;
+    }
+
+    public int getValue() {
+        return value;
+    }
+}
 
 public class EditorActivity extends AppCompatActivity {
 
@@ -125,8 +143,7 @@ public class EditorActivity extends AppCompatActivity {
         Button addCountryButton = findViewById(R.id.add_country_button);
         addCountryButton.setOnClickListener(view -> {
             Intent intent = new Intent(EditorActivity.this, AddCountry.class);
-            intent.putExtra("name", "editor");
-            startActivity(intent);
+            startActivityForResult(intent, CODE_RETURN.COUNTRY.getValue());
         });
     }
 
@@ -142,6 +159,29 @@ public class EditorActivity extends AppCompatActivity {
             return 1;
         else //if (fWatchedRadioButton.isChecked())
             return 2;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+
+            switch (CODE_RETURN.values()[requestCode - 1]) {
+                case COUNTRY:
+                    setupCountrySpinner();
+                    break;
+                case GENRE:
+                    setupGanreSpinner();
+                    break;
+                case PRODUCER:
+                    setupProducerSpinner();
+                    break;
+                case ACTOR:
+                    setupActorSpinner();
+                    break;
+            }
+        }
     }
 
     private void setupYearSpinner() {

@@ -1,14 +1,13 @@
 package com.example.filmoteka;
 
+import android.app.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -25,10 +24,6 @@ public class AddCountry extends AppCompatActivity{
     CustomStringList3 countries;
 
     protected void onCreate(Bundle savedInstanceState) {
-
-        Intent fromIntent = getIntent();
-        String fromActivityName = fromIntent.getStringExtra("name");
-
         vDbHelper = FilmraryDbHelper.getInstance(this);
 
         super.onCreate(savedInstanceState);
@@ -45,19 +40,17 @@ public class AddCountry extends AppCompatActivity{
             }
 
             // а чё делать, если фильм не добавлен? пока давай оставаться на странице..
+            //todo: какой фильм?
             boolean added = addCountry(vAddCountryEditText);
             if (added) {
-                Intent intent;
-                if (fromActivityName.equalsIgnoreCase("editor"))
-                    intent = new Intent(AddCountry.this, EditorActivity.class);
-                else //if (fromActivityName.equalsIgnoreCase("editorSerias"))
-                    intent = new Intent(AddCountry.this, EditorActivitySerias.class);
-                startActivity(intent);
+                //todo: видала, как придумал?)
+                setResult(Activity.RESULT_OK);
+                finish();
             }
         });
     }
 
-    public class CustomStringList3 extends ArrayList<String> {
+    public static class CustomStringList3 extends ArrayList<String> {
         @Override
         public boolean contains(Object o) {
             String paramStr = (String)o;

@@ -106,15 +106,15 @@ class FilmInfoEditor : AppCompatActivity() {
         val vNameEditText = name_edit_text.text.toString()
         val vYearSpinner = year_spinner.selectedItem.toString()
         val vCountrySpinner = country_spinner.selectedItem.toString()
-        val vGenreSpinner = ganre_spinner.selectedItem.toString()
         val vAgeText = age_edit_text.text.toString()
+        val vGenreSpinner = ganre_spinner.selectedItem.toString()
         val vActorSpinner = actor_spinner.selectedItem.toString()
         val vProducerSpinner = producer_spinner.selectedItem.toString()
         val vImbdEditText = imdb_edit_text.text.toString()
         val vKinopoiskEditText = kinopoisk_edit_text.text.toString()
         val vWantRadioGroup = checkRadioButtons().toString()
-        val vLinkText = link_edit_text.text.toString()
         val vDescriptionEditText = description_edit_text.text.toString()
+        val vLinkText = link_edit_text.text.toString()
 
         if (vNameEditText.isEmpty() || vImbdEditText.isEmpty() || vKinopoiskEditText.isEmpty()) {
             Toast.makeText(this, "Some fields are empty!", Toast.LENGTH_LONG).show()
@@ -126,8 +126,8 @@ class FilmInfoEditor : AppCompatActivity() {
         val deleted = db.delete(Films.TABLE_NAME, "${Films._ID} = $filmId", null)
         Log.d("filmEditDeleteMovies", "Deleted $deleted rows", null)
 
-        CommonFunctions.addMovie(vNameEditText, vYearSpinner, vCountrySpinner, vGenreSpinner, vAgeText, vActorSpinner,
-                vProducerSpinner, vImbdEditText, vKinopoiskEditText, vWantRadioGroup, vLinkText, vDescriptionEditText,
+        CommonFunctions.addMovie(vNameEditText, vYearSpinner, vCountrySpinner, vAgeText, vGenreSpinner, vActorSpinner,
+                vProducerSpinner, vImbdEditText, vKinopoiskEditText, vWantRadioGroup, vDescriptionEditText, vLinkText,
                 FilmraryDbHelper.getInstance(this))
         intent.setClass(this, MainActivity::class.java)
         startActivity(intent)
