@@ -217,7 +217,7 @@ public class EditorActivity extends AppCompatActivity {
         try (Cursor cursor = db.rawQuery(text, null)) {
             if (cursor.getCount() != 0) {
                 while (cursor.moveToNext()) {
-                    actors.add(cursor.getString(1));
+                    actors.add(cursor.getString(1)+ " " + cursor.getString(2));
                 }
             }
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, actors);
