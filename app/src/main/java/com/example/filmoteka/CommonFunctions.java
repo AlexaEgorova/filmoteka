@@ -28,7 +28,7 @@ public class CommonFunctions {
                                 String vActorSpinner, String vProducerSpinner,
                                 String vImdbEditText, String vKinopoiskEditText,
                                 String vWantRadioGroup,
-                                String vDescriptionEditText, String vLinkEditText,
+                                String vLinkEditText, String vDescriptionEditText,
                                 FilmraryDbHelper vDbHelper) {
         SQLiteDatabase db = vDbHelper.getWritableDatabase();
 

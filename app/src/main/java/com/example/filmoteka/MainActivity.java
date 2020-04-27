@@ -159,8 +159,8 @@ public class MainActivity extends AppCompatActivity {
             CommonFunctions.addMovie(name,
                                      year, country, age, ganre, actor, producer,
                                      imdb, kinopoisk,
-                                     want,
-                                     description, link, vDbHelper);
+                                     want, link,
+                                     description, vDbHelper);
             listItem.clear();
             fTablesSpinner.setSelection(0);
             viewTableData(Films.TABLE_NAME);
