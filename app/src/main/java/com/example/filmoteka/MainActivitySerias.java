@@ -53,11 +53,6 @@ public class MainActivitySerias extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     ListView moviesListView;
 
-    ArrayList<String> countries;
-    ArrayList<String> ganres;
-    ArrayList<String> actors;
-    ArrayList<String> producers;
-
     // main serias window
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,14 +65,6 @@ public class MainActivitySerias extends AppCompatActivity {
 
         // for work with db
         vDbHelper = FilmraryDbHelper.getInstance(this);
-
-        // Вроде сделал todo_: fill setupSpinner() voids
-        //todo: each Array List should be filled with info from table with same name (actors from Actors)
-        listItem = new ArrayList<>();
-        countries = new ArrayList<>();
-        ganres = new ArrayList<>();
-        actors = new ArrayList<>();
-        producers = new ArrayList<>();
 
         // to show the list of movies
         viewMovies();
@@ -199,10 +186,6 @@ public class MainActivitySerias extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // todo: заполнить спиннеры
-    // todo: сделать опрятную кнопку добавить (мб всплывающее окно, мб всплывающие кнопки)
-    // todo: сделать заполнение таблиц актеры, жанры и пр по кнопкам
-    // todo: сделать что-то (чекбоксы, скроллвью) для просмотра всех таблиц для данной коллекции
     // todo: поработать над ограничениями
     // todo: добавить многострочность для больших полей (описание)
     // todo: в Инфо сделать что-то типа "Посмотреть каст" и туда жахнуть запросом таблицу атеров

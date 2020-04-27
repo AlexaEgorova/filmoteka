@@ -289,7 +289,7 @@
                     android:hint="@string/imdb"
                     android:textAlignment="center"
                     android:textSize="14sp"
-                    android:inputType="number"/>
+                    android:inputType="numberDecimal"/>
 
                 <EditText
                     android:id="@+id/kinopoisk_edit_text"
@@ -302,7 +302,7 @@
                     android:hint="@string/kinopoisk"
                     android:textAlignment="center"
                     android:textSize="14sp"
-                    android:inputType="number"/>
+                    android:inputType="numberDecimal"/>
             </LinearLayout>
 
             <LinearLayout
@@ -348,7 +348,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:paddingStart="5dp"
-                        android:text="Эпизодов в сезоне"
+                        android:paddingEnd="0dp"
+                        android:text="@string/episodes_in_season"
                         android:textSize="12sp" />
 
                     <EditText
@@ -357,9 +358,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
-                        android:hint="1"
+                        android:hint="@string/one"
                         android:inputType="number"
-                        android:numeric="integer"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -373,8 +373,9 @@
                         android:layout_width="70dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:paddingLeft="5dp"
-                        android:text="Длительность эпизода (мин)"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="0dp"
+                        android:text="@string/episode_duration"
                         android:textSize="12sp" />
 
                     <EditText
@@ -383,7 +384,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
-                        android:hint="30"
+                        android:hint="@string/_30"
                         android:inputType="number"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -402,7 +403,7 @@
                     android:layout_height="wrap_content"
                     android:button="@drawable/radiobutton_selector"
                     android:checked="true"
-                    android:text="Не добавлять в мою коллекцию"
+                    android:text="@string/dont_add_to_my_collection"
                     android:textSize="12sp" />
 
                 <RadioButton
@@ -410,7 +411,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:button="@drawable/radiobutton_selector"
-                    android:text="Хочу посмотреть"
+                    android:text="@string/want_to_watch"
                     android:textSize="12sp" />
 
                 <RadioButton
@@ -418,7 +419,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:button="@drawable/radiobutton_selector"
-                    android:text="Посмотрено"
+                    android:text="@string/watched"
                     android:textSize="12sp" />
 
             </RadioGroup>
@@ -440,7 +441,7 @@
                 android:layout_height="40dp"
                 android:background="@android:color/white"
                 android:focusable="true"
-                android:hint="Ссылка на трейлер"
+                android:hint="@string/trailer_link"
                 android:paddingLeft="10dp"
                 android:textSize="14sp" />
 
@@ -459,10 +460,11 @@
                 android:id="@+id/description_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:hint="Краткое описание фильма"
+                android:hint="@string/short_film_description"
                 android:focusable="true"
                 android:background="@android:color/white"
-                android:paddingLeft="10dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="0dp"
                 android:textSize="14sp"/>
 
         </LinearLayout>
@@ -477,8 +479,8 @@
             android:layout_marginRight="100dp"
             android:layout_marginBottom="40dp"
             android:background="@android:color/holo_blue_dark"
-            android:hint="Подтвердить добавление фильма"
-            android:text="Добавить" />
+            android:hint="@string/confirm_film_adding"
+            android:text="@string/add" />
 
     </LinearLayout>
 </ScrollView>
