@@ -59,6 +59,16 @@
     <string name="film_edit_plus">+</string>
     <string name="films_collection">КОЛЛЕКЦИЯ ФИЛЬМОВ</string>
     <string name="series">СЕРИАЛЫ</string>
+    <string name="series_name">Название сериала</string>
+    <string name="premier_year">Год премьеры</string>
+    <string name="episodes_in_season">Эпизодов в сезоне</string>
+    <string name="episode_duration">Длительность эпизода (мин)</string>
+    <string name="_30">30</string>
+    <string name="dont_add_to_my_collection">Не добавлять в мою коллекцию</string>
+    <string name="want_to_watch">Хочу посмотреть</string>
+    <string name="watched">Посмотрено</string>
+    <string name="trailer_link">Ссылка на трейлер</string>
+    <string name="short_film_description">Краткое описание фильма</string>
 
     <string name="actor_header">Добавить нового актёра</string>
     <string name="actor_name">Имя:</string>
