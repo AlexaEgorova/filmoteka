@@ -21,6 +21,7 @@ class SeriasInfo : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_info_serias)
+        appendText(header_text_view, readField(Serias.COLUMN_NAME, intent));
 
         appendText(seriesName, readField(Serias.COLUMN_NAME, intent))
         appendText(seriesYear, readField(Serias.COLUMN_START_YEAR, intent))
