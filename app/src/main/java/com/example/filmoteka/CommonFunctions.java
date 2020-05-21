@@ -132,9 +132,9 @@ public class CommonFunctions {
                 + " WHERE " + CountriesContract.Countries.COLUMN_NAME + " = '" + vCountrySpinner + "'";
         try (Cursor cursor = db.rawQuery(query, null)) {
             currentId = cursor.getPosition();
-            values.put(CountrySeriasContract.CountrySerias.COLUMN_COUNTRY_ID, currentId);
-            values.put(CountrySeriasContract.CountrySerias.COLUMN_SERIAS_ID, (int) newSeriasRowId);
-            long newCountryFilmRowId = db.insert(CountrySeriasContract.CountrySerias.TABLE_NAME, null, values);
+            values.put(CountrySeriesContract.CountrySerias.COLUMN_COUNTRY_ID, currentId);
+            values.put(CountrySeriesContract.CountrySerias.COLUMN_SERIES_ID, (int) newSeriasRowId);
+            long newCountryFilmRowId = db.insert(CountrySeriesContract.CountrySerias.TABLE_NAME, null, values);
             Log.d("addSerias", "Added CountryFilm with Row ID" + newCountryFilmRowId);
         }
 

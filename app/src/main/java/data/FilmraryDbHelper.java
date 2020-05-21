@@ -123,10 +123,10 @@ public class FilmraryDbHelper extends SQLiteOpenHelper {
                 + ActorSeriasContract.ActorSerias.COLUMN_ACTOR_ID + " INTEGER NOT NULL, "
                 + ActorSeriasContract.ActorSerias.COLUMN_SERIAS_ID + " INTEGER NOT NULL" + ")";
 
-        String SQL_CREATE_COUNTRY_SERIAS_TABLE = "CREATE TABLE " + CountrySeriasContract.CountrySerias.TABLE_NAME + "("
-                + CountrySeriasContract.CountrySerias._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + CountrySeriasContract.CountrySerias.COLUMN_COUNTRY_ID + " INTEGER NOT NULL, "
-                + CountrySeriasContract.CountrySerias.COLUMN_SERIAS_ID + " INTEGER NOT NULL" + ")";
+        String SQL_CREATE_COUNTRY_SERIAS_TABLE = "CREATE TABLE " + CountrySeriesContract.CountrySerias.TABLE_NAME + "("
+                                                 + CountrySeriesContract.CountrySerias._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                                                 + CountrySeriesContract.CountrySerias.COLUMN_COUNTRY_ID + " INTEGER NOT NULL, "
+                                                 + CountrySeriesContract.CountrySerias.COLUMN_SERIES_ID + " INTEGER NOT NULL" + ")";
 
         String SQL_CREATE_GANRE_SERIAS_TABLE = "CREATE TABLE " + GanreSeriasContract.GanreSerias.TABLE_NAME + "("
                 + GanreSeriasContract.GanreSerias._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -196,7 +196,7 @@ public class FilmraryDbHelper extends SQLiteOpenHelper {
 
         db.execSQL("DROP TABLE IF EXISTS " + SeriasContract.Serias.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + ActorSeriasContract.ActorSerias.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + CountrySeriasContract.CountrySerias.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + CountrySeriesContract.CountrySerias.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + GanreSeriasContract.GanreSerias.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + ProducerSeriasContract.ProducerSerias.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + WantToWatchSeriasContract.WantToWatchSerias.TABLE_NAME);

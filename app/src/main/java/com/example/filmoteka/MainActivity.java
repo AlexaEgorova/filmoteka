@@ -24,7 +24,9 @@ import java.util.ArrayList;
 
 import data.*;
 import data.FilmsContract.Films;
-
+import data.CountriesContract.Countries;
+import data.CountryFilmContract.CountryFilm;
+import data.CountrySeriesContract.CountrySerias;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -96,15 +98,15 @@ public class MainActivity extends AppCompatActivity {
                         listItem.clear();
                         viewTableData(ProducersContract.Producers.TABLE_NAME, 2);
                         tableSpinnerMode = PRODUCERS;
-                    }  else if (selection.equalsIgnoreCase("жанры")) {
+                    } else if (selection.equalsIgnoreCase("жанры")) {
                         listItem.clear();
                         viewTableData(GanresContract.Ganres.TABLE_NAME);
                         tableSpinnerMode = GENRES;
-                    }  else if (selection.equalsIgnoreCase("хочу посмотреть")) {
+                    } else if (selection.equalsIgnoreCase("хочу посмотреть")) {
                         listItem.clear();
                         viewTableDataWatch(WantToWatchContract.WantToWatch.TABLE_NAME);
                         tableSpinnerMode = WANT;
-                    }  else if (selection.equalsIgnoreCase("посмотрел")) {
+                    } else if (selection.equalsIgnoreCase("посмотрел")) {
                         listItem.clear();
                         viewTableDataWatch(WatchedContract.Watched.TABLE_NAME);
                         tableSpinnerMode = WATCHED;
@@ -127,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
 
         tablesListView.setOnItemClickListener((parent, view, position, id) -> {
             String name = (String) tablesListView.getItemAtPosition(position);
-            switch(tableSpinnerMode) {
+            switch (tableSpinnerMode) {
                 case FILMS: {
                     Intent intent = new Intent(MainActivity.this, FilmInfo.class);
                     String film = (String) tablesListView.getItemAtPosition(position);
@@ -139,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 }
                 case COUNTRIES: {
-                    boolean done = deleteCountry(name);
                     listItem.clear();
                     viewTableData(CountriesContract.Countries.TABLE_NAME);
                     break;
@@ -328,8 +329,7 @@ public class MainActivity extends AppCompatActivity {
 
     public ArrayList<String> searchMovie(int id) {
         SQLiteDatabase db = vDbHelper.getReadableDatabase();
-        String query = "SELECT * FROM " + FilmsContract.Films.TABLE_NAME
-                + " WHERE " + Films._ID + " = " + id;
+        String query = selectFromWhereInteger(Films.TABLE_NAME, Films._ID, id);
         ArrayList<String> list = new ArrayList<>();
         try (Cursor cursor = db.rawQuery(query, null)) {
 
@@ -348,9 +348,9 @@ public class MainActivity extends AppCompatActivity {
     // find movie by some id
     public void searchMovies(String text) {
         SQLiteDatabase db = vDbHelper.getReadableDatabase();
-        String query = "SELECT * FROM " + FilmsContract.Films.TABLE_NAME
-                + " WHERE " + FilmsContract.Films.COLUMN_NAME
-                + " LIKE  '%" + text + "%'";
+        String query = String.format("SELECT * " +
+                                     "FROM %s " +
+                                     "WHERE %s LIKE '%%%s%%'", Films.TABLE_NAME, Films.COLUMN_NAME, text);
         try (Cursor cursor = db.rawQuery(query, null)) {
 
             if (cursor.getCount() == 0) {
@@ -367,8 +367,9 @@ public class MainActivity extends AppCompatActivity {
 
     public String[] searchMovieByName(String name) {
         SQLiteDatabase db = vDbHelper.getReadableDatabase();
-        String query = "SELECT * FROM " + FilmsContract.Films.TABLE_NAME
-                + " WHERE (" + FilmsContract.Films.COLUMN_NAME + ") = '" + name + "'";
+        String query = String.format("SELECT * " +
+                                     "FROM %s " +
+                                     "WHERE %s = '%s'", Films.TABLE_NAME, Films.COLUMN_NAME, name);
         String[] result = new String[Films.COLUMNS.length];
         try (Cursor cursor = db.rawQuery(query, null)) {
 
@@ -390,6 +391,17 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public static String selectFromWhereString(String table, String column, String expression) {
+        return String.format("SELECT * " +
+                             "FROM %s " +
+                             "WHERE %s = '%s'", table, column, expression);
+    }
+
+    public static String selectFromWhereInteger(String table, String column, int expression) {
+        return String.format("SELECT * " +
+                             "FROM %s " +
+                             "WHERE %s = %d", table, column, expression);
+    }
 //    public boolean deleteActor(String name) {
 //        SQLiteDatabase db = vDbHelper.getWritableDatabase();
 //        String queryActors = "SELECT * FROM " + ActorsContract.Actors.TABLE_NAME + "WHERE";
@@ -410,31 +422,26 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = vDbHelper.getWritableDatabase();
         int found_id = 0;
 
-        String idQuery = "SELECT * FROM " + CountriesContract.Countries.TABLE_NAME
-                + " WHERE " + CountriesContract.Countries.COLUMN_NAME + " = '"
-                + name + "'";
+        String idQuery = selectFromWhereString(Countries.TABLE_NAME, Countries.COLUMN_NAME, name);
         try (Cursor cursor = db.rawQuery(idQuery, null)) {
             int idColumnIndex = cursor.getColumnIndex(CountriesContract.Countries._ID);
             if (cursor.getCount() != 0) {
                 while (cursor.moveToNext())
                     found_id = cursor.getInt(idColumnIndex);
-            }
-            else
+            } else
                 Toast.makeText(this, "No such!", Toast.LENGTH_SHORT).show();
         }
 
-        String queryCountryFilm = "SELECT * FROM " + CountryFilmContract.CountryFilm.TABLE_NAME
-                + " WHERE " + CountryFilmContract.CountryFilm.COLUMN_COUNTRY_ID
-                + " = '" + found_id + "'";
+        String queryCountryFilm = selectFromWhereInteger(CountryFilm.TABLE_NAME, CountryFilm.COLUMN_COUNTRY_ID,
+                                                         found_id);
         try (Cursor cursor = db.rawQuery(queryCountryFilm, null)) {
             if (cursor.getCount() != 0) {
                 Toast.makeText(this, "This country is needed for films!", Toast.LENGTH_SHORT).show();
                 return false;
             }
         }
-        String queryCountrySeries = "SELECT * FROM " + CountrySeriasContract.CountrySerias.TABLE_NAME
-                + " WHERE " + CountrySeriasContract.CountrySerias.COLUMN_COUNTRY_ID
-                + " = '" + found_id + "'";
+        String queryCountrySeries = selectFromWhereInteger(CountrySerias.TABLE_NAME, CountrySerias.COLUMN_COUNTRY_ID,
+                                                           found_id);
         try (Cursor cursor = db.rawQuery(queryCountrySeries, null)) {
             if (cursor.getCount() != 0) {
                 Toast.makeText(this, "This country is needed for series!", Toast.LENGTH_SHORT).show();
@@ -442,8 +449,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         int deleted = db.delete(CountriesContract.Countries.TABLE_NAME,
-                CountriesContract.Countries._ID + " = '" + found_id + "'",
-                null);
+                                CountriesContract.Countries._ID + " = '" + found_id + "'",
+                                null);
         if (deleted == 0)
             return false;
         Toast.makeText(this, "Deleted row " + deleted + "!", Toast.LENGTH_SHORT).show();
