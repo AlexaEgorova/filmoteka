@@ -23,7 +23,7 @@ import data.WantToWatchContract.WantToWatch;
 import data.WantToWatchSeriesContract.WantToWatchSeries;
 import data.WatchedContract.Watched;
 import data.WatchedSeriesContract.WatchedSeries;
-import data.WatchingSeriasContract.WatchingSerias;
+import data.WatchingSeriesContract.WatchingSeries;
 
 public class FilmraryDbHelper extends SQLiteOpenHelper {
     private static FilmraryDbHelper instance = null;
@@ -167,11 +167,11 @@ public class FilmraryDbHelper extends SQLiteOpenHelper {
                                                  + WatchedSeries.COLUMN_RATE + " INTEGER, "
                                                  + WatchedSeries.COLUMN_OPINION + " TEXT" + ")";
 
-        String SQL_CREATE_WATCING_SERIAS_TABLE = "CREATE TABLE " + WatchingSerias.TABLE_NAME + "("
-                                                 + WatchingSerias._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                                                 + WatchingSerias.COLUMN_SERIAS_ID + " INTEGER NOT NULL, "
-                                                 + WatchingSerias.COLUMN_SEASON_NUM + " INTEGER, "
-                                                 + WatchingSerias.COLUMN_EPISODE_NUM + " INTEGER)";
+        String SQL_CREATE_WATCING_SERIAS_TABLE = "CREATE TABLE " + WatchingSeries.TABLE_NAME + "("
+                                                 + WatchingSeries._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                                                 + WatchingSeries.COLUMN_SERIES_ID + " INTEGER NOT NULL, "
+                                                 + WatchingSeries.COLUMN_SEASON_NUM + " INTEGER, "
+                                                 + WatchingSeries.COLUMN_EPISODE_NUM + " INTEGER)";
 
         db.execSQL(SQL_CREATE_ACTORS_TABLE);
         db.execSQL(SQL_CREATE_ACTOR_FILM_TABLE);
@@ -218,7 +218,7 @@ public class FilmraryDbHelper extends SQLiteOpenHelper {
                 ProducerSeries.TABLE_NAME,
                 WantToWatchSeries.TABLE_NAME,
                 WatchedSeries.TABLE_NAME,
-                WatchingSeriasContract.WatchingSerias.TABLE_NAME
+                WatchingSeries.TABLE_NAME
         };
 
         for (String tableName : tables) {
