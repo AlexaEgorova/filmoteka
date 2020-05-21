@@ -211,7 +211,7 @@ public class EditorActivity extends AppCompatActivity {
 
     private void setupGanreSpinner() {
         SQLiteDatabase db = vDbHelper.getReadableDatabase();
-        String text = "SELECT * FROM " + GanresContract.Ganres.TABLE_NAME;
+        String text = "SELECT * FROM " + GenresContract.Genres.TABLE_NAME;
         genres = new ArrayList<>();
         genres.add(" - ");
         try (Cursor cursor = db.rawQuery(text, null)) {

@@ -6,7 +6,7 @@ public class CountrySeriesContract {
     private CountrySeriesContract() {
     }
 
-    public static final class CountrySerias implements BaseColumns {
+    public static final class CountrySeries implements BaseColumns {
         public final static String TABLE_NAME = "country_series";
 
         public final static String _ID = BaseColumns._ID;

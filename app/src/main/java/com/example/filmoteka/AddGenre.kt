@@ -6,10 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import data.ActorsContract
 import data.FilmraryDbHelper
-import data.GanresContract
-import kotlinx.android.synthetic.main.activity_add_actor.*
+import data.GenresContract
 import kotlinx.android.synthetic.main.activity_add_genre.*
 
 class AddGenre : AppCompatActivity() {
@@ -28,9 +26,9 @@ class AddGenre : AppCompatActivity() {
         }
 
         val values = ContentValues().apply {
-            put(GanresContract.Ganres.COLUMN_NAME, name)
+            put(GenresContract.Genres.COLUMN_NAME, name)
         }
-        FilmraryDbHelper.getInstance(this).writableDatabase.insert(GanresContract.Ganres.TABLE_NAME,
+        FilmraryDbHelper.getInstance(this).writableDatabase.insert(GenresContract.Genres.TABLE_NAME,
                 null, values)
         setResult(Activity.RESULT_OK)
         finish()

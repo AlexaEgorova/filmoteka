@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import data.*;
-import data.SeriasContract.Serias;
+import data.SeriesContract.Series;
 
 public class EditorActivitySerias extends AppCompatActivity {
 
@@ -153,22 +153,22 @@ public class EditorActivitySerias extends AppCompatActivity {
 //            COLUMN_IMDB, COLUMN_KINOPOISK, COLUMN_WANT, COLUMN_LINK, COLUMN_DESCRIPTION};
 
             Intent intent = new Intent(EditorActivitySerias.this, MainActivitySerias.class);
-            intent.putExtra(Serias.COLUMN_NAME, vNameEditText);
-            intent.putExtra(Serias.COLUMN_START_YEAR, vStartYearSpinner);
-            intent.putExtra(Serias.COLUMN_SEASONS_NUM, vSeasonsNumEditText);
-            intent.putExtra(Serias.COLUMN_EP_DURATION, vEpDurationEditText);
-            intent.putExtra(Serias.COLUMN_EP_IN_SEASON_NUM, vEpInSeasonNumEditText);
-            intent.putExtra(Serias.COLUMN_STATE, vStateSpinner);
-            intent.putExtra(Serias.COLUMN_COUNTRY, vCountrySpinner);
-            intent.putExtra(Serias.COLUMN_AGE,  vAgeEditText);
-            intent.putExtra(Serias.COLUMN_GANRE, vGenreSpinner);
-            intent.putExtra(Serias.COLUMN_ACTOR, vActorSpinner);
-            intent.putExtra(Serias.COLUMN_PRODUCER, vProducerSpinner);
-            intent.putExtra(Serias.COLUMN_IMDB, vImbdEditText);
-            intent.putExtra(Serias.COLUMN_KINOPOISK, vKinopoiskEditText);
-            intent.putExtra(Serias.COLUMN_WANT, vWantRadioGroup);
-            intent.putExtra(Serias.COLUMN_LINK, vLinkEditText);
-            intent.putExtra(Serias.COLUMN_DESCRIPTION, vDescriptionEditText);
+            intent.putExtra(Series.COLUMN_NAME, vNameEditText);
+            intent.putExtra(Series.COLUMN_START_YEAR, vStartYearSpinner);
+            intent.putExtra(Series.COLUMN_SEASONS_NUM, vSeasonsNumEditText);
+            intent.putExtra(Series.COLUMN_EP_DURATION, vEpDurationEditText);
+            intent.putExtra(Series.COLUMN_EP_IN_SEASON_NUM, vEpInSeasonNumEditText);
+            intent.putExtra(Series.COLUMN_STATE, vStateSpinner);
+            intent.putExtra(Series.COLUMN_COUNTRY, vCountrySpinner);
+            intent.putExtra(Series.COLUMN_AGE, vAgeEditText);
+            intent.putExtra(Series.COLUMN_GENRE, vGenreSpinner);
+            intent.putExtra(Series.COLUMN_ACTOR, vActorSpinner);
+            intent.putExtra(Series.COLUMN_PRODUCER, vProducerSpinner);
+            intent.putExtra(Series.COLUMN_IMDB, vImbdEditText);
+            intent.putExtra(Series.COLUMN_KINOPOISK, vKinopoiskEditText);
+            intent.putExtra(Series.COLUMN_WANT, vWantRadioGroup);
+            intent.putExtra(Series.COLUMN_LINK, vLinkEditText);
+            intent.putExtra(Series.COLUMN_DESCRIPTION, vDescriptionEditText);
             intent.putExtra("fromEditor", true);
             startActivity(intent);
         });
@@ -255,7 +255,7 @@ public class EditorActivitySerias extends AppCompatActivity {
 
     private void setupGanreSpinner() {
         SQLiteDatabase db = vDbHelper.getReadableDatabase();
-        String text = "SELECT * FROM " + GanresContract.Ganres.TABLE_NAME;
+        String text = "SELECT * FROM " + GenresContract.Genres.TABLE_NAME;
         genres = new ArrayList<>();
         genres.add(" - ");
         try (Cursor cursor = db.rawQuery(text, null)) {

@@ -20,8 +20,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import data.SeriasContract;
-import data.SeriasContract.Serias;
+
+import data.SeriesContract.Series;
 import data.FilmraryDbHelper;
 
 
@@ -74,8 +74,8 @@ public class MainActivitySerias extends AppCompatActivity {
             Intent intent = new Intent(MainActivitySerias.this, SeriasInfo.class);
             String serias = (String) moviesListView.getItemAtPosition(position);
             String[] seriasString = searchSeriasByName(serias);
-            for (int i = 0; i < Serias.COLUMNS.length; ++i) {
-                intent.putExtra(Serias.COLUMNS[i], seriasString[i]);
+            for (int i = 0; i < Series.COLUMNS.length; ++i) {
+                intent.putExtra(Series.COLUMNS[i], seriasString[i]);
             }
             startActivity(intent);
         });
@@ -109,22 +109,22 @@ public class MainActivitySerias extends AppCompatActivity {
         if (filmInfo == null || filmInfo.isEmpty()) {
             return;
         }
-        name = intent.getStringExtra(Serias.COLUMN_NAME);
-        start_year = intent.getStringExtra(Serias.COLUMN_START_YEAR);
-        seasons_num = intent.getStringExtra(Serias.COLUMN_SEASONS_NUM);
-        ep_duration = intent.getStringExtra(Serias.COLUMN_EP_DURATION);
-        ep_in_season_num = intent.getStringExtra(Serias.COLUMN_EP_IN_SEASON_NUM);
-        state = intent.getStringExtra(Serias.COLUMN_STATE);
-        country = intent.getStringExtra(Serias.COLUMN_COUNTRY);
-        age = intent.getStringExtra(Serias.COLUMN_AGE);
-        ganre = intent.getStringExtra(Serias.COLUMN_GANRE);
-        actor = intent.getStringExtra(Serias.COLUMN_ACTOR);
-        producer = intent.getStringExtra(Serias.COLUMN_PRODUCER);
-        imdb = intent.getStringExtra(Serias.COLUMN_IMDB);
-        kinopoisk = intent.getStringExtra(Serias.COLUMN_KINOPOISK);
-        want = intent.getStringExtra(Serias.COLUMN_WANT);
-        link = intent.getStringExtra(Serias.COLUMN_LINK);
-        description = intent.getStringExtra(Serias.COLUMN_DESCRIPTION);
+        name = intent.getStringExtra(Series.COLUMN_NAME);
+        start_year = intent.getStringExtra(Series.COLUMN_START_YEAR);
+        seasons_num = intent.getStringExtra(Series.COLUMN_SEASONS_NUM);
+        ep_duration = intent.getStringExtra(Series.COLUMN_EP_DURATION);
+        ep_in_season_num = intent.getStringExtra(Series.COLUMN_EP_IN_SEASON_NUM);
+        state = intent.getStringExtra(Series.COLUMN_STATE);
+        country = intent.getStringExtra(Series.COLUMN_COUNTRY);
+        age = intent.getStringExtra(Series.COLUMN_AGE);
+        ganre = intent.getStringExtra(Series.COLUMN_GENRE);
+        actor = intent.getStringExtra(Series.COLUMN_ACTOR);
+        producer = intent.getStringExtra(Series.COLUMN_PRODUCER);
+        imdb = intent.getStringExtra(Series.COLUMN_IMDB);
+        kinopoisk = intent.getStringExtra(Series.COLUMN_KINOPOISK);
+        want = intent.getStringExtra(Series.COLUMN_WANT);
+        link = intent.getStringExtra(Series.COLUMN_LINK);
+        description = intent.getStringExtra(Series.COLUMN_DESCRIPTION);
         fromEditor = intent.getBooleanExtra("fromEditor", fromEditor);
     }
 
@@ -198,7 +198,7 @@ public class MainActivitySerias extends AppCompatActivity {
     // show data in ListView
     public void viewMovies() {
         SQLiteDatabase db = vDbHelper.getReadableDatabase();
-        String query = "SELECT * FROM " + SeriasContract.Serias.TABLE_NAME;
+        String query = "SELECT * FROM " + Series.TABLE_NAME;
         try (Cursor cursor = db.rawQuery(query, null)) {
 
             if (cursor.getCount() == 0) {
@@ -217,9 +217,9 @@ public class MainActivitySerias extends AppCompatActivity {
     // find movie by some id
     public void searchSerias(String text) {
         SQLiteDatabase db = vDbHelper.getReadableDatabase();
-        String query = "SELECT * FROM " + SeriasContract.Serias.TABLE_NAME
-                + " WHERE " + SeriasContract.Serias.COLUMN_NAME
-                + " LIKE  '%" + text + "%'";
+        String query = "SELECT * FROM " + Series.TABLE_NAME
+                       + " WHERE " + Series.COLUMN_NAME
+                       + " LIKE  '%" + text + "%'";
         try (Cursor cursor = db.rawQuery(query, null)) {
 
             if (cursor.getCount() == 0) {
@@ -236,16 +236,16 @@ public class MainActivitySerias extends AppCompatActivity {
 
     public String[] searchSeriasByName(String name) {
         SQLiteDatabase db = vDbHelper.getReadableDatabase();
-        String query = "SELECT * FROM " + SeriasContract.Serias.TABLE_NAME
-                + " WHERE (" + SeriasContract.Serias.COLUMN_NAME + ") = '" + name + "'";
-        String[] result = new String[Serias.COLUMNS.length];
+        String query = "SELECT * FROM " + Series.TABLE_NAME
+                       + " WHERE (" + Series.COLUMN_NAME + ") = '" + name + "'";
+        String[] result = new String[Series.COLUMNS.length];
         try (Cursor cursor = db.rawQuery(query, null)) {
 
             if (cursor.getCount() == 0) {
                 Toast.makeText(this, "No such data in db", Toast.LENGTH_SHORT).show();
             } else {
                 while (cursor.moveToNext()) {
-                    for (int i = 0; i < Serias.COLUMNS.length; ++i) {
+                    for (int i = 0; i < Series.COLUMNS.length; ++i) {
                         result[i] = cursor.getString(i);
                     }
                 }

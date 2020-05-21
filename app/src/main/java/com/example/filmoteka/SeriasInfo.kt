@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import data.FilmraryDbHelper
-import data.SeriasContract.Serias
+import data.SeriesContract.Series
 import kotlinx.android.synthetic.main.activity_info_serias.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -21,22 +21,22 @@ class SeriasInfo : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_info_serias)
-        appendText(header_text_view, readField(Serias.COLUMN_NAME, intent))
+        appendText(header_text_view, readField(Series.COLUMN_NAME, intent))
 
-        appendText(seriesName, readField(Serias.COLUMN_NAME, intent))
-        appendText(seriesYear, readField(Serias.COLUMN_START_YEAR, intent))
-        appendText(seriesGenre, readField(Serias.COLUMN_GANRE, intent))
-        appendText(seriesCountry, readField(Serias.COLUMN_COUNTRY, intent))
-        appendText(seriesProducer, readField(Serias.COLUMN_PRODUCER, intent))
-        appendText(seriesIMDB, readField(Serias.COLUMN_IMDB, intent))
-        appendText(seriesKinopoisk, readField(Serias.COLUMN_KINOPOISK, intent))
-        appendText(seriesDescription, readField(Serias.COLUMN_DESCRIPTION, intent))
-        appendText(series_info_state, readField(Serias.COLUMN_STATE, intent))
-        appendText(series_info_season_number, readField(Serias.COLUMN_SEASONS_NUM, intent))
-        appendText(series_info_episodes_a_season, readField(Serias.COLUMN_EP_IN_SEASON_NUM, intent))
-        appendText(series_info_episode_length, readField(Serias.COLUMN_EP_DURATION, intent))
+        appendText(seriesName, readField(Series.COLUMN_NAME, intent))
+        appendText(seriesYear, readField(Series.COLUMN_START_YEAR, intent))
+        appendText(seriesGenre, readField(Series.COLUMN_GENRE, intent))
+        appendText(seriesCountry, readField(Series.COLUMN_COUNTRY, intent))
+        appendText(seriesProducer, readField(Series.COLUMN_PRODUCER, intent))
+        appendText(seriesIMDB, readField(Series.COLUMN_IMDB, intent))
+        appendText(seriesKinopoisk, readField(Series.COLUMN_KINOPOISK, intent))
+        appendText(seriesDescription, readField(Series.COLUMN_DESCRIPTION, intent))
+        appendText(series_info_state, readField(Series.COLUMN_STATE, intent))
+        appendText(series_info_season_number, readField(Series.COLUMN_SEASONS_NUM, intent))
+        appendText(series_info_episodes_a_season, readField(Series.COLUMN_EP_IN_SEASON_NUM, intent))
+        appendText(series_info_episode_length, readField(Series.COLUMN_EP_DURATION, intent))
 
-        addPlayer(intent.getStringExtra(Serias.COLUMN_LINK).toString())
+        addPlayer(intent.getStringExtra(Series.COLUMN_LINK).toString())
     }
 
 
@@ -61,9 +61,9 @@ class SeriasInfo : AppCompatActivity() {
     }
 
     fun onClick(view: View) {
-        val filmId = intent.getStringExtra(Serias._ID)
+        val filmId = intent.getStringExtra(Series._ID)
         val db = FilmraryDbHelper.getInstance(this).writableDatabase
-        val deleted = db.delete(Serias.TABLE_NAME, "${Serias._ID} = $filmId", null)
+        val deleted = db.delete(Series.TABLE_NAME, "${Series._ID} = $filmId", null)
         Log.d("seriasInfoDeleteMovies", "Deleted $deleted rows", null)
         intent.setClass(this, MainActivitySerias::class.java)
         startActivity(intent)

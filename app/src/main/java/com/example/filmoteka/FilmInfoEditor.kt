@@ -13,7 +13,7 @@ import data.*
 import data.CountriesContract.Countries
 import data.CountryFilmContract.CountryFilm
 import data.ActorFilmContract.ActorFilm
-import data.GanreFilmContract.GanreFilm
+import data.GenreFilmContract.GenreFilm
 import data.ProducerFilmContract.ProducerFilm
 
 import data.FilmsContract.Films
@@ -109,7 +109,7 @@ class FilmInfoEditor : AppCompatActivity() {
 
     private fun setupGenreSpinner() {
         val db: SQLiteDatabase = FilmraryDbHelper.getInstance(this).readableDatabase
-        val text = "SELECT * FROM ${GanresContract.Ganres.TABLE_NAME}"
+        val text = "SELECT * FROM ${GenresContract.Genres.TABLE_NAME}"
         val genres = ArrayList<String>()
         genres.add(" - ")
         db.rawQuery(text, null).use { cursor ->
@@ -193,7 +193,7 @@ class FilmInfoEditor : AppCompatActivity() {
         deleted += db.delete(CountryFilm.TABLE_NAME, "${CountryFilm.COLUMN_FILM_ID} = $filmId", null)
         deleted += db.delete(ActorFilm.TABLE_NAME, "${ActorFilm.COLUMN_FILM_ID} = $filmId", null)
         deleted += db.delete(ProducerFilm.TABLE_NAME, "${ProducerFilm.COLUMN_FILM_ID} = $filmId", null)
-        deleted += db.delete(GanreFilm.TABLE_NAME, "${GanreFilm.COLUMN_FILM_ID} = $filmId", null)
+        deleted += db.delete(GenreFilm.TABLE_NAME, "${GenreFilm.COLUMN_FILM_ID} = $filmId", null)
         Log.d("filmEditDeleteMovies", "Deleted $deleted rows", null)
 
         CommonFunctions.addMovie(vNameEditText, vYearSpinner, vCountrySpinner, vAgeText, vGenreSpinner, vActorSpinner,

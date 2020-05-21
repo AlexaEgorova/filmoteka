@@ -12,9 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import data.ActorsContract
 import data.CountriesContract.Countries
 import data.FilmraryDbHelper
-import data.GanresContract
+import data.GenresContract
 import data.ProducersContract
-import data.SeriasContract.Serias
+import data.SeriesContract.Series
 import kotlinx.android.synthetic.main.activity_serias_info_editor.*
 import java.util.*
 
@@ -29,14 +29,14 @@ class SeriasInfoEditor : AppCompatActivity() {
     }
 
     private fun initFields() {
-        name_edit_text.setText(intent.getStringExtra(Serias.COLUMN_NAME))
+        name_edit_text.setText(intent.getStringExtra(Series.COLUMN_NAME))
 
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-        year_spinner.setSelection(intent.getIntExtra(Serias.COLUMN_START_YEAR, currentYear) - currentYear)
+        year_spinner.setSelection(intent.getIntExtra(Series.COLUMN_START_YEAR, currentYear) - currentYear)
 
-        seasons_num_edit_text.setText(intent.getStringExtra(Serias.COLUMN_SEASONS_NUM))
-        ep_in_season_edit_text.setText(intent.getStringExtra(Serias.COLUMN_EP_IN_SEASON_NUM))
-        ep_duration_edit_text.setText(intent.getStringExtra(Serias.COLUMN_EP_DURATION))
+        seasons_num_edit_text.setText(intent.getStringExtra(Series.COLUMN_SEASONS_NUM))
+        ep_in_season_edit_text.setText(intent.getStringExtra(Series.COLUMN_EP_IN_SEASON_NUM))
+        ep_duration_edit_text.setText(intent.getStringExtra(Series.COLUMN_EP_DURATION))
 
         setupStateSpinner()
         setupGenreSpinner()
@@ -45,21 +45,21 @@ class SeriasInfoEditor : AppCompatActivity() {
         setupCountrySpinner()
         setupYearSpinner()
 
-        imdb_edit_text.setText(intent.getStringExtra(Serias.COLUMN_IMDB))
-        kinopoisk_edit_text.setText(intent.getStringExtra(Serias.COLUMN_KINOPOISK))
-        age_edit_text.setText(intent.getStringExtra(Serias.COLUMN_AGE))
+        imdb_edit_text.setText(intent.getStringExtra(Series.COLUMN_IMDB))
+        kinopoisk_edit_text.setText(intent.getStringExtra(Series.COLUMN_KINOPOISK))
+        age_edit_text.setText(intent.getStringExtra(Series.COLUMN_AGE))
 
         radio_do_not_add.isChecked = false
         radio_want_to_watch.isChecked = false
         radio_watched.isChecked = false
-        when (intent.getStringExtra(Serias.COLUMN_WANT)) {
+        when (intent.getStringExtra(Series.COLUMN_WANT)) {
             "0" -> radio_do_not_add.isChecked = true
             "1" -> radio_want_to_watch.isChecked = true
             "2" -> radio_watched.isChecked = true
         }
 
-        link_edit_text.setText(intent.getStringExtra(Serias.COLUMN_LINK))
-        description_edit_text.setText(intent.getStringExtra(Serias.COLUMN_DESCRIPTION))
+        link_edit_text.setText(intent.getStringExtra(Series.COLUMN_LINK))
+        description_edit_text.setText(intent.getStringExtra(Series.COLUMN_DESCRIPTION))
     }
 
     fun addCountrySeriesInfo(view: View?) {
@@ -112,7 +112,7 @@ class SeriasInfoEditor : AppCompatActivity() {
 
     private fun setupGenreSpinner() {
         val db: SQLiteDatabase = FilmraryDbHelper.getInstance(this).readableDatabase
-        val text = "SELECT * FROM ${GanresContract.Ganres.TABLE_NAME}"
+        val text = "SELECT * FROM ${GenresContract.Genres.TABLE_NAME}"
         val genres = ArrayList<String>()
         genres.add(" - ")
         db.rawQuery(text, null).use { cursor ->
@@ -203,9 +203,9 @@ class SeriasInfoEditor : AppCompatActivity() {
             return
         }
 
-        val seriesId = intent.getStringExtra(Serias._ID)
+        val seriesId = intent.getStringExtra(Series._ID)
         val db = FilmraryDbHelper.getInstance(this).writableDatabase
-        val deleted = db.delete(Serias.TABLE_NAME, "${Serias._ID} = $seriesId", null)
+        val deleted = db.delete(Series.TABLE_NAME, "${Series._ID} = $seriesId", null)
         Log.d("seriesEditDeleteMovies", "Deleted $deleted rows", null)
 
         CommonFunctions.addSerias(vNameEditText, vStartYearSpinner, vSeasonsNumEditText, vEpDurationEditText,

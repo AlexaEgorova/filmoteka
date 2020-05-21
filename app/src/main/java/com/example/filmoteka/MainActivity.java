@@ -26,7 +26,7 @@ import data.*;
 import data.FilmsContract.Films;
 import data.CountriesContract.Countries;
 import data.CountryFilmContract.CountryFilm;
-import data.CountrySeriesContract.CountrySerias;
+import data.CountrySeriesContract.CountrySeries;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                         tableSpinnerMode = PRODUCERS;
                     } else if (selection.equalsIgnoreCase("жанры")) {
                         listItem.clear();
-                        viewTableData(GanresContract.Ganres.TABLE_NAME);
+                        viewTableData(GenresContract.Genres.TABLE_NAME);
                         tableSpinnerMode = GENRES;
                     } else if (selection.equalsIgnoreCase("хочу посмотреть")) {
                         listItem.clear();
@@ -440,7 +440,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         }
-        String queryCountrySeries = selectFromWhereInteger(CountrySerias.TABLE_NAME, CountrySerias.COLUMN_COUNTRY_ID,
+        String queryCountrySeries = selectFromWhereInteger(CountrySeries.TABLE_NAME, CountrySeries.COLUMN_COUNTRY_ID,
                                                            found_id);
         try (Cursor cursor = db.rawQuery(queryCountrySeries, null)) {
             if (cursor.getCount() != 0) {

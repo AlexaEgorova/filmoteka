@@ -2,12 +2,12 @@ package data;
 
 import android.provider.BaseColumns;
 
-public final class SeriasContract {
-    private SeriasContract() {
+public final class SeriesContract {
+    private SeriesContract() {
     }
 
-    public static final class Serias implements BaseColumns {
-        public final static String TABLE_NAME = "serias";
+    public static final class Series implements BaseColumns {
+        public final static String TABLE_NAME = "series";
 
         public final static String _ID = BaseColumns._ID;
         public final static String COLUMN_NAME = "name";
@@ -22,7 +22,7 @@ public final class SeriasContract {
         public final static String COLUMN_STATE = "state";
         public final static String COLUMN_COUNTRY = "country";
         public final static String COLUMN_AGE = "age";
-        public final static String COLUMN_GANRE = "ganre";
+        public final static String COLUMN_GENRE = "genre";
         public final static String COLUMN_ACTOR = "actor";
         public final static String COLUMN_PRODUCER = "producer";
         public final static String COLUMN_IMDB = "imdb";
@@ -36,9 +36,9 @@ public final class SeriasContract {
         public final static String COLUMN_LINK = "trailer_link";
         public final static String COLUMN_DESCRIPTION = "description";
 
-        public final static String[] COLUMNS = {_ID, COLUMN_NAME, COLUMN_START_YEAR,
-                COLUMN_SEASONS_NUM, COLUMN_EP_DURATION,  COLUMN_EP_IN_SEASON_NUM, COLUMN_STATE,
-                COLUMN_COUNTRY, COLUMN_AGE, COLUMN_GANRE, COLUMN_ACTOR, COLUMN_PRODUCER,
-                COLUMN_IMDB, COLUMN_KINOPOISK, COLUMN_WANT, COLUMN_LINK, COLUMN_DESCRIPTION};
+        public final static String[] COLUMNS =
+                {_ID, COLUMN_NAME, COLUMN_START_YEAR, COLUMN_SEASONS_NUM, COLUMN_EP_DURATION, COLUMN_EP_IN_SEASON_NUM,
+                 COLUMN_STATE, COLUMN_COUNTRY, COLUMN_AGE, COLUMN_GENRE, COLUMN_ACTOR, COLUMN_PRODUCER, COLUMN_IMDB,
+                 COLUMN_KINOPOISK, COLUMN_WANT, COLUMN_LINK, COLUMN_DESCRIPTION};
     }
 }

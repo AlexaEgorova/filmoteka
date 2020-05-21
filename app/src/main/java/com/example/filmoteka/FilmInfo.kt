@@ -15,10 +15,9 @@ import kotlinx.android.synthetic.main.activity_film_info.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-import data.CountriesContract.Countries
 import data.CountryFilmContract.CountryFilm
 import data.ActorFilmContract.ActorFilm
-import data.GanreFilmContract.GanreFilm
+import data.GenreFilmContract.GenreFilm
 import data.ProducerFilmContract.ProducerFilm
 
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
@@ -66,7 +65,7 @@ class FilmInfo : AppCompatActivity() {
         deleted += db.delete(CountryFilm.TABLE_NAME, "${CountryFilm.COLUMN_FILM_ID} = $filmId", null)
         deleted += db.delete(ActorFilm.TABLE_NAME, "${ActorFilm.COLUMN_FILM_ID} = $filmId", null)
         deleted += db.delete(ProducerFilm.TABLE_NAME, "${ProducerFilm.COLUMN_FILM_ID} = $filmId", null)
-        deleted += db.delete(GanreFilm.TABLE_NAME, "${GanreFilm.COLUMN_FILM_ID} = $filmId", null)
+        deleted += db.delete(GenreFilm.TABLE_NAME, "${GenreFilm.COLUMN_FILM_ID} = $filmId", null)
         Log.d("filmInfoDeleteMovies", "Deleted $deleted rows", null)
         intent.setClass(this, MainActivity::class.java)
         startActivity(intent)
