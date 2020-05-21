@@ -61,14 +61,8 @@ class FilmInfo : AppCompatActivity() {
     fun onClick(view: View) {
         val filmId = intent.getStringExtra(Films._ID)
         val db = FilmraryDbHelper.getInstance(this).writableDatabase
-        var deleted = db.delete(Films.TABLE_NAME, "${Films._ID} = $filmId", null)
-        deleted += db.delete(CountryFilm.TABLE_NAME, "${CountryFilm.COLUMN_FILM_ID} = $filmId", null)
-        deleted += db.delete(ActorFilm.TABLE_NAME, "${ActorFilm.COLUMN_FILM_ID} = $filmId", null)
-        deleted += db.delete(ProducerFilm.TABLE_NAME, "${ProducerFilm.COLUMN_FILM_ID} = $filmId", null)
-        deleted += db.delete(GenreFilm.TABLE_NAME, "${GenreFilm.COLUMN_FILM_ID} = $filmId", null)
+        val deleted = db.delete(Films.TABLE_NAME, "${Films._ID} = $filmId", null)
         Log.d("filmInfoDeleteMovies", "Deleted $deleted rows", null)
-        intent.setClass(this, MainActivity::class.java)
-        startActivity(intent)
         finish()
     }
 

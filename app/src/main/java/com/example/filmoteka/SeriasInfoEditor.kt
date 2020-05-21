@@ -208,7 +208,7 @@ class SeriasInfoEditor : AppCompatActivity() {
         val deleted = db.delete(Series.TABLE_NAME, "${Series._ID} = $seriesId", null)
         Log.d("seriesEditDeleteMovies", "Deleted $deleted rows", null)
 
-        CommonFunctions.addSerias(vNameEditText, vStartYearSpinner, vSeasonsNumEditText, vEpDurationEditText,
+        CommonFunctions.addSeries(vNameEditText, vStartYearSpinner, vSeasonsNumEditText, vEpDurationEditText,
                 vEpInSeasonNumEditText, vStateSpinner, vCountrySpinner, vAgeEditText, vGenreSpinner, vActorSpinner,
                 vProducerSpinner, vImdbEditText, vKinopoiskEditText, vWantRadioGroup, vLinkEditText,
                 vDescriptionEditText, FilmraryDbHelper.getInstance(this))

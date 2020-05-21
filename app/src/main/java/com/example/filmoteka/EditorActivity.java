@@ -37,10 +37,6 @@ public class EditorActivity extends AppCompatActivity {
     private EditText fLinkEditText;
     private EditText fDescriptionEditText;
 
-    String vCountry;
-    int vWant = 0;
-
-    public FilmraryDbHelper vDbHelper;
     ArrayList<String> countries;
     ArrayList<String> actors;
     ArrayList<String> producers;
@@ -70,18 +66,14 @@ public class EditorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        vDbHelper = FilmraryDbHelper.getInstance(this);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
         findViews();
 
-        vWant = checkRadioButtons();
-
         setupYearSpinner();
         setupCountrySpinner();
-        setupGanreSpinner();
+        setupGenreSpinner();
         setupActorSpinner();
         setupProducerSpinner();
 
@@ -96,7 +88,7 @@ public class EditorActivity extends AppCompatActivity {
             String vProducerSpinner = fProducerSpinner.getSelectedItem().toString();
             String vImbdEditText = fImbdEditText.getText().toString();
             String vKinopoiskEditText = fKinopoiskEditText.getText().toString();
-            String vWantRadioGroup = Integer.toString(vWant);
+            String vWantRadioGroup = Integer.toString(checkRadioButtons());
             String vLinkText = fLinkEditText.getText().toString();
             String vDescriptionEditText = fDescriptionEditText.getText().toString();
 
@@ -169,7 +161,7 @@ public class EditorActivity extends AppCompatActivity {
                     setupCountrySpinner();
                     break;
                 case GENRE:
-                    setupGanreSpinner();
+                    setupGenreSpinner();
                     break;
                 case PRODUCER:
                     setupProducerSpinner();
@@ -194,7 +186,7 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void setupCountrySpinner() {
-        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        SQLiteDatabase db = FilmraryDbHelper.getInstance(this).getReadableDatabase();
         String text = "SELECT * FROM " + CountriesContract.Countries.TABLE_NAME;
         countries = new ArrayList<>();
         countries.add(" - ");
@@ -209,8 +201,8 @@ public class EditorActivity extends AppCompatActivity {
         }
     }
 
-    private void setupGanreSpinner() {
-        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+    private void setupGenreSpinner() {
+        SQLiteDatabase db = FilmraryDbHelper.getInstance(this).getReadableDatabase();
         String text = "SELECT * FROM " + GenresContract.Genres.TABLE_NAME;
         genres = new ArrayList<>();
         genres.add(" - ");
@@ -227,7 +219,7 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void setupActorSpinner() {
-        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        SQLiteDatabase db = FilmraryDbHelper.getInstance(this).getReadableDatabase();
         String text = "SELECT * FROM " + ActorsContract.Actors.TABLE_NAME;
         actors = new ArrayList<>();
         actors.add(" - ");
@@ -244,7 +236,7 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void setupProducerSpinner() {
-        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        SQLiteDatabase db = FilmraryDbHelper.getInstance(this).getReadableDatabase();
         String text = "SELECT * FROM " + ProducersContract.Producers.TABLE_NAME;
         producers = new ArrayList<>();
         producers.add(" - ");

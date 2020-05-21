@@ -89,7 +89,7 @@ public class CommonFunctions {
 
     }
 
-    public static void addSerias(String vNameEditText, String vStartYearSpinner,
+    public static void addSeries(String vNameEditText, String vStartYearSpinner,
                                  String vSeasonsNumEditText, String vEpDurationEditText,
                                  String vEpInSeasonNumEditText, String vStateSpinner,
                                  String vCountrySpinner, String vAgeEditText, String vGanreSpinner,

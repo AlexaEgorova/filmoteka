@@ -28,7 +28,6 @@ import data.FilmraryDbHelper;
 public class MainActivitySerias extends AppCompatActivity {
 
     final int COLUMN_NAME = 1;
-    public FilmraryDbHelper vDbHelper;
 
     String name;
     String start_year;
@@ -63,8 +62,6 @@ public class MainActivitySerias extends AppCompatActivity {
         // all movies are showed in tablesListView as a list with clickable elements
         moviesListView = findViewById(R.id.tables_list_view);
 
-        // for work with db
-        vDbHelper = FilmraryDbHelper.getInstance(this);
 
         // to show the list of movies
         viewMovies();
@@ -92,12 +89,12 @@ public class MainActivitySerias extends AppCompatActivity {
         parseIntentWithFilm(thisIntent);
 
         if (fromEditor) {
-            CommonFunctions.addSerias(name, start_year,
+            CommonFunctions.addSeries(name, start_year,
                                       seasons_num,
                                       ep_duration, ep_in_season_num,
                                       state, country, age, ganre, actor, producer,
                                       imdb, kinopoisk,
-                                      want, link, description, vDbHelper);
+                                      want, link, description, FilmraryDbHelper.getInstance(this));
             listItem.clear();
             viewMovies();
         }
@@ -197,7 +194,7 @@ public class MainActivitySerias extends AppCompatActivity {
 
     // show data in ListView
     public void viewMovies() {
-        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        SQLiteDatabase db = FilmraryDbHelper.getInstance(this).getReadableDatabase();
         String query = "SELECT * FROM " + Series.TABLE_NAME;
         try (Cursor cursor = db.rawQuery(query, null)) {
 
@@ -216,7 +213,7 @@ public class MainActivitySerias extends AppCompatActivity {
     // todo: variety of indexes
     // find movie by some id
     public void searchSerias(String text) {
-        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        SQLiteDatabase db = FilmraryDbHelper.getInstance(this).getReadableDatabase();
         String query = "SELECT * FROM " + Series.TABLE_NAME
                        + " WHERE " + Series.COLUMN_NAME
                        + " LIKE  '%" + text + "%'";
@@ -235,7 +232,7 @@ public class MainActivitySerias extends AppCompatActivity {
     }
 
     public String[] searchSeriasByName(String name) {
-        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        SQLiteDatabase db = FilmraryDbHelper.getInstance(this).getReadableDatabase();
         String query = "SELECT * FROM " + Series.TABLE_NAME
                        + " WHERE (" + Series.COLUMN_NAME + ") = '" + name + "'";
         String[] result = new String[Series.COLUMNS.length];

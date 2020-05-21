@@ -50,7 +50,6 @@ public class EditorActivitySerias extends AppCompatActivity {
     String vCountry;
     int vWant = 0;
     int vState  = 0;
-    FilmraryDbHelper vDbHelper;
 
     /**
      * Год премьеры, минимальное значение 1895, максимальное - текущий год.
@@ -86,9 +85,6 @@ public class EditorActivitySerias extends AppCompatActivity {
         setContentView(R.layout.activity_editor_serias);
 
         findViews();
-        vDbHelper = FilmraryDbHelper.getInstance(this);
-
-        vWant = checkRadioButtons();
 
         setupYearSpinner();
         setupCountrySpinner();
@@ -136,7 +132,7 @@ public class EditorActivitySerias extends AppCompatActivity {
             String vProducerSpinner = fProducerSpinner.getSelectedItem().toString();
             String vImbdEditText = fImbdEditText.getText().toString();
             String vKinopoiskEditText = fKinopoiskEditText.getText().toString();
-            String vWantRadioGroup = Integer.toString(vWant);
+            String vWantRadioGroup = Integer.toString(checkRadioButtons());
             String vLinkEditText = fLinkEditText.getText().toString();
             String vDescriptionEditText = fDescriptionEditText.getText().toString();
 
@@ -238,7 +234,7 @@ public class EditorActivitySerias extends AppCompatActivity {
     }
 
     private void setupCountrySpinner() {
-        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        SQLiteDatabase db = FilmraryDbHelper.getInstance(this).getReadableDatabase();
         String text = "SELECT * FROM " + CountriesContract.Countries.TABLE_NAME;
         countries = new ArrayList<>();
         countries.add(" - ");
@@ -254,7 +250,7 @@ public class EditorActivitySerias extends AppCompatActivity {
     }
 
     private void setupGanreSpinner() {
-        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        SQLiteDatabase db = FilmraryDbHelper.getInstance(this).getReadableDatabase();
         String text = "SELECT * FROM " + GenresContract.Genres.TABLE_NAME;
         genres = new ArrayList<>();
         genres.add(" - ");
@@ -271,7 +267,7 @@ public class EditorActivitySerias extends AppCompatActivity {
     }
 
     private void setupActorSpinner() {
-        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        SQLiteDatabase db = FilmraryDbHelper.getInstance(this).getReadableDatabase();
         String text = "SELECT * FROM " + ActorsContract.Actors.TABLE_NAME;
         actors = new ArrayList<>();
         actors.add(" - ");
@@ -288,7 +284,7 @@ public class EditorActivitySerias extends AppCompatActivity {
     }
 
     private void setupProducerSpinner() {
-        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        SQLiteDatabase db = FilmraryDbHelper.getInstance(this).getReadableDatabase();
         String text = "SELECT * FROM " + ProducersContract.Producers.TABLE_NAME;
         producers = new ArrayList<>();
         producers.add(" - ");

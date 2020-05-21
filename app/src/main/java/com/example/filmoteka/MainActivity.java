@@ -31,7 +31,6 @@ import data.CountrySeriesContract.CountrySeries;
 public class MainActivity extends AppCompatActivity {
 
     final int COLUMN_NAME = 1;
-    public FilmraryDbHelper vDbHelper;
 
     final int FILMS = 0;
     final int COUNTRIES = 1;
@@ -76,9 +75,6 @@ public class MainActivity extends AppCompatActivity {
         fTablesSpinner = findViewById(R.id.tables_spinner);
         setupTablesSpinner();
 
-        // for work with db
-        vDbHelper = FilmraryDbHelper.getInstance(this);
-
         listItem = new ArrayList<>();
 
         fTablesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -86,32 +82,26 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 String selection = (String) parentView.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
+                    listItem.clear();
                     if (selection.equals("Фильмы")) {
-                        listItem.clear();
                         viewTableData(Films.TABLE_NAME);
                         tableSpinnerMode = FILMS;
                     } else if (selection.equalsIgnoreCase("актёры")) {
-                        listItem.clear();
                         viewTableData(ActorsContract.Actors.TABLE_NAME, 2);
                         tableSpinnerMode = ACTORS;
                     } else if (selection.equalsIgnoreCase("продюсеры")) {
-                        listItem.clear();
                         viewTableData(ProducersContract.Producers.TABLE_NAME, 2);
                         tableSpinnerMode = PRODUCERS;
                     } else if (selection.equalsIgnoreCase("жанры")) {
-                        listItem.clear();
                         viewTableData(GenresContract.Genres.TABLE_NAME);
                         tableSpinnerMode = GENRES;
                     } else if (selection.equalsIgnoreCase("хочу посмотреть")) {
-                        listItem.clear();
                         viewTableDataWatch(WantToWatchContract.WantToWatch.TABLE_NAME);
                         tableSpinnerMode = WANT;
                     } else if (selection.equalsIgnoreCase("посмотрел")) {
-                        listItem.clear();
                         viewTableDataWatch(WatchedContract.Watched.TABLE_NAME);
                         tableSpinnerMode = WATCHED;
                     } else { //if (selection.equals("Страны"))
-                        listItem.clear();
                         viewTableData(CountriesContract.Countries.TABLE_NAME);
                         tableSpinnerMode = COUNTRIES;
                     }
@@ -138,9 +128,13 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra(Films.COLUMNS[i], filmString[i]);
                     }
                     startActivity(intent);
+                    listItem.clear();
+                    fTablesSpinner.setSelection(0);
+                    viewTableData(Films.TABLE_NAME);
                     break;
                 }
                 case COUNTRIES: {
+                    deleteCountry(name);
                     listItem.clear();
                     viewTableData(CountriesContract.Countries.TABLE_NAME);
                     break;
@@ -161,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                                      year, country, age, ganre, actor, producer,
                                      imdb, kinopoisk,
                                      want, link,
-                                     description, vDbHelper);
+                                     description, FilmraryDbHelper.getInstance(this));
             listItem.clear();
             fTablesSpinner.setSelection(0);
             viewTableData(Films.TABLE_NAME);
@@ -262,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
 
     // add data
     public void viewTableData(String tableName, int numberOfColumns) {
-        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        SQLiteDatabase db = FilmraryDbHelper.getInstance(this).getReadableDatabase();
         String query = "SELECT * FROM " + tableName;
         try (Cursor cursor = db.rawQuery(query, null)) {
 
@@ -287,10 +281,11 @@ public class MainActivity extends AppCompatActivity {
 
     // show data in ListView
     public void viewTableData(String tableName) {
-        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        SQLiteDatabase db = FilmraryDbHelper.getInstance(this).getReadableDatabase();
         String query = "SELECT * FROM " + tableName;
         try (Cursor cursor = db.rawQuery(query, null)) {
 
+            adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItem);
             if (cursor.getCount() == 0) {
                 Toast.makeText(this, "No data in db", Toast.LENGTH_SHORT).show();
             } else {
@@ -298,13 +293,13 @@ public class MainActivity extends AppCompatActivity {
                     listItem.add(cursor.getString(COLUMN_NAME)); // 1 for name, 0 for index
                 }
                 adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItem);
-                tablesListView.setAdapter(adapter);
             }
+            tablesListView.setAdapter(adapter);
         }
     }
 
     public void viewTableDataWatch(String tableName) {
-        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        SQLiteDatabase db = FilmraryDbHelper.getInstance(this).getReadableDatabase();
         String query = "SELECT * FROM " + tableName;
         ArrayList<String> ids = new ArrayList<>();
         try (Cursor cursor = db.rawQuery(query, null)) {
@@ -328,7 +323,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public ArrayList<String> searchMovie(int id) {
-        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        SQLiteDatabase db = FilmraryDbHelper.getInstance(this).getReadableDatabase();
         String query = selectFromWhereInteger(Films.TABLE_NAME, Films._ID, id);
         ArrayList<String> list = new ArrayList<>();
         try (Cursor cursor = db.rawQuery(query, null)) {
@@ -347,7 +342,7 @@ public class MainActivity extends AppCompatActivity {
     // todo: variety of indexes
     // find movie by some id
     public void searchMovies(String text) {
-        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        SQLiteDatabase db = FilmraryDbHelper.getInstance(this).getReadableDatabase();
         String query = String.format("SELECT * " +
                                      "FROM %s " +
                                      "WHERE %s LIKE '%%%s%%'", Films.TABLE_NAME, Films.COLUMN_NAME, text);
@@ -366,7 +361,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String[] searchMovieByName(String name) {
-        SQLiteDatabase db = vDbHelper.getReadableDatabase();
+        SQLiteDatabase db = FilmraryDbHelper.getInstance(this).getReadableDatabase();
         String query = String.format("SELECT * " +
                                      "FROM %s " +
                                      "WHERE %s = '%s'", Films.TABLE_NAME, Films.COLUMN_NAME, name);
@@ -418,8 +413,8 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //    }
 
-    public boolean deleteCountry(String name) {
-        SQLiteDatabase db = vDbHelper.getWritableDatabase();
+    public void deleteCountry(String name) {
+        SQLiteDatabase db = FilmraryDbHelper.getInstance(this).getWritableDatabase();
         int found_id = 0;
 
         String idQuery = selectFromWhereString(Countries.TABLE_NAME, Countries.COLUMN_NAME, name);
@@ -432,28 +427,22 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "No such!", Toast.LENGTH_SHORT).show();
         }
 
-        String queryCountryFilm = selectFromWhereInteger(CountryFilm.TABLE_NAME, CountryFilm.COLUMN_COUNTRY_ID,
-                                                         found_id);
-        try (Cursor cursor = db.rawQuery(queryCountryFilm, null)) {
-            if (cursor.getCount() != 0) {
-                Toast.makeText(this, "This country is needed for films!", Toast.LENGTH_SHORT).show();
-                return false;
+        for (String tableName : new String[]{CountryFilm.TABLE_NAME, CountrySeries.TABLE_NAME}) {
+            String queryCountryFilm = selectFromWhereInteger(tableName, "country_id", found_id);
+            try (Cursor cursor = db.rawQuery(queryCountryFilm, null)) {
+                if (cursor.getCount() != 0) {
+                    String message = String.format("This country is needed for %s!", tableName);
+                    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+                    return;
+                }
             }
         }
-        String queryCountrySeries = selectFromWhereInteger(CountrySeries.TABLE_NAME, CountrySeries.COLUMN_COUNTRY_ID,
-                                                           found_id);
-        try (Cursor cursor = db.rawQuery(queryCountrySeries, null)) {
-            if (cursor.getCount() != 0) {
-                Toast.makeText(this, "This country is needed for series!", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        }
+
         int deleted = db.delete(CountriesContract.Countries.TABLE_NAME,
-                                CountriesContract.Countries._ID + " = '" + found_id + "'",
+                                CountriesContract.Countries._ID + " = " + found_id,
                                 null);
         if (deleted == 0)
-            return false;
+            return;
         Toast.makeText(this, "Deleted row " + deleted + "!", Toast.LENGTH_SHORT).show();
-        return true;
     }
 }

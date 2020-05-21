@@ -1,6 +1,7 @@
 package com.example.filmoteka
 
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
@@ -9,14 +10,12 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import data.*
+import data.ActorsContract
 import data.CountriesContract.Countries
-import data.CountryFilmContract.CountryFilm
-import data.ActorFilmContract.ActorFilm
-import data.GenreFilmContract.GenreFilm
-import data.ProducerFilmContract.ProducerFilm
-
+import data.FilmraryDbHelper
 import data.FilmsContract.Films
+import data.GenresContract
+import data.ProducersContract
 import kotlinx.android.synthetic.main.activity_film_info_editor.*
 import java.util.*
 
@@ -189,16 +188,22 @@ class FilmInfoEditor : AppCompatActivity() {
 
         val filmId = intent.getStringExtra(Films._ID)
         val db = FilmraryDbHelper.getInstance(this).writableDatabase
-        var deleted = db.delete(Films.TABLE_NAME, "${Films._ID} = $filmId", null)
-        deleted += db.delete(CountryFilm.TABLE_NAME, "${CountryFilm.COLUMN_FILM_ID} = $filmId", null)
-        deleted += db.delete(ActorFilm.TABLE_NAME, "${ActorFilm.COLUMN_FILM_ID} = $filmId", null)
-        deleted += db.delete(ProducerFilm.TABLE_NAME, "${ProducerFilm.COLUMN_FILM_ID} = $filmId", null)
-        deleted += db.delete(GenreFilm.TABLE_NAME, "${GenreFilm.COLUMN_FILM_ID} = $filmId", null)
-        Log.d("filmEditDeleteMovies", "Deleted $deleted rows", null)
-
-        CommonFunctions.addMovie(vNameEditText, vYearSpinner, vCountrySpinner, vAgeText, vGenreSpinner, vActorSpinner,
-                vProducerSpinner, vImbdEditText, vKinopoiskEditText, vWantRadioGroup, vLinkText, vDescriptionEditText,
-                FilmraryDbHelper.getInstance(this))
+        val values = ContentValues().apply {
+            put(Films.COLUMN_NAME, vNameEditText)
+            put(Films.COLUMN_YEAR, vYearSpinner.toInt())
+            put(Films.COLUMN_COUNTRY, vCountrySpinner)
+            put(Films.COLUMN_AGE, vAgeText)
+            put(Films.COLUMN_GANRE, vGenreSpinner)
+            put(Films.COLUMN_ACTOR, vActorSpinner)
+            put(Films.COLUMN_PRODUCER, vProducerSpinner)
+            put(Films.COLUMN_IMDB, vImbdEditText.toDouble())
+            put(Films.COLUMN_KINOPOISK, vKinopoiskEditText.toDouble())
+            put(Films.COLUMN_WANT, vWantRadioGroup.toInt())
+            put(Films.COLUMN_DESCRIPTION, vDescriptionEditText)
+            put(Films.COLUMN_LINK, vLinkText)
+        }
+        val update = db.update(Films.TABLE_NAME, values, "${Films._ID} = $filmId", null)
+        Log.d("filmEditUpdateMovies", "Updated $update rows", null)
         intent.setClass(this, MainActivity::class.java)
         startActivity(intent)
         finish()
